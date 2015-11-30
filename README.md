@@ -16,7 +16,7 @@ a common tool class for decoration of RecyclerView,support ninepatch image.
 ```
 3.use image resource(including .9.png)
 ``` java 
-	  rvData.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false));
+    rvData.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false));
     rvData.addItemDecoration(new RecyclerViewItemDecoration(RecyclerViewItemDecoration.MODE_HORIZONTAL,this, R.drawable.diver));
 ``` 
 
