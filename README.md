@@ -37,8 +37,10 @@ the same as the Horizonal Mode
 smililar to other modes
 ``` java
     rvData.setLayoutManager(new GridLayoutManager(this, 6));
-    rvData.addItemDecoration(new RecyclerViewItemDecoration(RecyclerViewItemDecoration.MODE_GRID, Color.RED,10,20,10));
-//  rvData.addItemDecoration(new RecyclerViewItemDecoration(RecyclerViewItemDecoration.MODE_GRID,this, R.drawable.diver_color));
+    rvData.addItemDecoration(new RecyclerViewItemDecoration(
+      RecyclerViewItemDecoration.MODE_GRID, Color.RED,10,20,10));
+//  rvData.addItemDecoration(new RecyclerViewItemDecoration(
+//    RecyclerViewItemDecoration.MODE_GRID,this, R.drawable.diver_color));
 ``` 
 
  
