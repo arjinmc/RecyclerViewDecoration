@@ -1,7 +1,7 @@
 # RecyclerViewDecoration
 a common tool class for decoration of RecyclerView,support ninepatch image.
 
-![image](https://github.com/arjinmc/RecyclerViewDecoration/blob/master/images/device-2015-11-30-155050.png)  
+![image](https://github.com/arjinmc/RecyclerViewDecoration/blob/master/images/device-2015-12-02-111504.png)  
  
 ## Horizonal Mode
 1.pure line
@@ -32,5 +32,6 @@ the same as the Horizonal Mode
     rvData.addItemDecoration(new RecyclerViewItemDecoration(
       RecyclerViewItemDecoration.MODE_VERTICAL,this, R.drawable.diver_vertical));
 ``` 
+![image](https://github.com/arjinmc/RecyclerViewDecoration/blob/master/images/device-2015-11-30-155050.png) 
 ![image](https://github.com/arjinmc/RecyclerViewDecoration/blob/master/images/device-2015-11-30-154937.png)  
 ![image](https://github.com/arjinmc/RecyclerViewDecoration/blob/master/images/device-2015-11-30-155157.png)  

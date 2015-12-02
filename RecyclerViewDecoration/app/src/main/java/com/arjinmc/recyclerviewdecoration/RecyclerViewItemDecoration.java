@@ -11,6 +11,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PathEffect;
 import android.graphics.Rect;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -26,6 +27,7 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
     /**mode for direction*/
     public static final int MODE_HORIZONTAL = 0;
     public static final int MODE_VERTICAL = 1;
+    public static final int MODE_GRID = 2;
 
     /**default decoration thick size */
     private final int DEFAULT_SIZE = 1;
@@ -106,25 +108,54 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
             drawHorinzonal(c,parent);
         }else if(recyclerviewMode == MODE_VERTICAL){
             drawVertical(c,parent);
+        }else if(recyclerviewMode == MODE_GRID){
+            drawGrid(c,parent);
         }
     }
 
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
 
-        if(parent.getChildLayoutPosition(view)!=parent.getAdapter().getItemCount()-1){
-            if(recyclerviewMode == MODE_HORIZONTAL){
-                if(drawableRid!=0){
-                    outRect.set(0,0,0,bmp.getHeight());
+        if(recyclerviewMode == MODE_HORIZONTAL
+                && parent.getChildLayoutPosition(view)!=parent.getAdapter().getItemCount()-1){
+            if(drawableRid!=0){
+                outRect.set(0,0,0,bmp.getHeight());
+            }else{
+                outRect.set(0,0,0,thick);
+            }
+
+        }else if(recyclerviewMode == MODE_VERTICAL
+            && parent.getChildLayoutPosition(view)!=parent.getAdapter().getItemCount()-1){
+            if(drawableRid!=0){
+                outRect.set(0,0,bmp.getWidth(),0);
+            }else{
+                outRect.set(0,0,thick,0);
+            }
+
+        }else if(recyclerviewMode == MODE_GRID){
+            int columnSize = ((GridLayoutManager)parent.getLayoutManager()).getSpanCount();
+            int itemSzie = parent.getAdapter().getItemCount();
+            if(drawableRid!=0){
+                if(isLastRowGrid(parent.getChildLayoutPosition(view),itemSzie,columnSize)
+                        && isLastGridColumn(parent.getChildLayoutPosition(view),columnSize)){
+                    outRect.set(0,0,0,0);
+                }else if(isLastRowGrid(parent.getChildLayoutPosition(view),itemSzie,columnSize)){
+                    outRect.set(0,0,bmp.getWidth(),0);
+                }else if((parent.getChildLayoutPosition(view)+1)%columnSize!=0){
+                    outRect.set(0,0,bmp.getWidth(),bmp.getHeight());
+                }else {
+                    outRect.set(0, 0, 0, bmp.getHeight());
+                }
+            }else{
+                if(isLastRowGrid(parent.getChildLayoutPosition(view),itemSzie,columnSize)
+                        && isLastGridColumn(parent.getChildLayoutPosition(view),columnSize)){
+                    outRect.set(0,0,0,0);
+                }else if(isLastRowGrid(parent.getChildLayoutPosition(view),itemSzie,columnSize)){
+                    outRect.set(0,0,thick,0);
+                }else if((parent.getChildLayoutPosition(view)+1)%columnSize!=0){
+                    outRect.set(0,0,thick,thick);
                 }else{
                     outRect.set(0,0,0,thick);
-                }
-
-            }else if(recyclerviewMode == MODE_VERTICAL){
-                if(drawableRid!=0){
-                    outRect.set(0,0,bmp.getWidth(),0);
-                }else{
-                    outRect.set(0,0,thick,0);
                 }
 
             }
@@ -252,6 +283,143 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                 }
             }
         }
+    }
+
+    /**
+     * 画网格分割线
+     * @param c
+     * @param parent
+     */
+    private void drawGrid(Canvas c,RecyclerView parent){
+
+        int childrentCount = parent.getChildCount();
+        int columnSize = ((GridLayoutManager)parent.getLayoutManager()).getSpanCount();
+        int adapterChildrenCount = parent.getAdapter().getItemCount();
+
+        if(drawableRid!=0){
+            if(hasNinePatch){
+                for(int i=0;i<childrentCount;i++) {
+                    View childView = parent.getChildAt(i);
+                    int myX = childView.getRight();
+                    int myY = childView.getBottom();
+
+                    //horizonal
+                    if(!isLastRowGrid(i,adapterChildrenCount,columnSize)){
+                        Rect rect = new Rect(0, myY, myX, myY+bmp.getHeight());
+                        ninePatch.draw(c, rect);
+                    }
+
+                    //vertical
+                    if(isLastRowGrid(i,adapterChildrenCount,columnSize)
+                            && !isLastGridColumn(i,columnSize)){
+                        Rect rect = new Rect(myX, childView.getTop(), myX+bmp.getWidth(), myY);
+                        ninePatch.draw(c, rect);
+                    }else if(!isLastGridColumn(i,columnSize)){
+                        Rect rect = new Rect(myX, childView.getTop(), myX+bmp.getWidth(), myY+bmp.getHeight());
+                        ninePatch.draw(c, rect);
+                    }
+
+                }
+            }else{
+
+                for(int i=0;i<childrentCount;i++) {
+                    View childView = parent.getChildAt(i);
+                    int myX = childView.getRight();
+                    int myY = childView.getBottom();
+
+                    //horizonal
+                    if(!isLastRowGrid(i,adapterChildrenCount,columnSize)){
+                        c.drawBitmap(bmp,childView.getLeft(),myY,paint);
+                    }
+
+                    //vertical
+                    if(!isLastGridColumn(i,columnSize)){
+                        c.drawBitmap(bmp,myX,childView.getTop(),paint);
+                    }
+
+
+                }
+            }
+        } else if(dashWidth ==0 && dashGap==0){
+
+            for(int i=0;i<childrentCount;i++) {
+                View childView = parent.getChildAt(i);
+                int myX = childView.getRight()+thick/2;
+                int myY = childView.getBottom() + thick / 2;
+
+                //horizonal
+                if(!isLastRowGrid(i,adapterChildrenCount,columnSize)){
+                    c.drawLine(childView.getLeft(),myY,childView.getRight()+thick,myY,paint);
+                }
+
+                //vertical
+                if(isLastRowGrid(i,adapterChildrenCount,columnSize)
+                        && !isLastGridColumn(i,columnSize)) {
+                    c.drawLine(myX, childView.getTop(), myX, childView.getBottom(), paint);
+                }else if(!isLastGridColumn(i,columnSize)){
+                    c.drawLine(myX,childView.getTop(),myX,myY,paint);
+                }
+
+            }
+
+
+        }else{
+            PathEffect effects = new DashPathEffect(new float[]{0,0,dashWidth,thick},dashGap);
+            paint.setPathEffect(effects);
+            for(int i=0;i<childrentCount;i++) {
+                View childView = parent.getChildAt(i);
+                int myX = childView.getRight()+thick/2;
+                int myY = childView.getBottom() + thick / 2;
+
+                //horizonal
+                if(!isLastRowGrid(i,adapterChildrenCount,columnSize)){
+                    Path path = new Path();
+                    path.moveTo(0, myY);
+                    path.lineTo(myX,myY);
+                    c.drawPath(path, paint);
+                }
+
+                //vertical
+                if(isLastRowGrid(i,adapterChildrenCount,columnSize)
+                        && !isLastGridColumn(i,columnSize)) {
+                    Path path = new Path();
+                    path.moveTo(myX, childView.getTop());
+                    path.lineTo(myX,childView.getBottom());
+                    c.drawPath(path, paint);
+                } else if(!isLastGridColumn(i,columnSize)){
+                    Path path = new Path();
+                    path.moveTo(myX, childView.getTop());
+                    path.lineTo(myX,childView.getBottom());
+                    c.drawPath(path, paint);
+                }
+
+            }
+        }
+    }
+
+    /**
+     * check if is one of the last columns
+     * @param position
+     * @param columnSize
+     * @return
+     */
+    private boolean isLastGridColumn(int position,int columnSize){
+        boolean isLast = false;
+        if((position+1)%columnSize==0){
+            isLast = true;
+        }
+        return isLast;
+    }
+
+    /**
+     * check if is the last row of the grid
+     * @param position
+     * @param itemSize
+     * @param columnSize
+     * @return
+     */
+    private boolean isLastRowGrid(int position,int itemSize,int columnSize){
+        return position/columnSize == (itemSize-1)/columnSize;
     }
 
 }

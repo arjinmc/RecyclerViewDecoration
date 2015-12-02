@@ -1,8 +1,9 @@
 package com.arjinmc.recyclerviewdecoration;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +14,7 @@ public class MainActivity extends AppCompatActivity {
 
     private String[] titles = null;
     //init title  count for test
-    private final int TITLE_COUNT = 20;
+    private final int TITLE_COUNT = 22;
 
     private RecyclerView rvData;
 
@@ -35,8 +36,8 @@ public class MainActivity extends AppCompatActivity {
 //        rvData.addItemDecoration(new RecyclerViewItemDecoration(RecyclerViewItemDecoration.MODE_HORIZONTAL, Color.DKGRAY,5,0,0));
 
         //horizonal mode, image resouce
-        rvData.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false));
-        rvData.addItemDecoration(new RecyclerViewItemDecoration(RecyclerViewItemDecoration.MODE_HORIZONTAL,this, R.drawable.diver));
+//        rvData.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false));
+//        rvData.addItemDecoration(new RecyclerViewItemDecoration(RecyclerViewItemDecoration.MODE_HORIZONTAL,this, R.drawable.diver));
 
         //vertical mode, line
 //        rvData.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false));
@@ -47,6 +48,11 @@ public class MainActivity extends AppCompatActivity {
 //        rvData.addItemDecoration(new RecyclerViewItemDecoration(RecyclerViewItemDecoration.MODE_VERTICAL,this, R.drawable.diver_vertical));
         //this image has no ninepatch
 //        rvData.addItemDecoration(new RecyclerViewItemDecoration(RecyclerViewItemDecoration.MODE_VERTICAL,this, R.drawable.diver_v));
+
+        //grid
+        rvData.setLayoutManager(new GridLayoutManager(this, 6));
+        rvData.addItemDecoration(new RecyclerViewItemDecoration(RecyclerViewItemDecoration.MODE_GRID, Color.RED,10,20,10));
+//        rvData.addItemDecoration(new RecyclerViewItemDecoration(RecyclerViewItemDecoration.MODE_GRID,this, R.drawable.diver_color));
 
 
     }
