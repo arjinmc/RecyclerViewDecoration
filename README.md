@@ -32,6 +32,16 @@ the same as the Horizonal Mode
     rvData.addItemDecoration(new RecyclerViewItemDecoration(
       RecyclerViewItemDecoration.MODE_VERTICAL,this, R.drawable.diver_vertical));
 ``` 
+
+## Grid Mode
+smililar to other modes
+``` java
+    rvData.setLayoutManager(new GridLayoutManager(this, 6));
+    rvData.addItemDecoration(new RecyclerViewItemDecoration(RecyclerViewItemDecoration.MODE_GRID, Color.RED,10,20,10));
+//  rvData.addItemDecoration(new RecyclerViewItemDecoration(RecyclerViewItemDecoration.MODE_GRID,this, R.drawable.diver_color));
+``` 
+
+ 
 ![image](https://github.com/arjinmc/RecyclerViewDecoration/blob/master/images/device-2015-11-30-155050.png) 
 ![image](https://github.com/arjinmc/RecyclerViewDecoration/blob/master/images/device-2015-11-30-154937.png)  
 ![image](https://github.com/arjinmc/RecyclerViewDecoration/blob/master/images/device-2015-11-30-155157.png)  
