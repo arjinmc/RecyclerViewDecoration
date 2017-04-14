@@ -3,7 +3,7 @@ package com.arjinmc.recyclerviewdecoration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,27 +31,42 @@ public class MainActivity extends AppCompatActivity {
         rvData = (RecyclerView) findViewById(R.id.rv_data);
         rvData.setAdapter(new DataAdapater());
 
-        //horizonal mode,line
+        //horizonal mode
 //        rvData.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false));
-//        rvData.addItemDecoration(new RecyclerViewItemDecoration(RecyclerViewItemDecoration.MODE_HORIZONTAL, Color.DKGRAY,5,0,0));
-
-        //horizonal mode, image resouce
-//        rvData.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false));
-//        rvData.addItemDecoration(new RecyclerViewItemDecoration(RecyclerViewItemDecoration.MODE_HORIZONTAL,this, R.drawable.diver));
+//        rvData.addItemDecoration(new RecyclerViewItemDecoration.Builder(this)
+//                .color(Color.RED)
+//                .color("#ff0000")
+//                .dashWidth(8)
+//                .dashGap(5)
+//                .thickness(5)
+//                .drawableID(R.drawable.diver)
+//                .drawableID(R.drawable.diver_color_no)
+//                .paddingStart(20)
+//                .paddingEnd(10)
+//                .firstLineVisible(true)
+//                .lastLineVisible(true)
+//                .create());
 
         //vertical mode, line
-//        rvData.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false));
-//        rvData.addItemDecoration(new RecyclerViewItemDecoration(RecyclerViewItemDecoration.MODE_VERTICAL, Color.RED,10,20,10));
-
-        //vertical mode, image resouce
-//        rvData.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false));
-//        rvData.addItemDecoration(new RecyclerViewItemDecoration(RecyclerViewItemDecoration.MODE_VERTICAL,this, R.drawable.diver_vertical));
-        //this image has no ninepatch
-//        rvData.addItemDecoration(new RecyclerViewItemDecoration(RecyclerViewItemDecoration.MODE_VERTICAL,this, R.drawable.diver_v));
+        rvData.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false));
+        rvData.addItemDecoration(new RecyclerViewItemDecoration.Builder(this)
+                .mode(RecyclerViewItemDecoration.MODE_VERTICAL)
+                .color(Color.RED)
+//                .color("#ff0000")
+                .dashWidth(8)
+                .dashGap(5)
+                .thickness(5)
+                .drawableID(R.drawable.diver)
+                .drawableID(R.drawable.diver_color_no)
+                .paddingStart(20)
+                .paddingEnd(10)
+                .firstLineVisible(true)
+                .lastLineVisible(true)
+                .create());
 
         //grid
-        rvData.setLayoutManager(new GridLayoutManager(this, 6));
-        rvData.addItemDecoration(new RecyclerViewItemDecoration(RecyclerViewItemDecoration.MODE_GRID, Color.RED,10,20,10));
+//        rvData.setLayoutManager(new GridLayoutManager(this, 6));
+//        rvData.addItemDecoration(new RecyclerViewItemDecoration(RecyclerViewItemDecoration.MODE_GRID, Color.RED,10,20,10));
 //        rvData.addItemDecoration(new RecyclerViewItemDecoration(RecyclerViewItemDecoration.MODE_GRID,this, R.drawable.diver_color));
 
 
