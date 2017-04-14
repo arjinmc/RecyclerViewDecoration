@@ -33,11 +33,7 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
     public static final int MODE_GRID = 2;
 
     /**
-     * default decoration mThickness size
-     */
-    private final int DEFAULT_SIZE = 1;
-    /**
-     * default decoration mColor
+     * default decoration color
      */
     private static final String DEFAULT_COLOR = "#bdbdbd";
 
@@ -46,11 +42,11 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
      */
     private int mDrawableRid = 0;
     /**
-     * decoration mColor
+     * decoration color
      */
     private int mColor = Color.parseColor(DEFAULT_COLOR);
     /**
-     * decoration mThickness size
+     * decoration thickness
      */
     private int mThickness;
     /**
@@ -61,8 +57,8 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
      * decoration dash gap
      */
     private int mDashGap = 0;
-    private boolean mFirstLineVisible = false;
-    private boolean mLastLineVisible = false;
+    private boolean mFirstLineVisible;
+    private boolean mLastLineVisible;
     private int mPaddingStart = 0;
     private int mPaddingEnd = 0;
     /**
@@ -201,12 +197,21 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                 }
             }
 
-        } else if (mMode == MODE_VERTICAL
-                && parent.getChildLayoutPosition(view) != parent.getAdapter().getItemCount() - 1) {
-            if (mDrawableRid != 0) {
-                outRect.set(0, 0, mBmp.getWidth(), 0);
-            } else {
-                outRect.set(0, 0, mThickness, 0);
+        } else if (mMode == MODE_VERTICAL) {
+            if (!(!mLastLineVisible &&
+                    parent.getChildLayoutPosition(view) == parent.getAdapter().getItemCount() - 1)) {
+                if (mDrawableRid != 0) {
+                    outRect.set(0, 0, mCurrentThickness, 0);
+                } else {
+                    outRect.set(0, 0, mThickness, 0);
+                }
+            }
+            if (mFirstLineVisible && parent.getChildLayoutPosition(view) == 0) {
+                if (mDrawableRid != 0) {
+                    outRect.set(mCurrentThickness, 0, mCurrentThickness, 0);
+                } else {
+                    outRect.set(mThickness, 0, mThickness, 0);
+                }
             }
 
         } else if (mMode == MODE_GRID) {
@@ -241,7 +246,7 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
     }
 
     /**
-     * judge is a mColor string like #xxxxxx or #xxxxxxxx
+     * judge is a color string like #xxxxxx or #xxxxxxxx
      *
      * @param colorStr
      * @return
@@ -304,13 +309,13 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
 
             if (mFirstLineVisible) {
                 View childView = parent.getChildAt(0);
-                int myY = childView.getTop() + mThickness / 2;
+                int myY = childView.getTop() - mThickness/ 2 ;
 
                 if (isPureLine) {
-                    c.drawLine(mPaddingStart, myY - mThickness, parent.getWidth() - mPaddingEnd, myY, mPaint);
+                    c.drawLine(mPaddingStart, myY, parent.getWidth() - mPaddingEnd, myY, mPaint);
                 } else {
                     Path path = new Path();
-                    path.moveTo(mPaddingStart, myY - mThickness);
+                    path.moveTo(mPaddingStart, myY);
                     path.lineTo(parent.getWidth() - mPaddingEnd, myY);
                     c.drawPath(path, mPaint);
                 }
@@ -345,50 +350,65 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
     private void drawVertical(Canvas c, RecyclerView parent) {
         int childrentCount = parent.getChildCount();
         if (mDrawableRid != 0) {
-            if (hasNinePatch) {
-                for (int i = 0; i < childrentCount; i++) {
-                    if (i != childrentCount - 1) {
-                        View childView = parent.getChildAt(i);
-                        int myX = childView.getRight();
-                        Rect rect = new Rect(myX, 0, myX + mBmp.getWidth(), parent.getHeight());
-                        mNinePatch.draw(c, rect);
-                    }
-                }
-            } else {
 
-                for (int i = 0; i < childrentCount; i++) {
-                    if (i != childrentCount - 1) {
-                        View childView = parent.getChildAt(i);
-                        int myX = childView.getRight();
-                        c.drawBitmap(mBmp, myX, 0, mPaint);
-
-                    }
+            if (mFirstLineVisible) {
+                View childView = parent.getChildAt(0);
+                int myX = childView.getLeft();
+                if (hasNinePatch) {
+                    Rect rect = new Rect(myX - mCurrentThickness, mPaddingStart, myX, parent.getHeight() - mPaddingEnd);
+                    mNinePatch.draw(c, rect);
+                } else {
+                    c.drawBitmap(mBmp, myX - mCurrentThickness, mPaddingStart, mPaint);
                 }
             }
-        } else if (mDashWidth == 0 && mDashGap == 0) {
-
             for (int i = 0; i < childrentCount; i++) {
-                if (i != childrentCount - 1) {
-                    View childView = parent.getChildAt(i);
-                    int myX = childView.getRight() + mThickness / 2;
-                    c.drawLine(myX, 0, myX, parent.getHeight(), mPaint);
+                if (!mLastLineVisible && i == childrentCount - 1)
+                    break;
+                View childView = parent.getChildAt(i);
+                int myX = childView.getRight();
+                if (hasNinePatch) {
+                    Rect rect = new Rect(myX, mPaddingStart, myX + mCurrentThickness, parent.getHeight() - mPaddingEnd);
+                    mNinePatch.draw(c, rect);
+                } else {
+                    c.drawBitmap(mBmp, myX, mPaddingStart, mPaint);
                 }
             }
-
 
         } else {
-            PathEffect effects = new DashPathEffect(new float[]{0, 0, mDashWidth, mThickness}, mDashGap);
-            mPaint.setPathEffect(effects);
-            for (int i = 0; i < childrentCount; i++) {
-                if (i != childrentCount - 1) {
-                    View childView = parent.getChildAt(i);
-                    int myX = childView.getRight() + mThickness / 2;
 
+            boolean isPureLine = isPureLine();
+            if (!isPureLine) {
+                PathEffect effects = new DashPathEffect(new float[]{0, 0, mDashWidth, mThickness}, mDashGap);
+                mPaint.setPathEffect(effects);
+            }
+
+            if (mFirstLineVisible) {
+                View childView = parent.getChildAt(0);
+                int myX = childView.getLeft() - mThickness / 2;
+                if (isPureLine) {
+                    c.drawLine(myX, mPaddingStart, myX, parent.getHeight() - mPaddingEnd, mPaint);
+                } else {
                     Path path = new Path();
-                    path.moveTo(myX, 0);
-                    path.lineTo(myX, parent.getHeight());
+                    path.moveTo(myX, mPaddingStart);
+                    path.lineTo(myX, parent.getHeight() - mPaddingEnd);
                     c.drawPath(path, mPaint);
                 }
+            }
+
+            for (int i = 0; i < childrentCount; i++) {
+                if (!mLastLineVisible && i == childrentCount - 1)
+                    break;
+                View childView = parent.getChildAt(i);
+                int myX = childView.getRight() + mThickness / 2;
+                if (isPureLine) {
+                    c.drawLine(myX, mPaddingStart, myX, parent.getHeight() - mPaddingEnd, mPaint);
+                } else {
+                    Path path = new Path();
+                    path.moveTo(myX, mPaddingStart);
+                    path.lineTo(myX, parent.getHeight() - mPaddingEnd);
+                    c.drawPath(path, mPaint);
+                }
+
             }
         }
     }

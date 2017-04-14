@@ -32,42 +32,49 @@ public class MainActivity extends AppCompatActivity {
         rvData.setAdapter(new DataAdapater());
 
         //horizonal mode
-//        rvData.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false));
-//        rvData.addItemDecoration(new RecyclerViewItemDecoration.Builder(this)
-//                .color(Color.RED)
+        rvData.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false));
+        rvData.addItemDecoration(new RecyclerViewItemDecoration.Builder(this)
+                .color(Color.RED)
 //                .color("#ff0000")
 //                .dashWidth(8)
 //                .dashGap(5)
-//                .thickness(5)
+                .thickness(6)
 //                .drawableID(R.drawable.diver)
 //                .drawableID(R.drawable.diver_color_no)
-//                .paddingStart(20)
-//                .paddingEnd(10)
-//                .firstLineVisible(true)
-//                .lastLineVisible(true)
-//                .create());
-
-        //vertical mode, line
-        rvData.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false));
-        rvData.addItemDecoration(new RecyclerViewItemDecoration.Builder(this)
-                .mode(RecyclerViewItemDecoration.MODE_VERTICAL)
-                .color(Color.RED)
-//                .color("#ff0000")
-                .dashWidth(8)
-                .dashGap(5)
-                .thickness(5)
-                .drawableID(R.drawable.diver)
-                .drawableID(R.drawable.diver_color_no)
                 .paddingStart(20)
                 .paddingEnd(10)
                 .firstLineVisible(true)
                 .lastLineVisible(true)
                 .create());
 
+        //vertical mode
+//        rvData.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false));
+//        rvData.addItemDecoration(new RecyclerViewItemDecoration.Builder(this)
+//                .mode(RecyclerViewItemDecoration.MODE_VERTICAL)
+//                .color(Color.RED)
+//                .color("#ff0000")
+//                .dashWidth(8)
+//                .dashGap(5)
+//                .thickness(6)
+//                .drawableID(R.drawable.diver_vertical)
+//                .drawableID(R.drawable.diver_v)
+//                .paddingStart(20)
+//                .paddingEnd(10)
+//                .firstLineVisible(true)
+//                .lastLineVisible(true)
+//                .create());
+
         //grid
 //        rvData.setLayoutManager(new GridLayoutManager(this, 6));
-//        rvData.addItemDecoration(new RecyclerViewItemDecoration(RecyclerViewItemDecoration.MODE_GRID, Color.RED,10,20,10));
-//        rvData.addItemDecoration(new RecyclerViewItemDecoration(RecyclerViewItemDecoration.MODE_GRID,this, R.drawable.diver_color));
+//        rvData.addItemDecoration(new RecyclerViewItemDecoration.Builder(this)
+//                .mode(RecyclerViewItemDecoration.MODE_GRID)
+//                .color(Color.RED)
+//                .color("#ff0000")
+//                .dashWidth(8)
+//                .dashGap(5)
+//                .thickness(6)
+//                .drawableID(R.drawable.diver_color_no)
+//                .create());
 
 
     }
