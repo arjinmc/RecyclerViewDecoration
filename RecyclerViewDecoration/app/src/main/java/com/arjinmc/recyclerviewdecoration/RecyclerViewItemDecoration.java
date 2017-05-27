@@ -697,13 +697,13 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
         } else if (isLastGridColumn(viewPosition, columnSize)
                 && isLastGridRow(viewPosition, itemSize, columnSize)) {
             if (mGridRightVisible && mGridBottomVisible) {
-                outRect.set(0, 0, x, y);
+                outRect.set(x, y, x, y);
             } else if (mGridRightVisible) {
-                outRect.set(0, 0, x, 0);
+                outRect.set(x, y, x, 0);
             } else if (mGridBottomVisible) {
-                outRect.set(0, 0, 0, y);
+                outRect.set(x, y, 0, y);
             } else {
-                outRect.set(0, 0, 0, 0);
+                outRect.set(x, y, 0, 0);
             }
         } else if (isFirstGridRow(viewPosition, columnSize)) {
             if (mGridTopVisible) {
