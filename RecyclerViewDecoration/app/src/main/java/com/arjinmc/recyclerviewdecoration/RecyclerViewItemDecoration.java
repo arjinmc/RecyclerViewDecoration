@@ -796,13 +796,15 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
      */
     private void compatibleWithLayoutManager(RecyclerView parent) {
 
-        if (parent.getLayoutManager() instanceof GridLayoutManager) {
-            mMode = MODE_GRID;
-        } else if (parent.getLayoutManager() instanceof LinearLayoutManager) {
-            if (((LinearLayoutManager) parent.getLayoutManager()).getOrientation() == LinearLayout.HORIZONTAL) {
-                mMode = MODE_VERTICAL;
-            } else {
-                mMode = MODE_HORIZONTAL;
+        if(parent.getLayoutManager()!=null) {
+            if (parent.getLayoutManager() instanceof GridLayoutManager) {
+                mMode = MODE_GRID;
+            } else if (parent.getLayoutManager() instanceof LinearLayoutManager) {
+                if (((LinearLayoutManager) parent.getLayoutManager()).getOrientation() == LinearLayout.HORIZONTAL) {
+                    mMode = MODE_VERTICAL;
+                } else {
+                    mMode = MODE_HORIZONTAL;
+                }
             }
         }
     }
