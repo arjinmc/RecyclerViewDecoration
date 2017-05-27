@@ -7,6 +7,12 @@ Some people ask me for RecyclerViewDecoration doesnot work for the orientation a
 ![image](https://github.com/arjinmc/RecyclerViewDecoration/blob/master/images/device-2015-12-02-111504.png)  
 
 # Update News
+<b>2017/5/27th</b>
+
+* add compatible method to compatible with support v7 LayoutManager.  
+
+If you don't understand the orientation of this RecyclerViewItemDecoration common tool class,just use <b>builder.parent(recycelerView)</b> instead of builder.mode(orientaion), it can automatic compatible with the layoutmanager of RecyclerView.
+
 <b>2017/5/23rd</b>
 
 * add gridBottomVisible,gridTopVisible,gridLeftVisible,gridRightVisible params for MODE_GRID. You can control the borders' visibility of grid mode,it's up to you make them shown or hidden(default is hidden).
@@ -26,6 +32,8 @@ Param thickness would be better when it's an even number which can be divided by
 rvData.setLayoutManager(new LinearLayoutManager(context
   , LinearLayoutManager.VERTICAL,false));
 rvData.addItemDecoration(new RecyclerViewItemDecoration.Builder(context)
+        //default mode is RecyclerViewItemDecoration.HORIZONTAL
+        .mode(RecyclerViewItemDecoration.HORIZONTAL) //or parent(rvData)
         .color(Color.RED)
         .color("#ff0000")
         .dashWidth(8)
@@ -41,12 +49,12 @@ rvData.addItemDecoration(new RecyclerViewItemDecoration.Builder(context)
 
 ```
 ## Vertical Mode
-   ``` java
+``` java
 
 rvData.setLayoutManager(new LinearLayoutManager(context
   , LinearLayoutManager.HORIZONTAL,false));
 rvData.addItemDecoration(new RecyclerViewItemDecoration.Builder(this)
-       .mode(RecyclerViewItemDecoration.MODE_VERTICAL)
+       .mode(RecyclerViewItemDecoration.MODE_VERTICAL) //or parent(rvData)
        .color(Color.RED)
        .color("#ff0000")
        .dashWidth(8)
@@ -59,15 +67,14 @@ rvData.addItemDecoration(new RecyclerViewItemDecoration.Builder(this)
        .firstLineVisible(true)
        .lastLineVisible(true)
        .create());
-
-   ```
+```
 
 ## Grid Mode
 ``` java
 
 rvData.setLayoutManager(new GridLayoutManager(this, 6));
 rvData.addItemDecoration(new RecyclerViewItemDecoration.Builder(this)
-       .mode(RecyclerViewItemDecoration.MODE_GRID)
+       .mode(RecyclerViewItemDecoration.MODE_GRID) //or parent(rvData)
        .color(Color.RED)
        .color("#ff0000")
        .dashWidth(8)

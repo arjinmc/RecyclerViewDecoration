@@ -13,8 +13,10 @@ import android.graphics.PathEffect;
 import android.graphics.Rect;
 import android.support.annotation.ColorInt;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import java.util.regex.Pattern;
 
@@ -73,6 +75,7 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
      * direction mode for decoration
      */
     private int mMode;
+    private RecyclerView mParent;
 
     private Paint mPaint;
 
@@ -147,6 +150,9 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
         this.mGridRightVisible = params.gridRightVisible;
         this.mGridTopVisible = params.gridTopVisible;
         this.mGridBottomVisible = params.gridBottomVisible;
+        this.mParent = params.parent;
+
+        if(mParent!=null) compatibleWithLayoutManager(mParent);
 
         this.mBmp = BitmapFactory.decodeResource(context.getResources(), mDrawableRid);
         if (mBmp != null) {
@@ -780,6 +786,23 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
         return position / columnSize == (itemSize - 1) / columnSize;
     }
 
+    /**
+     * compatible with recyclerview layoutmanager
+     * @param parent
+     */
+    private void compatibleWithLayoutManager(RecyclerView parent){
+
+        if(parent.getLayoutManager() instanceof GridLayoutManager){
+            mMode = MODE_GRID;
+        }else if(parent.getLayoutManager() instanceof LinearLayoutManager){
+            if (((LinearLayoutManager) parent.getLayoutManager()).getOrientation()== LinearLayout.HORIZONTAL){
+                mMode = MODE_VERTICAL;
+            }else{
+                mMode = MODE_HORIZONTAL;
+            }
+        }
+    }
+
     public static class Builder {
 
         private Param params;
@@ -874,6 +897,13 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
             params.gridBottomVisible = visible;
             return this;
         }
+
+        public Builder parent(RecyclerView recyclerView) {
+            params.parent = recyclerView;
+            return this;
+        }
+
+
     }
 
     private static class Param {
@@ -892,6 +922,7 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
         public boolean gridRightVisible;
         public boolean gridTopVisible;
         public boolean gridBottomVisible;
+        public RecyclerView parent;
     }
 
 }
