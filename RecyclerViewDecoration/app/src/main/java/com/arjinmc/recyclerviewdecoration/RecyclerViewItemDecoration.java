@@ -428,7 +428,6 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
 
                     }
 
-
                     //vertical
                     if (isLastGridRow(i, adapterChildrenCount, columnSize)
                             && !isLastGridColumn(i, childrenCount, columnSize)) {
@@ -498,7 +497,6 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                         c.drawBitmap(mBmp, childView.getRight(), childView.getTop(), mPaint);
                     }
 
-
                 }
             }
         } else if (mDashWidth == 0 && mDashGap == 0) {
@@ -556,7 +554,8 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                     }
                 }
 
-                if (adapterChildrenCount > columnSize && isLastItem(layoutPosition, adapterChildrenCount)) {
+                if (adapterChildrenCount > columnSize && isLastItem(layoutPosition, adapterChildrenCount)
+                        && !isLastGridColumn(layoutPosition, adapterChildrenCount, columnSize)) {
 
                     if (mGridHorizontalSpacing != 0) {
                         mPaint.setStrokeWidth(mGridHorizontalSpacing);
@@ -615,9 +614,9 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                     mPaint.setStrokeWidth(mThickness);
                     int tempL = childView.getLeft() - mThickness / 2;
                     if (mGridVerticalSpacing != 0) {
-                        if(isFirstGridRow(layoutPosition,columnSize)) {
-                            c.drawLine(tempL, myT - mGridVerticalSpacing / 2, tempL, childView.getBottom()+mThickness, mPaint);
-                        }else{
+                        if (isFirstGridRow(layoutPosition, columnSize)) {
+                            c.drawLine(tempL, myT - mGridVerticalSpacing / 2, tempL, childView.getBottom() + mThickness, mPaint);
+                        } else {
                             c.drawLine(tempL, myT - mGridVerticalSpacing / 2, tempL, myB + mGridVerticalSpacing / 2, mPaint);
                         }
                     } else {
@@ -631,109 +630,141 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                     mPaint.setStrokeWidth(mThickness);
                     int tempR = childView.getRight() + mThickness / 2;
                     if (mGridVerticalSpacing != 0) {
-                        if(isFirstGridRow(layoutPosition,columnSize)){
+                        if (isFirstGridRow(layoutPosition, columnSize)) {
                             c.drawLine(tempR, myT - mGridVerticalSpacing / 2
-                                    , tempR, childView.getBottom()+mThickness, mPaint);
-                        }else{
+                                    , tempR, childView.getBottom() + mThickness, mPaint);
+                        } else {
                             c.drawLine(tempR, myT - mGridVerticalSpacing / 2
-                                    , tempR, myB + mGridVerticalSpacing/2, mPaint);
+                                    , tempR, myB + mGridVerticalSpacing / 2, mPaint);
                         }
                     } else {
                         c.drawLine(tempR, myT - mThickness / 2
                                 , tempR, myB + mThickness / 2, mPaint);
                     }
-
                 }
-
             }
-
 
         } else {
             PathEffect effects = new DashPathEffect(new float[]{0, 0, mDashWidth, mThickness}, mDashGap);
             mPaint.setPathEffect(effects);
             for (int i = 0; i < childrenCount; i++) {
                 View childView = parent.getChildAt(i);
+                int myT, myB, myL, myR;
 
-                int myX, myY, myBorderX, myBorderY;
-                if (mGridVerticalSpacing != 0)
-                    myX = childView.getRight() + mGridVerticalSpacing / 2;
-                else
-                    myX = childView.getRight() + mThickness / 2;
+                if (mGridHorizontalSpacing != 0) {
+                    myR = childView.getRight() + mGridHorizontalSpacing / 2;
+                    myL = childView.getLeft() - mGridHorizontalSpacing / 2;
+                } else {
+                    myR = childView.getRight() + mThickness / 2;
+                    myL = childView.getLeft() - mThickness / 2;
+                }
 
-                if (mGridHorizontalSpacing != 0)
-                    myY = childView.getBottom() + mGridHorizontalSpacing / 2;
-                else
-                    myY = childView.getBottom() + mThickness / 2;
+                if (mGridVerticalSpacing != 0) {
+                    myB = childView.getBottom() + mGridVerticalSpacing / 2;
+                    myT = childView.getTop() - mGridVerticalSpacing / 2;
 
-                myBorderX = childView.getRight() + mThickness / 2;
-                myBorderY = childView.getBottom() + mThickness / 2;
+                } else {
+                    myB = childView.getBottom() + mThickness / 2;
+                    myT = childView.getTop() - mThickness / 2;
+                }
 
-                //horizontal
-                if (mGridBottomVisible && isLastGridRow(i, adapterChildrenCount, columnSize)) {
+                int layoutPosition = parent.getChildLayoutPosition(childView);
 
-                    mPaint.setStrokeWidth(mThickness);
-
+                if (!isLastGridRow(layoutPosition, adapterChildrenCount, columnSize)) {
+                    if (mGridVerticalSpacing != 0)
+                        mPaint.setStrokeWidth(mGridVerticalSpacing);
+                    else
+                        mPaint.setStrokeWidth(mThickness);
                     Path path = new Path();
-                    path.moveTo(0, myBorderY);
-                    path.lineTo(myBorderX, myBorderY);
+                    path.moveTo(mThickness, myB);
+                    path.lineTo(childView.getRight(), myB);
                     c.drawPath(path, mPaint);
-                } else if (!isLastGridRow(i, adapterChildrenCount, columnSize)) {
+                }
+
+                if (!isFirstGridColumn(layoutPosition, columnSize)) {
+
+                    if (mGridHorizontalSpacing != 0)
+                        mPaint.setStrokeWidth(mGridHorizontalSpacing);
+                    else
+                        mPaint.setStrokeWidth(mThickness);
+
+                    if (isLastGridRow(layoutPosition, adapterChildrenCount, columnSize)) {
+                        Path path = new Path();
+                        path.moveTo(myL, myT);
+                        if (mGridVerticalSpacing != 0) {
+                            path.lineTo(myL, myB - mGridVerticalSpacing / 2);
+                        } else {
+                            path.lineTo(myL, myB - mThickness / 2);
+                        }
+                        c.drawPath(path, mPaint);
+                    } else {
+                        Path path = new Path();
+                        path.moveTo(myL, myT);
+                        path.lineTo(myL, myB);
+                        c.drawPath(path, mPaint);
+                    }
+
+                }
+
+                if (adapterChildrenCount > columnSize && isLastItem(layoutPosition, adapterChildrenCount)
+                        && !isLastGridColumn(layoutPosition, adapterChildrenCount, columnSize)) {
+
                     if (mGridHorizontalSpacing != 0)
                         mPaint.setStrokeWidth(mGridHorizontalSpacing);
                     else
                         mPaint.setStrokeWidth(mThickness);
                     Path path = new Path();
-                    path.moveTo(0, myY);
-                    path.lineTo(myX, myY);
+                    path.moveTo(myR, myT);
+                    path.lineTo(myR, myB);
                     c.drawPath(path, mPaint);
                 }
 
-                if (mGridTopVisible && isFirstGridRow(i, columnSize)) {
+                if (mGridTopVisible && isFirstGridRow(layoutPosition, columnSize)) {
 
                     mPaint.setStrokeWidth(mThickness);
 
+                    int tempT = childView.getTop() - mThickness / 2;
                     Path path = new Path();
-                    path.moveTo(childView.getLeft(), childView.getTop() - mThickness / 2);
-                    path.lineTo(childView.getRight() + mThickness, childView.getTop() - mThickness / 2);
-                    c.drawPath(path, mPaint);
-
-                }
-
-                //vertical
-                if (isLastGridRow(i, adapterChildrenCount, columnSize)
-                        && !isLastGridColumn(i, childrenCount, columnSize)) {
-                    if (mGridVerticalSpacing != 0)
-                        mPaint.setStrokeWidth(mGridVerticalSpacing);
-                    else
-                        mPaint.setStrokeWidth(mThickness);
-                    Path path = new Path();
-                    path.moveTo(myX, childView.getTop());
-                    path.lineTo(myX, childView.getBottom());
-                    c.drawPath(path, mPaint);
-                } else if (!isLastGridColumn(i, childrenCount, columnSize)) {
-                    if (mGridVerticalSpacing != 0)
-                        mPaint.setStrokeWidth(mGridVerticalSpacing);
-                    else
-                        mPaint.setStrokeWidth(mThickness);
-                    Path path = new Path();
-                    path.moveTo(myX, childView.getTop());
-                    path.lineTo(myX, childView.getBottom());
+                    path.moveTo(childView.getLeft(), tempT);
+                    path.lineTo(childView.getRight(), tempT);
                     c.drawPath(path, mPaint);
                 }
 
-                if (mGridLeftVisible && isFirstGridColumn(i, columnSize)) {
+
+                if (mGridBottomVisible && isLastGridRow(layoutPosition, adapterChildrenCount, columnSize)) {
+
                     mPaint.setStrokeWidth(mThickness);
+
+                    int tempB = childView.getBottom() + mThickness / 2;
                     Path path = new Path();
-                    path.moveTo(childView.getLeft() - mThickness / 2, childView.getTop() - mThickness);
-                    path.lineTo(childView.getLeft() - mThickness / 2, childView.getBottom() + mThickness);
+                    path.moveTo(mThickness, tempB);
+                    path.lineTo(childView.getRight(), tempB);
                     c.drawPath(path, mPaint);
                 }
 
-                if (mGridRightVisible && isLastGridColumn(i, childrenCount, columnSize)) {
+                if (mGridLeftVisible && isFirstGridColumn(layoutPosition, columnSize)) {
+
                     mPaint.setStrokeWidth(mThickness);
+
+                    int tempT = childView.getTop() - mThickness / 2;
+                    int tempB = childView.getBottom() + mThickness / 2;
+                    int tempL = childView.getLeft() - mThickness / 2;
                     Path path = new Path();
-                    path.moveTo(childView.getRight() + mThickness / 2, childView.getTop());
-                    path.lineTo(childView.getRight() + mThickness / 2, childView.getBottom());
+                    path.moveTo(tempL, tempT);
+                    path.lineTo(tempL, tempB);
+                    c.drawPath(path, mPaint);
+
+                }
+
+                if (mGridRightVisible && isLastGridColumn(layoutPosition, adapterChildrenCount, columnSize)) {
+
+                    mPaint.setStrokeWidth(mThickness);
+                    int tempT = childView.getTop() - mThickness / 2;
+                    int tempB = childView.getBottom() + mThickness / 2;
+                    int tempR = childView.getRight() + mThickness / 2;
+                    Path path = new Path();
+                    path.moveTo(tempR, tempT);
+                    path.lineTo(tempR, tempB);
                     c.drawPath(path, mPaint);
                 }
 
@@ -1047,7 +1078,6 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
             params.parent = recyclerView;
             return this;
         }
-
 
     }
 

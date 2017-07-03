@@ -13,8 +13,8 @@ public class MainActivity extends AppCompatActivity {
 
     private String[] titles = null;
     //init title  count for test
-    private final int TITLE_COUNT = 3;
-//    private final int TITLE_COUNT = 100;
+//    private final int TITLE_COUNT = 3;
+    private final int TITLE_COUNT = 100;
 //    private final int TITLE_COUNT = 102;
 
     private RecyclerView rvData;
@@ -73,8 +73,8 @@ public class MainActivity extends AppCompatActivity {
                 .parent(rvData)
 //                .color(Color.RED)
                 .color("#b0ff0000")
-                .dashWidth(8)
-                .dashGap(2)
+//                .dashWidth(8)
+//                .dashGap(2)
                 .thickness(6)
 //                .drawableID(R.drawable.diver_color_no)
 //                .drawableID(R.drawable.diver_color)
