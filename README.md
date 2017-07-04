@@ -4,9 +4,14 @@ a common tool class for decoration of RecyclerView,support ninepatch image.
 ## Attention please!
 Some people ask me for RecyclerViewDecoration doesnot work for the orientation attributes of LinearLayout. No,it doesn't. Because RecyclerViewDecoration has its own orientation attributes as itself drawn orientation, not the same as orientation attributes of LinearLayout.
 
-![image](https://github.com/arjinmc/RecyclerViewDecoration/blob/master/images/device-2015-12-02-111504.png)  
-
 # Update News
+
+<b>2017/7/3rd</b>
+
+* optimize draw lines for grid mode.
+* remove old methods that deprecated.
+* add two new attributes gridHorizontalSpacing and gridVerticalSpacing for grid mode with pure or gap lines.
+
 <b>2017/5/27th</b>
 
 * add compatible method to compatible with support v7 LayoutManager.  
@@ -88,56 +93,28 @@ rvData.addItemDecoration(new RecyclerViewItemDecoration.Builder(this)
        .create());
 
 ```
+When you use gridHorizontalSpacing or gridVerticalSpacing or both,thickness is required especially if need to show borders.Currently these two new attributes donot support image or ninepatch.There is a sample.
+```java
+rvData.setLayoutManager(new GridLayoutManager(this, 6));
+rvData.addItemDecoration(new RecyclerViewItemDecoration.Builder(this)
+       .mode(RecyclerViewItemDecoration.MODE_GRID) //or parent(rvData)
+       .color("#ff0000")
+       .dashWidth(8)
+       .dashGap(5)
+       .thickness(6)
+       .gridBottomVisible(true) //control bottom border
+       .gridTopVisible(true) //control top border
+       .gridLeftVisible(true) //control left border
+       .gridRightVisible(true) //control right border
+       .gridHorizontalSpacing(20)
+       .gridVerticalSpacing(10)
+       .create());
 
+```
+
+## sample images
+![image](https://github.com/arjinmc/RecyclerViewDecoration/blob/master/images/device-2015-12-02-111504.png)  
 ![image](https://github.com/arjinmc/RecyclerViewDecoration/blob/master/images/device-2015-11-30-155050.png)
 ![image](https://github.com/arjinmc/RecyclerViewDecoration/blob/master/images/device-2015-11-30-154937.png)
 ![image](https://github.com/arjinmc/RecyclerViewDecoration/blob/master/images/device-2015-11-30-155157.png)
-
-# Old Methods Deprecated
-I don't suggest you guys use old methods.
-## Horizonal Mode
-1.pure line
-``` java
-rvData.setLayoutManager(new LinearLayoutManager(this
-  , LinearLayoutManager.VERTICAL,false));
-rvData.addItemDecoration(new RecyclerViewItemDecoration(
-  RecyclerViewItemDecoration.MODE_HORIZONTAL, Color.DKGRAY,5,0,0));
-  //or
-  //RecyclerViewItemDecoration.MODE_HORIZONTAL, "#ff0000",5,0,0));
-``` 
-2.pure line with gap
-``` java
-rvData.setLayoutManager(new LinearLayoutManager(this
-  , LinearLayoutManager.VERTICAL,false));
-rvData.addItemDecoration(new RecyclerViewItemDecoration(
-  RecyclerViewItemDecoration.MODE_HORIZONTAL, Color.DKGRAY,5,20,10));
-```
-3.use image resource(including .9.png)
-``` java 
-rvData.setLayoutManager(new LinearLayoutManager(this
-  , LinearLayoutManager.VERTICAL,false));
-rvData.addItemDecoration(new RecyclerViewItemDecoration(
-  RecyclerViewItemDecoration.MODE_HORIZONTAL,this, R.drawable.diver));
-``` 
-
-## Vertical Mode
-the same as the Horizonal Mode
-``` java
-rvData.setLayoutManager(new LinearLayoutManager(this
-  , LinearLayoutManager.HORIZONTAL,false));
-rvData.addItemDecoration(new RecyclerViewItemDecoration(
-  RecyclerViewItemDecoration.MODE_VERTICAL,this, R.drawable.diver_vertical));
-``` 
-
-## Grid Mode
-smililar to other modes
-``` java
-rvData.setLayoutManager(new GridLayoutManager(this, 6));
-rvData.addItemDecoration(new RecyclerViewItemDecoration(
-  RecyclerViewItemDecoration.MODE_GRID, Color.RED,10,20,10));
-//rvData.addItemDecoration(new RecyclerViewItemDecoration(
-//RecyclerViewItemDecoration.MODE_GRID,this, R.drawable.diver_color));
-``` 
-
- 
 
