@@ -542,7 +542,6 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                         else
                             c.drawLine(myL, childView.getTop()
                                     , myL, myB + mGridVerticalSpacing / 2, mPaint);
-
                     } else {
                         if (isLastGridRow(layoutPosition, adapterChildrenCount, columnSize))
                             c.drawLine(myL, childView.getTop()
@@ -557,8 +556,9 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                 if (adapterChildrenCount > columnSize && isLastItem(layoutPosition, adapterChildrenCount)
                         && !isLastGridColumn(layoutPosition, adapterChildrenCount, columnSize)) {
 
-                    if (mGridHorizontalSpacing != 0) {
+                    if (mGridHorizontalSpacing != 0)
                         mPaint.setStrokeWidth(mGridHorizontalSpacing);
+                    if (mGridVerticalSpacing != 0) {
                         c.drawLine(myR, childView.getTop()
                                 , myR, myB - mGridVerticalSpacing / 2, mPaint);
                     } else {
@@ -591,8 +591,8 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                 if (mGridBottomVisible && isLastGridRow(layoutPosition, adapterChildrenCount, columnSize)) {
 
                     int tempB = childView.getBottom() + mThickness / 2;
+                    mPaint.setStrokeWidth(mThickness);
                     if (mGridHorizontalSpacing != 0) {
-                        mPaint.setStrokeWidth(mThickness);
 
                         if (isLastGridColumn(layoutPosition, adapterChildrenCount, columnSize))
                             c.drawLine(childView.getLeft(), tempB, childView.getRight(), tempB, mPaint);
@@ -846,7 +846,7 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
             } else if (mGridRightVisible) {
                 outRect.set(x, y, borderThickness, 0);
             } else if (mGridBottomVisible) {
-                outRect.set(x, y, 0, y);
+                outRect.set(x, y, 0, borderThickness);
             } else {
                 outRect.set(x, y, 0, 0);
             }
