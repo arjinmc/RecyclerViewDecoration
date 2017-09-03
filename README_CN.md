@@ -1,5 +1,5 @@
 # RecyclerViewDecoration
-一个通用的Recyclerview分割线，支持.9图片.
+一个通用的RecyclerView分割线，支持.9图片.
 
 ## 注意！
 有人问我用了LinearLayout的方向属性对于RecyclerViewItemDecoration不起作用这个问题，是的，确实不起作用。因为这个RecyclerViewItemDecoration有自己的方向，就是绘画的方向，跟LinearLayout的方向是不一样的。
@@ -27,7 +27,7 @@
 
 * 新增Builder模式创建RecyclerViewItemDecoration。
 * 纵/横模式新增paddingStart 和 paddingEnd。
-* 纵/横模式新增firstLineVisible and lastLineVisible 控制第一行和最后一行是否显示分割线。
+* 纵/横模式新增firstLineVisible 和 lastLineVisible 控制第一行和最后一行是否显示分割线。
 
 # RecyclerViewItemDecoration.Builder
 thickness的值最好是偶数，2的倍数。
