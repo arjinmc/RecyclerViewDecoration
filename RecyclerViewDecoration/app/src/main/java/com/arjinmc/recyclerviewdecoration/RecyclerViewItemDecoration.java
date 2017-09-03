@@ -12,6 +12,7 @@ import android.graphics.Path;
 import android.graphics.PathEffect;
 import android.graphics.Rect;
 import android.support.annotation.ColorInt;
+import android.support.annotation.DrawableRes;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -991,7 +992,7 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
             return this;
         }
 
-        public Builder drawableID(int drawableID) {
+        public Builder drawableID(@DrawableRes int drawableID) {
             params.drawableRid = drawableID;
             return this;
         }
