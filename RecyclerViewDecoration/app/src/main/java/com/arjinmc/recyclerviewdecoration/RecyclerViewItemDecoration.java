@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
 
 /**
  * RecycleView item decoration
- * Created by Eminem Lu on 24/11/15.
+ * Created by Eminem Loo on 24/11/15.
  * Email arjinmc@hotmail.com
  */
 public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
