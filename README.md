@@ -1,8 +1,10 @@
 # RecyclerViewDecoration
 a common tool class for decoration of RecyclerView,support ninepatch image.
 
+[中文版](README_CN.md)
+
 ## Attention please!
-Some people ask me for RecyclerViewDecoration doesnot work for the orientation attributes of LinearLayout. No,it doesn't. Because RecyclerViewDecoration has its own orientation attributes as itself drawn orientation, not the same as orientation attributes of LinearLayout.
+Some people ask me for RecyclerViewItemDecoration doesnot work for the orientation attributes of LinearLayout. No,it doesn't. Because RecyclerViewItemDecoration has its own orientation attributes as itself drawn orientation, not the same as orientation attributes of LinearLayout.
 
 # Update News
 
