@@ -1,4 +1,4 @@
-package com.arjinmc.recyclerviewdecoration;
+package com.arjinmc.recyclerviewdecorationsample;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
