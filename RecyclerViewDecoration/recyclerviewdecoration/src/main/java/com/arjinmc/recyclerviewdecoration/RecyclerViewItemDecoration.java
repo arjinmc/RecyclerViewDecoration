@@ -13,6 +13,7 @@ import android.graphics.PathEffect;
 import android.graphics.Rect;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.IntDef;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,7 +24,7 @@ import java.util.regex.Pattern;
 
 /**
  * RecycleView item decoration
- * Created by Eminem Loo on 24/11/15.
+ * Created by Eminem Lo on 24/11/15.
  * Email arjinmc@hotmail.com
  */
 public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
@@ -35,6 +36,9 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
     public static final int MODE_HORIZONTAL = 0;
     public static final int MODE_VERTICAL = 1;
     public static final int MODE_GRID = 2;
+
+    @IntDef(value = {MODE_HORIZONTAL,MODE_VERTICAL,MODE_GRID})
+    public @interface Mode{}
 
     /**
      * default decoration color

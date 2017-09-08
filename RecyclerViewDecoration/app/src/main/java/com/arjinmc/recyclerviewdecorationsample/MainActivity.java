@@ -1,131 +1,73 @@
 package com.arjinmc.recyclerviewdecorationsample;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.arjinmc.expandrecyclerview.adapter.RecyclerViewAdapter;
+import com.arjinmc.expandrecyclerview.adapter.RecyclerViewSingleTypeProcessor;
+import com.arjinmc.expandrecyclerview.adapter.RecyclerViewViewHolder;
+import com.arjinmc.expandrecyclerview.style.RecyclerViewStyleHelper;
 import com.arjinmc.recyclerviewdecoration.RecyclerViewItemDecoration;
+
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
-    private String[] titles = null;
-    //init title  count for test
-//    private final int TITLE_COUNT = 3;
-    private final int TITLE_COUNT = 100;
-//    private final int TITLE_COUNT = 102;
 
-    private RecyclerView rvData;
+    private String[] mStyleStrs;
+    private RecyclerView mRvData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        titles = new String[TITLE_COUNT];
-        for(int i=0;i<TITLE_COUNT;i++){
-            titles[i] = "title"+i;
-        }
+        mStyleStrs = getResources().getStringArray(R.array.style_list);
 
-        rvData = (RecyclerView) findViewById(R.id.rv_data);
-        rvData.setAdapter(new DataAdapater());
+        mRvData = (RecyclerView) findViewById(R.id.rv_data);
+        //set layout manager
+        RecyclerViewStyleHelper.toLinearLayout(mRvData, LinearLayout.VERTICAL);
+        //add itemdecoration
+        mRvData.addItemDecoration(
+                new RecyclerViewItemDecoration.Builder(this).color(Color.GRAY).thickness(1).create());
+        mRvData.setAdapter(new RecyclerViewAdapter<>(this, Arrays.asList(mStyleStrs)
+                , R.layout.item_main_list, new RecyclerViewSingleTypeProcessor<String>() {
+            @Override
+            public void onBindViewHolder(RecyclerViewViewHolder holder, final int position, String data) {
+                TextView tvTitle = holder.getView(R.id.tv_title);
+                tvTitle.setText(data);
 
-        //horizonal mode
-//        rvData.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false));
-//        rvData.addItemDecoration(new RecyclerViewItemDecoration.Builder(this)
-//                .color(Color.RED)
-////                .color("#ff0000")
-////                .dashWidth(8)
-////                .dashGap(5)
-//                .thickness(6)
-////                .drawableID(R.drawable.diver)
-////                .drawableID(R.drawable.diver_color_no)
-//                .paddingStart(20)
-//                .paddingEnd(10)
-//                .firstLineVisible(true)
-//                .lastLineVisible(true)
-//                .create());
-
-        //vertical mode
-//        rvData.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false));
-//        rvData.addItemDecoration(new RecyclerViewItemDecoration.Builder(this)
-//                .mode(RecyclerViewItemDecoration.MODE_VERTICAL)
-////                .parent(rvData)
-//                .color(Color.RED)
-//                .color("#ff0000")
-////                .dashWidth(8)
-////                .dashGap(5)
-////                .thickness(6)
-////                .drawableID(R.drawable.diver_vertical)
-//                .drawableID(R.drawable.diver_v)
-////                .paddingStart(20)
-////                .paddingEnd(10)
-//                .firstLineVisible(true)
-//                .lastLineVisible(true)
-//                .create());
-
-        //grid
-        rvData.setLayoutManager(new GridLayoutManager(this, 4));
-        rvData.addItemDecoration(new RecyclerViewItemDecoration.Builder(this)
-//                .mode(RecyclerViewItemDecoration.MODE_GRID)
-                .parent(rvData)
-//                .color(Color.RED)
-                .color("#b0ff0000")
-//                .dashWidth(8)
-//                .dashGap(2)
-                .thickness(6)
-//                .drawableID(R.drawable.diver_color_no)
-//                .drawableID(R.drawable.diver_color)
-                .gridBottomVisible(true)
-                .gridTopVisible(true)
-                .gridLeftVisible(true)
-                .gridRightVisible(true)
-                .gridHorizontalSpacing(20)
-                .gridVerticalSpacing(10)
-                .create());
-
-
-    }
-
-    private class DataAdapater extends RecyclerView.Adapter<DataViewHolder>{
-
-
-        @Override
-        public DataViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-            View v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.item_rv_data, parent, false);
-            DataViewHolder holder = new DataViewHolder(v);
-
-            return holder;
-        }
-
-        @Override
-        public void onBindViewHolder(DataViewHolder holder, final int position) {
-
-            holder.tvTitle.setText(titles[position]);
-        }
-
-        @Override
-        public int getItemCount() {
-            return titles.length;
-        }
-    }
-
-    private class DataViewHolder extends RecyclerView.ViewHolder{
-
-        private TextView tvTitle;
-
-        public DataViewHolder(View itemView) {
-            super(itemView);
-            tvTitle = (TextView) itemView.findViewById(R.id.tv_title);
-        }
-
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        switch (position) {
+                            case 0:
+                                jumpTo(CommonStyleActivity.class);
+                                break;
+                            case 1:
+                                jumpTo(SpacingStyleActivity.class);
+                                break;
+                            case 2:
+                                jumpTo(GroupStyleActivity.class);
+                                break;
+                            case 3:
+                                jumpTo(StickyStyleActivity.class);
+                                break;
+                        }
+                    }
+                });
+            }
+        }));
     }
 
 
+    private void jumpTo(Class clz) {
+        startActivity(new Intent(this, clz));
+    }
 }

@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">RecyclerViewDecoration</string>
+
+    <string-array name="style_list">
+        <item>Common Style</item>
+        <item>Spacing Style</item>
+        <item>Group Style</item>
+        <item>Sticky Style</item>
+    </string-array>
 </resources>

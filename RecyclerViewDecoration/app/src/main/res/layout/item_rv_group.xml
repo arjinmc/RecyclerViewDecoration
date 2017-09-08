@@ -3,19 +3,12 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="8dp"
-    android:background="#4fc3f7"
+    android:background="#9041210d"
     >
 
     <TextView
-        android:id="@+id/tv_brand"
+        android:id="@+id/tv_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <TextView
-        android:id="@+id/tv_type"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <TextView
-        android:id="@+id/tv_uuid"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+
 </LinearLayout>

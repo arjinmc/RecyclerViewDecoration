@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/ll_control"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/text"
+            android:text="Mode" />
+
+        <RadioGroup
+            android:id="@+id/rg_mode"
+            style="@style/radiogroup">
+
+            <RadioButton
+                android:id="@+id/rb_horizontal"
+                style="@style/radiobutton"
+                android:checked="true"
+                android:text="horizontal" />
+
+            <RadioButton
+                android:id="@+id/rb_vertical"
+                style="@style/radiobutton"
+                android:text="vertical" />
+
+            <RadioButton
+                android:id="@+id/rb_grid"
+                style="@style/radiobutton"
+                android:text="grid" />
+        </RadioGroup>
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_data"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@id/ll_control" />
+
+</RelativeLayout>
