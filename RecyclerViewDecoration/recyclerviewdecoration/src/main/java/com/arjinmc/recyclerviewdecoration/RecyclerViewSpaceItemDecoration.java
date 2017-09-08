@@ -2,7 +2,6 @@ package com.arjinmc.recyclerviewdecoration;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.v7.widget.RecyclerView;
 
 /**
  * RecycleView item decoration for only empty spacing
