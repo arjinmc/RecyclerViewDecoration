@@ -3,10 +3,32 @@ a common tool class for decoration of RecyclerView,support ninepatch image.
 
 [中文版](README_CN.md)
 
-## Attention please!
-Some people ask me for RecyclerViewItemDecoration doesnot work for the orientation attributes of LinearLayout. No,it doesn't. Because RecyclerViewItemDecoration has its own orientation attributes as itself drawn orientation, not the same as orientation attributes of LinearLayout.
+You can import this lib with gradle or maven because it exists on JCenter.
+
+#### gradle
+```code
+compile 'com.arjinmc.android:recyclerviewdecoration:2.1'
+```
+#### maven
+```code
+<dependency>
+  <groupId>com.arjinmc.android</groupId>
+  <artifactId>recyclerviewdecoration</artifactId>
+  <version>2.0</version>
+  <type>pom</type>
+</dependency>
+```
 
 # Update News
+
+<b>2017/9/8th</b>
+
+* optimize draw and compatible LayoutManager.
+* remove two attributes mode and parent.
+* add RecyclerViewSpaceItemDecoration to build spacing diver.
+* update sample.
+
+It can completely auto compatible the orientation of LayoutManager.
 
 <b>2017/7/3rd</b>
 
@@ -39,8 +61,6 @@ Param thickness would be better when it's an even number which can be divided by
 rvData.setLayoutManager(new LinearLayoutManager(context
   , LinearLayoutManager.VERTICAL,false));
 rvData.addItemDecoration(new RecyclerViewItemDecoration.Builder(context)
-        //default mode is RecyclerViewItemDecoration.HORIZONTAL
-        .mode(RecyclerViewItemDecoration.HORIZONTAL) //or parent(rvData)
         .color(Color.RED)
         .color("#ff0000")
         .dashWidth(8)
@@ -61,7 +81,6 @@ rvData.addItemDecoration(new RecyclerViewItemDecoration.Builder(context)
 rvData.setLayoutManager(new LinearLayoutManager(context
   , LinearLayoutManager.HORIZONTAL,false));
 rvData.addItemDecoration(new RecyclerViewItemDecoration.Builder(this)
-       .mode(RecyclerViewItemDecoration.MODE_VERTICAL) //or parent(rvData)
        .color(Color.RED)
        .color("#ff0000")
        .dashWidth(8)
@@ -81,7 +100,6 @@ rvData.addItemDecoration(new RecyclerViewItemDecoration.Builder(this)
 
 rvData.setLayoutManager(new GridLayoutManager(this, 6));
 rvData.addItemDecoration(new RecyclerViewItemDecoration.Builder(this)
-       .mode(RecyclerViewItemDecoration.MODE_GRID) //or parent(rvData)
        .color(Color.RED)
        .color("#ff0000")
        .dashWidth(8)
@@ -99,7 +117,6 @@ When you use gridHorizontalSpacing or gridVerticalSpacing or both,thickness is r
 ```java
 rvData.setLayoutManager(new GridLayoutManager(this, 6));
 rvData.addItemDecoration(new RecyclerViewItemDecoration.Builder(this)
-       .mode(RecyclerViewItemDecoration.MODE_GRID) //or parent(rvData)
        .color("#ff0000")
        .dashWidth(8)
        .dashGap(5)
@@ -112,6 +129,19 @@ rvData.addItemDecoration(new RecyclerViewItemDecoration.Builder(this)
        .gridVerticalSpacing(10)
        .create());
 
+```
+
+## RecyclerViewSpaceItemDecoration
+
+```java
+rvData.setLayoutManager(new GridLayoutManager(this, 6));
+rvData.addItemDecoration(new RecyclerViewSpaceItemDecoration.Builder(this)
+      //if horizontal and vertical spacing is the same size,just use margin(int size)
+      //if recyclerview is LinearLayout,use margin(int size)
+//      .margin(10)
+        .marginHorizontal(10)
+        .marginVertical(20)
+        .create());
 ```
 
 ## sample images

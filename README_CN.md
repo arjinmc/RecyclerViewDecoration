@@ -1,10 +1,32 @@
 # RecyclerViewDecoration
 一个通用的RecyclerView分割线，支持.9图片.
 
-## 注意！
-有人问我用了LinearLayout的方向属性对于RecyclerViewItemDecoration不起作用这个问题，是的，确实不起作用。因为这个RecyclerViewItemDecoration有自己的方向，就是绘画的方向，跟LinearLayout的方向是不一样的。
+你可以直接导入这个库，因为它已经在JCenter.
+
+#### gradle
+```code
+compile 'com.arjinmc.android:recyclerviewdecoration:2.1'
+```
+#### maven
+```code
+<dependency>
+  <groupId>com.arjinmc.android</groupId>
+  <artifactId>recyclerviewdecoration</artifactId>
+  <version>2.1</version>
+  <type>pom</type>
+</dependency>
+```
 
 # 更新日志
+
+<b>2017/9/8th</b>
+
+* 优化绘制和适配LayoutManager。
+* 删除两个属性mode和parent。
+* 新增RecyclerViewSpaceItemDecoration用来创建空白的分割线。
+* 更新示例代码。
+
+现在可以完全自动适配LayoutManager的方向。
 
 <b>2017/7/3rd</b>
 
@@ -38,8 +60,6 @@ thickness的值最好是偶数，2的倍数。
 rvData.setLayoutManager(new LinearLayoutManager(context
   , LinearLayoutManager.VERTICAL,false));
 rvData.addItemDecoration(new RecyclerViewItemDecoration.Builder(context)
-        //默认是RecyclerViewItemDecoration.HORIZONTAL
-        .mode(RecyclerViewItemDecoration.HORIZONTAL) //或者 parent(rvData)
         .color(Color.RED)
         .color("#ff0000")
         .dashWidth(8)
@@ -60,7 +80,6 @@ rvData.addItemDecoration(new RecyclerViewItemDecoration.Builder(context)
 rvData.setLayoutManager(new LinearLayoutManager(context
   , LinearLayoutManager.HORIZONTAL,false));
 rvData.addItemDecoration(new RecyclerViewItemDecoration.Builder(this)
-       .mode(RecyclerViewItemDecoration.MODE_VERTICAL) //或者 parent(rvData)
        .color(Color.RED)
        .color("#ff0000")
        .dashWidth(8)
@@ -80,7 +99,6 @@ rvData.addItemDecoration(new RecyclerViewItemDecoration.Builder(this)
 
 rvData.setLayoutManager(new GridLayoutManager(this, 6));
 rvData.addItemDecoration(new RecyclerViewItemDecoration.Builder(this)
-       .mode(RecyclerViewItemDecoration.MODE_GRID) //或者 parent(rvData)
        .color(Color.RED)
        .color("#ff0000")
        .dashWidth(8)
@@ -100,7 +118,6 @@ rvData.addItemDecoration(new RecyclerViewItemDecoration.Builder(this)
 ```java
 rvData.setLayoutManager(new GridLayoutManager(this, 6));
 rvData.addItemDecoration(new RecyclerViewItemDecoration.Builder(this)
-       .mode(RecyclerViewItemDecoration.MODE_GRID) //或者 parent(rvData)
        .color("#ff0000")
        .dashWidth(8)
        .dashGap(5)
@@ -113,6 +130,19 @@ rvData.addItemDecoration(new RecyclerViewItemDecoration.Builder(this)
        .gridVerticalSpacing(10)
        .create());
 
+```
+
+## RecyclerViewSpaceItemDecoration
+
+```java
+rvData.setLayoutManager(new GridLayoutManager(this, 6));
+rvData.addItemDecoration(new RecyclerViewSpaceItemDecoration.Builder(this)
+      //如果纵横间距是一样的，使用margin(int size)
+      //如果RecyclerView是线性布局，使用margin(int size)
+//      .margin(10)
+        .marginHorizontal(10)
+        .marginVertical(20)
+        .create());
 ```
 
 ## 效果图
