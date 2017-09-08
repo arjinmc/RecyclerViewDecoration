@@ -1,12 +1,8 @@
 package com.arjinmc.recyclerviewdecoration;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
-import android.text.NoCopySpan;
 
 /**
  * RecycleView item decoration for only empty spacing
@@ -45,26 +41,14 @@ public class RecyclerViewSpaceItemDecoration {
             return this;
         }
 
-        public Builder mode(@RecyclerViewItemDecoration.Mode int mode) {
-            param.mode = mode;
-            return this;
-        }
-
-        public Builder parent(RecyclerView parent) {
-            param.parent = parent;
-            return this;
-        }
-
         public RecyclerViewItemDecoration create() {
 
             return new RecyclerViewItemDecoration.Builder(context)
-                            .thickness(param.margin)
-                            .gridHorizontalSpacing(param.marginHorizontal)
-                            .gridVerticalSpacing(param.marginVertical)
-                            .mode(param.mode)
-                            .parent(param.parent)
-                            .color(Color.TRANSPARENT)
-                            .create();
+                    .thickness(param.margin)
+                    .gridHorizontalSpacing(param.marginHorizontal)
+                    .gridVerticalSpacing(param.marginVertical)
+                    .color(Color.TRANSPARENT)
+                    .create();
         }
 
     }
@@ -74,9 +58,6 @@ public class RecyclerViewSpaceItemDecoration {
         public int margin;
         public int marginHorizontal;
         public int marginVertical;
-        public int mode = RecyclerViewItemDecoration.MODE_HORIZONTAL;
-        ;
-        public RecyclerView parent;
 
     }
 }

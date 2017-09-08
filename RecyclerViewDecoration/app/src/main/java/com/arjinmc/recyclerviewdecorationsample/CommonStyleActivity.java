@@ -89,8 +89,6 @@ public class CommonStyleActivity extends AppCompatActivity {
             mRecyclerView.removeItemDecoration(mCurrentItemDecoration);
         RecyclerViewStyleHelper.toLinearLayout(mRecyclerView, LinearLayout.VERTICAL);
         mCurrentItemDecoration = new RecyclerViewItemDecoration.Builder(this)
-//                .mode(RecyclerViewItemDecoration.MODE_HORIZONTAL)
-//                .parent(mRecyclerView)
                 .color(Color.RED)
 //                .color("#ff0000")
 //                .dashWidth(8)
@@ -111,8 +109,6 @@ public class CommonStyleActivity extends AppCompatActivity {
             mRecyclerView.removeItemDecoration(mCurrentItemDecoration);
         RecyclerViewStyleHelper.toLinearLayout(mRecyclerView, LinearLayout.HORIZONTAL);
         mCurrentItemDecoration = new RecyclerViewItemDecoration.Builder(this)
-                .mode(RecyclerViewItemDecoration.MODE_VERTICAL)
-//                .parent(mRecyclerView)
                 .color(Color.RED)
                 .color("#ff0000")
 //                .dashWidth(8)
@@ -133,8 +129,6 @@ public class CommonStyleActivity extends AppCompatActivity {
             mRecyclerView.removeItemDecoration(mCurrentItemDecoration);
         RecyclerViewStyleHelper.toGridView(mRecyclerView, 4);
         mCurrentItemDecoration = new RecyclerViewItemDecoration.Builder(this)
-//                .mode(RecyclerViewItemDecoration.MODE_GRID)
-                .parent(mRecyclerView)
 //                .color(Color.RED)
                 .color("#b0ff0000")
 //                .dashWidth(8)

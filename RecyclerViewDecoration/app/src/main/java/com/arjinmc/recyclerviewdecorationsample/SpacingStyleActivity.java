@@ -38,6 +38,8 @@ public class SpacingStyleActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_common_style);
+        getSupportActionBar().setSubtitle("Spacing Style");
+
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_data);
 
         List<Car> carList = new ArrayList<>();
@@ -88,8 +90,6 @@ public class SpacingStyleActivity extends AppCompatActivity {
             mRecyclerView.removeItemDecoration(mCurrentItemDecoration);
         RecyclerViewStyleHelper.toLinearLayout(mRecyclerView, LinearLayout.VERTICAL);
         mCurrentItemDecoration = new RecyclerViewSpaceItemDecoration.Builder(this)
-//                .mode(RecyclerViewItemDecoration.MODE_HORIZONTAL)
-//                .parent(mRecyclerView)
                 .margin(10)
                 .create();
         mRecyclerView.addItemDecoration(mCurrentItemDecoration);
@@ -100,8 +100,6 @@ public class SpacingStyleActivity extends AppCompatActivity {
             mRecyclerView.removeItemDecoration(mCurrentItemDecoration);
         RecyclerViewStyleHelper.toLinearLayout(mRecyclerView, LinearLayout.HORIZONTAL);
         mCurrentItemDecoration = new RecyclerViewSpaceItemDecoration.Builder(this)
-                .mode(RecyclerViewItemDecoration.MODE_VERTICAL)
-//                .parent(mRecyclerView)
                 .margin(20)
                 .create();
         mRecyclerView.addItemDecoration(mCurrentItemDecoration);
@@ -112,8 +110,6 @@ public class SpacingStyleActivity extends AppCompatActivity {
             mRecyclerView.removeItemDecoration(mCurrentItemDecoration);
         RecyclerViewStyleHelper.toGridView(mRecyclerView, 4);
         mCurrentItemDecoration = new RecyclerViewSpaceItemDecoration.Builder(this)
-//                .mode(RecyclerViewItemDecoration.MODE_GRID)
-                .parent(mRecyclerView)
                 //if horizontal and vertical spacing is the same size,just use margin(int size)
 //                .margin(10)
                 .marginHorizontal(10)

@@ -17,6 +17,7 @@ import android.support.annotation.IntDef;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -33,12 +34,9 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
      * mode for direction
      * draw the itemdrecoration orientation
      */
-    public static final int MODE_HORIZONTAL = 0;
-    public static final int MODE_VERTICAL = 1;
-    public static final int MODE_GRID = 2;
-
-    @IntDef(value = {MODE_HORIZONTAL,MODE_VERTICAL,MODE_GRID})
-    public @interface Mode{}
+    private static final int MODE_HORIZONTAL = 0;
+    private static final int MODE_VERTICAL = 1;
+    private static final int MODE_GRID = 2;
 
     /**
      * default decoration color
@@ -85,7 +83,6 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
      * direction mode for decoration
      */
     private int mMode;
-    private RecyclerView mParent;
 
     private Paint mPaint;
 
@@ -98,14 +95,20 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
     /**
      * sign for if the resource image is a ninepatch image
      */
-    private Boolean hasNinePatch = false;
+    private boolean hasNinePatch = false;
+    /**
+     * sign for if has get the parent RecyclerView LayoutManager mode
+     */
+    private boolean hasGetParentLayoutMode = false;
+    private Context mContext;
 
     public RecyclerViewItemDecoration() {
     }
 
     public void setParams(Context context, Param params) {
 
-        this.mMode = params.mode;
+        this.mContext = context;
+
         this.mDrawableRid = params.drawableRid;
         this.mColor = params.color;
         this.mThickness = params.thickness;
@@ -122,9 +125,9 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
         this.mGridHorizontalSpacing = params.gridHorizontalSpacing;
         this.mGridVerticalSpacing = params.gridVerticalSpacing;
 
-        this.mParent = params.parent;
+    }
 
-        if (mParent != null) compatibleWithLayoutManager(mParent);
+    private void initPaint(Context context) {
 
         this.mBmp = BitmapFactory.decodeResource(context.getResources(), mDrawableRid);
         if (mBmp != null) {
@@ -140,11 +143,6 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                 mCurrentThickness = mThickness == 0 ? mBmp.getWidth() : mThickness;
         }
 
-        initPaint();
-
-    }
-
-    private void initPaint() {
         mPaint = new Paint();
         mPaint.setColor(mColor);
         mPaint.setStyle(Paint.Style.STROKE);
@@ -169,6 +167,10 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
 
+        if (!hasGetParentLayoutMode) {
+            compatibleWithLayoutManager(parent);
+            hasGetParentLayoutMode = true;
+        }
         int viewPosition = parent.getChildLayoutPosition(view);
 
         if (mMode == MODE_HORIZONTAL) {
@@ -971,6 +973,8 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                 }
             }
         }
+        initPaint(mContext);
+
     }
 
     public static class Builder {
@@ -989,11 +993,6 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
             RecyclerViewItemDecoration recyclerViewItemDecoration = new RecyclerViewItemDecoration();
             recyclerViewItemDecoration.setParams(context, params);
             return recyclerViewItemDecoration;
-        }
-
-        public Builder mode(int mode) {
-            params.mode = mode;
-            return this;
         }
 
         public Builder drawableID(@DrawableRes int drawableID) {
@@ -1078,17 +1077,10 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
             return this;
         }
 
-
-        public Builder parent(RecyclerView recyclerView) {
-            params.parent = recyclerView;
-            return this;
-        }
-
     }
 
     private static class Param {
 
-        public int mode = MODE_HORIZONTAL;
         public int drawableRid = 0;
         public int color = Color.parseColor(DEFAULT_COLOR);
         public int thickness;
@@ -1104,7 +1096,6 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
         public boolean gridBottomVisible;
         public int gridHorizontalSpacing;
         public int gridVerticalSpacing;
-        public RecyclerView parent;
     }
 
 }
