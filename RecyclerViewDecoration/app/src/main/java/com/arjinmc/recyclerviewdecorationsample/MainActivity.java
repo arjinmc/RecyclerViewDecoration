@@ -53,12 +53,6 @@ public class MainActivity extends AppCompatActivity {
                             case 1:
                                 jumpTo(SpacingStyleActivity.class);
                                 break;
-                            case 2:
-                                jumpTo(GroupStyleActivity.class);
-                                break;
-                            case 3:
-                                jumpTo(StickyStyleActivity.class);
-                                break;
                         }
                     }
                 });

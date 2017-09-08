@@ -17,8 +17,6 @@
         </activity>
         <activity android:name=".CommonStyleActivity"/>
         <activity android:name=".SpacingStyleActivity"/>
-        <activity android:name=".GroupStyleActivity"/>
-        <activity android:name=".StickyStyleActivity"/>
     </application>
 
 </manifest>
