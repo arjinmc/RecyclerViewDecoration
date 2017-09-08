@@ -13,7 +13,6 @@ import android.graphics.PathEffect;
 import android.graphics.Rect;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
-import android.support.annotation.IntDef;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,14 +27,6 @@ import java.util.regex.Pattern;
  * Email arjinmc@hotmail.com
  */
 public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
-
-    /**
-     * mode for direction
-     * draw the itemdrecoration orientation
-     */
-    private static final int MODE_HORIZONTAL = 0;
-    private static final int MODE_VERTICAL = 1;
-    private static final int MODE_GRID = 2;
 
     /**
      * default decoration color
@@ -136,9 +127,9 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                 mNinePatch = new NinePatch(mBmp, mBmp.getNinePatchChunk(), null);
             }
 
-            if (mMode == MODE_HORIZONTAL)
+            if (mMode == RVItemDecorationConst.MODE_HORIZONTAL)
                 mCurrentThickness = mThickness == 0 ? mBmp.getHeight() : mThickness;
-            if (mMode == MODE_VERTICAL)
+            if (mMode == RVItemDecorationConst.MODE_VERTICAL)
                 mCurrentThickness = mThickness == 0 ? mBmp.getWidth() : mThickness;
         }
 
@@ -154,11 +145,11 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
 
         if (parent.getChildCount() == 0) return;
         mPaint.setColor(mColor);
-        if (mMode == MODE_HORIZONTAL) {
+        if (mMode == RVItemDecorationConst.MODE_HORIZONTAL) {
             drawHorinzontal(c, parent);
-        } else if (mMode == MODE_VERTICAL) {
+        } else if (mMode == RVItemDecorationConst.MODE_VERTICAL) {
             drawVertical(c, parent);
-        } else if (mMode == MODE_GRID) {
+        } else if (mMode == RVItemDecorationConst.MODE_GRID) {
             drawGrid(c, parent);
         }
     }
@@ -172,7 +163,7 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
         }
         int viewPosition = parent.getChildLayoutPosition(view);
 
-        if (mMode == MODE_HORIZONTAL) {
+        if (mMode == RVItemDecorationConst.MODE_HORIZONTAL) {
 
             if (!(!mLastLineVisible &&
                     viewPosition == parent.getAdapter().getItemCount() - 1)) {
@@ -191,7 +182,7 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                 }
             }
 
-        } else if (mMode == MODE_VERTICAL) {
+        } else if (mMode == RVItemDecorationConst.MODE_VERTICAL) {
             if (!(!mLastLineVisible &&
                     viewPosition == parent.getAdapter().getItemCount() - 1)) {
                 if (mDrawableRid != 0) {
@@ -208,7 +199,7 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                 }
             }
 
-        } else if (mMode == MODE_GRID) {
+        } else if (mMode == RVItemDecorationConst.MODE_GRID) {
             int columnSize = ((GridLayoutManager) parent.getLayoutManager()).getSpanCount();
             int itemSize = parent.getAdapter().getItemCount();
 
@@ -963,15 +954,19 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
 
         if (parent.getLayoutManager() != null) {
             if (parent.getLayoutManager() instanceof GridLayoutManager) {
-                mMode = MODE_GRID;
+                mMode = RVItemDecorationConst.MODE_GRID;
             } else if (parent.getLayoutManager() instanceof LinearLayoutManager) {
                 if (((LinearLayoutManager) parent.getLayoutManager()).getOrientation() == LinearLayout.HORIZONTAL) {
-                    mMode = MODE_VERTICAL;
+                    mMode = RVItemDecorationConst.MODE_VERTICAL;
                 } else {
-                    mMode = MODE_HORIZONTAL;
+                    mMode = RVItemDecorationConst.MODE_HORIZONTAL;
                 }
             }
+
+        } else {
+            mMode = RVItemDecorationConst.MODE_UNKNOWN;
         }
+
         initPaint(mContext);
 
     }
