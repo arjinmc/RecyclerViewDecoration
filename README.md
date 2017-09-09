@@ -14,7 +14,7 @@ compile 'com.arjinmc.android:recyclerviewdecoration:2.1'
 <dependency>
   <groupId>com.arjinmc.android</groupId>
   <artifactId>recyclerviewdecoration</artifactId>
-  <version>2.0</version>
+  <version>2.1</version>
   <type>pom</type>
 </dependency>
 ```
