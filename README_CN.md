@@ -3,17 +3,17 @@
 
 你可以直接导入这个库，因为它已经在JCenter.
 
-androidSupportVersionCode是android support包的版本,例如25.3.1。
+当前android build version构建版本是25.3.1.
 #### gradle
 ```code
-compile 'com.arjinmc.android:recyclerviewdecoration:'+androidSupportVersionCode
+compile 'com.arjinmc.android:recyclerviewdecoration:2.1'
 ```
 #### maven
 ```code
 <dependency>
   <groupId>com.arjinmc.android</groupId>
   <artifactId>recyclerviewdecoration</artifactId>
-  <version>androidSupportVersionCode</version>
+  <version>2.1</version>
   <type>pom</type>
 </dependency>
 ```

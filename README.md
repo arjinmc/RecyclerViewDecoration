@@ -3,19 +3,20 @@ a common tool class for decoration of RecyclerView,support ninepatch image.
 
 [中文版](README_CN.md)
 
+current build version is 25.3.1
+
 You can import this lib with gradle or maven because it exists on JCenter.
 
-androidSupportVersionCode is the version code of Android Support Library,like 25.3.1.
 #### gradle
 ```code
-compile 'com.arjinmc.android:recyclerviewdecoration:'+androidSupportVersionCode
+compile 'com.arjinmc.android:recyclerviewdecoration:2.1'
 ```
 #### maven
 ```code
 <dependency>
   <groupId>com.arjinmc.android</groupId>
   <artifactId>recyclerviewdecoration</artifactId>
-  <version>androidSupportVersionCode</version>
+  <version>2.1</version>
   <type>pom</type>
 </dependency>
 ```
