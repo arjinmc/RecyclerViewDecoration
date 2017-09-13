@@ -9,14 +9,14 @@ You can import this lib with gradle or maven because it exists on JCenter.
 
 #### gradle
 ```code
-compile 'com.arjinmc.android:recyclerviewdecoration:2.1'
+compile 'com.arjinmc.android:recyclerviewdecoration:2.2'
 ```
 #### maven
 ```code
 <dependency>
   <groupId>com.arjinmc.android</groupId>
   <artifactId>recyclerviewdecoration</artifactId>
-  <version>2.1</version>
+  <version>2.2</version>
   <type>pom</type>
 </dependency>
 ```

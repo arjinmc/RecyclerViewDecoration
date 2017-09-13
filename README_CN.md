@@ -6,14 +6,14 @@
 当前android build version构建版本是25.3.1.
 #### gradle
 ```code
-compile 'com.arjinmc.android:recyclerviewdecoration:2.1'
+compile 'com.arjinmc.android:recyclerviewdecoration:2.2'
 ```
 #### maven
 ```code
 <dependency>
   <groupId>com.arjinmc.android</groupId>
   <artifactId>recyclerviewdecoration</artifactId>
-  <version>2.1</version>
+  <version>2.2</version>
   <type>pom</type>
 </dependency>
 ```
