@@ -38,7 +38,7 @@ public class StickyHeadStyleActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sticky_head_style);
-        getSupportActionBar().setSubtitle("Spacing Style");
+        getSupportActionBar().setSubtitle("Sticky Head Style");
 
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_data);
         RecyclerViewStyleHelper.toLinearLayout(mRecyclerView, LinearLayout.VERTICAL);

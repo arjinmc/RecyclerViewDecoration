@@ -226,13 +226,8 @@ public class RecyclerViewStickyHeadItemDecoration extends RecyclerView.ItemDecor
      * @return
      */
     private Bitmap convertViewToBimap(View view) {
-        Bitmap b = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.RGB_565);
+        Bitmap b = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas c = new Canvas(b);
-        Drawable bgDrawable = view.getBackground();
-        if (bgDrawable != null)
-            bgDrawable.draw(c);
-        else
-            c.drawColor(Color.WHITE);
         view.draw(c);
         return b;
     }
