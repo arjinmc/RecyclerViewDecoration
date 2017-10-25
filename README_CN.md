@@ -6,19 +6,24 @@
 当前android build version构建版本是25.3.1.
 #### gradle
 ```code
-compile 'com.arjinmc.android:recyclerviewdecoration:2.2'
+compile 'com.arjinmc.android:recyclerviewdecoration:2.3'
 ```
 #### maven
 ```code
 <dependency>
   <groupId>com.arjinmc.android</groupId>
   <artifactId>recyclerviewdecoration</artifactId>
-  <version>2.2</version>
+  <version>2.3</version>
   <type>pom</type>
 </dependency>
 ```
 
 # 更新日志
+
+<b>2017/10/25th</b>
+* 加入固定头部样式，可以自动获取group作为header，你只需要告诉它你的分组的viewtype类型。
+
+它可以自动匹配的group的内容作为固定的header。只支持这种布局LinearLayoutManager.VERTICAL。
 
 <b>2017/9/8th</b>
 
@@ -146,7 +151,18 @@ rvData.addItemDecoration(new RecyclerViewSpaceItemDecoration.Builder(this)
         .create());
 ```
 
+## StickyHeadItemDecoration
+
+```java
+mCurrentItemDecoration = new RecyclerViewStickyHeadItemDecoration.Builder()
+//                .groupViewType(0) //告诉它你的group的viewtype的值
+                .isSmooth(true)  //是否需要平滑的移动固定的header，默认是否。
+                .create();
+mRecyclerView.addItemDecoration(mCurrentItemDecoration);
+```
+
 ## 效果图
+![image](https://github.com/arjinmc/RecyclerViewDecoration/blob/master/images/sample_sticky_head.gif)  
 ![image](https://github.com/arjinmc/RecyclerViewDecoration/blob/master/images/device-2015-12-02-111504.png)  
 ![image](https://github.com/arjinmc/RecyclerViewDecoration/blob/master/images/device-2015-11-30-155050.png)
 ![image](https://github.com/arjinmc/RecyclerViewDecoration/blob/master/images/device-2015-11-30-154937.png)

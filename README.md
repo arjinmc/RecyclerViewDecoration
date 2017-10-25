@@ -9,19 +9,23 @@ You can import this lib with gradle or maven because it exists on JCenter.
 
 #### gradle
 ```code
-compile 'com.arjinmc.android:recyclerviewdecoration:2.2'
+compile 'com.arjinmc.android:recyclerviewdecoration:2.3'
 ```
 #### maven
 ```code
 <dependency>
   <groupId>com.arjinmc.android</groupId>
   <artifactId>recyclerviewdecoration</artifactId>
-  <version>2.2</version>
+  <version>2.3</version>
   <type>pom</type>
 </dependency>
 ```
 
 # Update News
+<b>2017/10/25th</b>
+* add sticky head style that it can auto get your group view if you tell it the viewtype of group series.
+
+It can completely auto compatible the group view that need to be shown on the top stickily.Only support this layout orientation -- LinearLayoutManager.VERTICAL.
 
 <b>2017/9/8th</b>
 
@@ -146,7 +150,18 @@ rvData.addItemDecoration(new RecyclerViewSpaceItemDecoration.Builder(this)
         .create());
 ```
 
+## StickyHeadItemDecoration
+
+```java
+mCurrentItemDecoration = new RecyclerViewStickyHeadItemDecoration.Builder()
+//                .groupViewType(0) //tell it your viewtype of group
+                .isSmooth(true)  //if need to smooth scroll sticky head,default is false;
+                .create();
+mRecyclerView.addItemDecoration(mCurrentItemDecoration);
+```
+
 ## sample images
+![image](https://github.com/arjinmc/RecyclerViewDecoration/blob/master/images/sample_sticky_head.gif)  
 ![image](https://github.com/arjinmc/RecyclerViewDecoration/blob/master/images/device-2015-12-02-111504.png)  
 ![image](https://github.com/arjinmc/RecyclerViewDecoration/blob/master/images/device-2015-11-30-155050.png)
 ![image](https://github.com/arjinmc/RecyclerViewDecoration/blob/master/images/device-2015-11-30-154937.png)
