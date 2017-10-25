@@ -9,7 +9,15 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.arjinmc.recyclerviewdecorationsample.MainActivity">
 
+    <TextView
+        android:id="@+id/tv_head"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/holo_red_light"
+        android:text="Change the mode before you scroll the list for the samples,otherwise it will make some mistakes."
+        />
     <android.support.v7.widget.RecyclerView
+        android:layout_below="@id/tv_head"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/rv_data"/>

@@ -8,8 +8,8 @@ android {
         applicationId "com.arjinmc.recyclerviewdecoration"
         minSdkVersion 14
         targetSdkVersion 23
-        versionCode 3
-        versionName "2.1"
+        versionCode 4
+        versionName "2.2"
     }
     buildTypes {
         release {
