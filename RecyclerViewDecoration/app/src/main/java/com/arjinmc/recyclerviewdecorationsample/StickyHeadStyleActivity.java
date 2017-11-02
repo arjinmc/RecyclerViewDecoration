@@ -20,6 +20,7 @@ import com.arjinmc.recyclerviewdecorationsample.model.Car;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -29,7 +30,7 @@ import java.util.UUID;
 
 public class StickyHeadStyleActivity extends AppCompatActivity {
 
-    private final int TITLE_COUNT = 100;
+    private final int TITLE_COUNT = 30;
     private RecyclerView mRecyclerView;
     private RadioGroup mRgMode;
     private RecyclerView.ItemDecoration mCurrentItemDecoration;
@@ -46,12 +47,29 @@ public class StickyHeadStyleActivity extends AppCompatActivity {
                 .margin(2)
                 .create());
 
-        List<Car> carList = new ArrayList<>();
+        final List<Car> carList = new ArrayList<>();
+        Random random = new Random();
         for (int i = 0; i < TITLE_COUNT; i++) {
             Car car = new Car();
             car.setUuid(UUID.randomUUID().toString());
             car.setBrand("brand" + i);
             car.setType("type" + i * 2);
+            switch (i){
+                case 0:
+                case 1:
+                case 2:
+                case 4:
+                case 8:
+                case 10:
+                case 11:
+                case 15:
+//                case 17:
+                case 22:
+                case 23:
+                case 29:
+                    car.setGroup("group");
+                    break;
+            }
             carList.add(car);
         }
         mRecyclerView.setAdapter(new RecyclerViewAdapter(this, carList, new int[]{R.layout.item_rv_group
@@ -74,7 +92,7 @@ public class StickyHeadStyleActivity extends AppCompatActivity {
 
             @Override
             public int getItemViewType(int position) {
-                if (position % 10 == 0)
+                if (carList.get(position).getGroup()!=null)
                     return 0;
                 return 1;
             }
@@ -96,6 +114,7 @@ public class StickyHeadStyleActivity extends AppCompatActivity {
         });
 
         setNormalMode();
+//        setSmoothMode();
 
     }
 
