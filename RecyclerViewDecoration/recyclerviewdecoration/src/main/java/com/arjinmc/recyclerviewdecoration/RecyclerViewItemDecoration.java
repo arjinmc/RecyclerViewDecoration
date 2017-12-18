@@ -16,6 +16,7 @@ import android.support.annotation.DrawableRes;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -799,80 +800,76 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
             else
                 y = mThickness;
 
-
         }
+
         if (isFirstGridColumn(viewPosition, columnSize)
                 && isFirstGridRow(viewPosition, columnSize)) {
 
-            if (mGridTopVisible && mGridLeftVisible) {
-                outRect.set(borderThickness, borderThickness, 0, 0);
-            } else if (mGridTopVisible) {
-                outRect.set(0, borderThickness, 0, 0);
-            } else if (mGridLeftVisible) {
-                outRect.set(borderThickness, 0, 0, 0);
+            if (columnSize == 1) {
+                outRect.set((mGridLeftVisible == true ? borderThickness : 0)
+                        , (mGridTopVisible == true ? borderThickness : 0)
+                        , (mGridRightVisible == true ? borderThickness : 0)
+                        , 0);
             } else {
-                outRect.set(0, 0, 0, 0);
-                outRect.set(0, 0, 0, 0);
+                outRect.set((mGridLeftVisible == true ? borderThickness : 0)
+                        , (mGridTopVisible == true ? borderThickness : 0)
+                        , 0
+                        , 0);
             }
         } else if (isFirstGridRow(viewPosition, columnSize)
                 && isLastGridColumn(viewPosition, itemSize, columnSize)) {
-            if (mGridTopVisible && mGridRightVisible) {
-                outRect.set(x, borderThickness, borderThickness, 0);
-            } else if (mGridTopVisible) {
-                outRect.set(x, borderThickness, 0, 0);
-            } else if (mGridRightVisible) {
-                outRect.set(x, 0, borderThickness, 0);
-            } else {
-                outRect.set(x, 0, 0, 0);
-            }
+
+            outRect.set(x
+                    , (mGridTopVisible == true ? borderThickness : 0)
+                    , (mGridRightVisible == true ? borderThickness : 0)
+                    , 0);
+
         } else if (isFirstGridColumn(viewPosition, columnSize)
                 && isLastGridRow(viewPosition, itemSize, columnSize)) {
-            if (mGridLeftVisible && mGridBottomVisible) {
-                outRect.set(borderThickness, y, 0, borderThickness);
-            } else if (mGridLeftVisible) {
-                outRect.set(borderThickness, y, 0, 0);
-            } else if (mGridBottomVisible) {
-                outRect.set(0, y, 0, borderThickness);
+
+            if (columnSize == 1) {
+                outRect.set((mGridLeftVisible == true ? borderThickness : 0)
+                        , y
+                        , (mGridRightVisible == true ? borderThickness : 0)
+                        , (mGridBottomVisible == true ? borderThickness : 0));
             } else {
-                outRect.set(0, y, 0, 0);
+                outRect.set((mGridLeftVisible == true ? borderThickness : 0)
+                        , y
+                        , 0
+                        , (mGridBottomVisible == true ? borderThickness : 0));
             }
         } else if (isLastGridColumn(viewPosition, itemSize, columnSize)
                 && isLastGridRow(viewPosition, itemSize, columnSize)) {
-            if (mGridRightVisible && mGridBottomVisible) {
-                outRect.set(x, y, borderThickness, borderThickness);
-            } else if (mGridRightVisible) {
-                outRect.set(x, y, borderThickness, 0);
-            } else if (mGridBottomVisible) {
-                outRect.set(x, y, 0, borderThickness);
-            } else {
-                outRect.set(x, y, 0, 0);
-            }
+
+            outRect.set(x
+                    , y
+                    , (mGridRightVisible == true ? borderThickness : 0)
+                    , (mGridBottomVisible == true ? borderThickness : 0));
+
         } else if (isFirstGridRow(viewPosition, columnSize)) {
-            if (mGridTopVisible) {
-                outRect.set(x, borderThickness, 0, 0);
-            } else {
-                outRect.set(x, 0, 0, 0);
-            }
+
+            outRect.set(x, (mGridTopVisible == true ? borderThickness : 0), 0, 0);
+
         } else if (isFirstGridColumn(viewPosition, columnSize)) {
 
-            if (mGridLeftVisible) {
-                outRect.set(borderThickness, y, 0, 0);
+            if (columnSize == 1) {
+                outRect.set((mGridLeftVisible == true ? borderThickness : 0)
+                        , y
+                        , (mGridRightVisible == true ? borderThickness : 0)
+                        , 0);
             } else {
-                outRect.set(0, y, 0, 0);
+                outRect.set((mGridLeftVisible == true ? borderThickness : 0)
+                        , y
+                        , 0
+                        , 0);
             }
         } else if (isLastGridColumn(viewPosition, itemSize, columnSize)) {
-            if (mGridRightVisible) {
-                outRect.set(x, y, borderThickness, 0);
-            } else {
-                outRect.set(x, y, 0, 0);
-            }
+
+            outRect.set(x, y, (mGridRightVisible == true ? borderThickness : 0), 0);
+
         } else if (isLastGridRow(viewPosition, itemSize, columnSize)) {
 
-            if (mGridBottomVisible) {
-                outRect.set(x, y, 0, borderThickness);
-            } else {
-                outRect.set(x, y, 0, 0);
-            }
+            outRect.set(x, y, 0, (mGridBottomVisible == true ? borderThickness : 0));
         } else {
             outRect.set(x, y, 0, 0);
         }
