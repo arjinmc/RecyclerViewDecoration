@@ -3,17 +3,19 @@
 
 你可以直接导入这个库，因为它已经在JCenter.
 
-当前android build version构建版本是25.3.1.
+### Attention Please
+StickyHeadItemDecoration(smooth mode)依然有一个bug,我会尽快修复它。Emm，最近我比较忙。
+
 #### gradle
 ```code
-compile 'com.arjinmc.android:recyclerviewdecoration:2.3'
+compile 'com.arjinmc.android:recyclerviewdecoration:2.3.1'
 ```
 #### maven
 ```code
 <dependency>
   <groupId>com.arjinmc.android</groupId>
   <artifactId>recyclerviewdecoration</artifactId>
-  <version>2.3</version>
+  <version>2.3.1</version>
   <type>pom</type>
 </dependency>
 ```
