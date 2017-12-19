@@ -518,7 +518,6 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
 
                         if (mGridLeftVisible) {
                             mPaint.setStrokeWidth(mThickness);
-
                             c.drawLine(myL - mThickness / 2
                                     , myT
                                     , myL - mThickness / 2
@@ -621,6 +620,7 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                                         , mPaint);
                             }
                         } else {
+                            mPaint.setStrokeWidth(mThickness);
                             if (mGridHorizontalSpacing != 0) {
                                 mPaint.setStrokeWidth(mGridHorizontalSpacing);
                             }
@@ -675,7 +675,6 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                                     , mPaint);
                         }
 
-
                         mPaint.setStrokeWidth(mThickness);
                         if (mGridHorizontalSpacing != 0) {
                             mPaint.setStrokeWidth(mGridHorizontalSpacing);
@@ -688,7 +687,6 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
 
 
                     } else {
-
 
                         mPaint.setStrokeWidth(mThickness);
 
