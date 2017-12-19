@@ -521,7 +521,7 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                             mPaint.setStrokeWidth(mThickness);
 
                             c.drawLine(myL - mThickness / 2
-                                    , myT - mThickness
+                                    , myT
                                     , myL - mThickness / 2
                                     , myB
                                     , mPaint);
@@ -538,7 +538,7 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
 
                             mPaint.setStrokeWidth(mThickness);
                             c.drawLine(myR + mThickness / 2
-                                    , myT - mThickness
+                                    , myT
                                     , myR + mThickness / 2
                                     , myB
                                     , mPaint);
@@ -560,7 +560,7 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                         if (mGridRightVisible) {
                             mPaint.setStrokeWidth(mThickness);
                             c.drawLine(myR + mThickness / 2
-                                    , myT - mThickness
+                                    , myT
                                     , myR + mThickness / 2
                                     , myB
                                     , mPaint);
