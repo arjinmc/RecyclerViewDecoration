@@ -16,7 +16,6 @@ import android.support.annotation.DrawableRes;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -983,22 +982,45 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
 
             } else if (isFirstGridColumn(viewPosition, columnSize)) {
 
-                outRect.set((mGridLeftVisible ? borderThickness : 0)
-                        , 0
-                        , (isLastGridColumn(viewPosition, itemSize, columnSize) ? borderThickness : x)
-                        , (isLastGridRow(viewPosition, itemSize, columnSize) ? borderThickness : y));
+                if (isLastGridRow(viewPosition, itemSize, columnSize)) {
+                    outRect.set((mGridLeftVisible ? borderThickness : 0)
+                            , 0
+                            , (isLastGridColumn(viewPosition, itemSize, columnSize) ? borderThickness : x)
+                            , (mGridBottomVisible ? borderThickness : 0));
+                } else {
+                    outRect.set((mGridLeftVisible ? borderThickness : 0)
+                            , 0
+                            , (isLastGridColumn(viewPosition, itemSize, columnSize) ? borderThickness : x)
+                            , y);
+                }
+
             } else {
 
                 if (isLastGridColumn(viewPosition, itemSize, columnSize)) {
-                    outRect.set(0
-                            , 0
-                            , (mGridRightVisible ? borderThickness : 0)
-                            , (isLastGridRow(viewPosition, itemSize, columnSize) ? borderThickness : y));
+                    if (isLastGridRow(viewPosition, itemSize, columnSize)) {
+                        outRect.set(0
+                                , 0
+                                , (mGridRightVisible ? borderThickness : 0)
+                                , (mGridBottomVisible ? borderThickness : 0));
+                    } else {
+                        outRect.set(0
+                                , 0
+                                , (mGridRightVisible ? borderThickness : 0)
+                                , y);
+                    }
                 } else {
-                    outRect.set(0
-                            , 0
-                            , x
-                            , (isLastGridRow(viewPosition, itemSize, columnSize) ? borderThickness : y));
+                    if (isLastGridRow(viewPosition, itemSize, columnSize)) {
+                        outRect.set(0
+                                , 0
+                                , x
+                                , (mGridBottomVisible ? borderThickness : 0));
+                    } else {
+                        outRect.set(0
+                                , 0
+                                , x
+                                , y);
+                    }
+
                 }
             }
         }
