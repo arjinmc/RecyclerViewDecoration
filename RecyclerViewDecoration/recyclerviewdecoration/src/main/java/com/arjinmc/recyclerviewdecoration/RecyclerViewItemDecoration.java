@@ -584,7 +584,7 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                         }
                         c.drawLine(myL
                                 , myB + (mGridVerticalSpacing == 0 ? mThickness : mGridVerticalSpacing) / 2
-                                , myR+mThickness
+                                , myR + mThickness
                                 , myB + (mGridVerticalSpacing == 0 ? mThickness : mGridVerticalSpacing) / 2
                                 , mPaint);
                     }
@@ -611,7 +611,6 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                                     , mPaint);
 
                         }
-
 
                         if (adapterChildrenCount == 1) {
                             if (mGridRightVisible) {
@@ -671,7 +670,7 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                         if (mGridLeftVisible) {
                             mPaint.setStrokeWidth(mThickness);
                             c.drawLine(myL - mThickness / 2
-                                    , myT - mThickness
+                                    , myT
                                     , myL - mThickness / 2
                                     , myB
                                     , mPaint);
@@ -683,7 +682,7 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                             mPaint.setStrokeWidth(mGridHorizontalSpacing);
                         }
                         c.drawLine(myR + (mGridHorizontalSpacing == 0 ? mThickness : mGridHorizontalSpacing) / 2
-                                , myT - (mGridVerticalSpacing == 0 ? mThickness : mGridVerticalSpacing)
+                                , myT
                                 , myR + (mGridHorizontalSpacing == 0 ? mThickness : mGridHorizontalSpacing) / 2
                                 , myB
                                 , mPaint);
@@ -708,7 +707,7 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                                 mPaint.setStrokeWidth(mGridHorizontalSpacing);
                             }
                             c.drawLine(myR + (mGridHorizontalSpacing == 0 ? mThickness : mGridHorizontalSpacing) / 2
-                                    , myT - (mGridVerticalSpacing == 0 ? mThickness : mGridVerticalSpacing)
+                                    , myT
                                     , myR + (mGridHorizontalSpacing == 0 ? mThickness : mGridHorizontalSpacing) / 2
                                     , myB
                                     , mPaint);
