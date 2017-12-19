@@ -444,7 +444,8 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                         mNinePatch.draw(c, rect);
                     }
 
-                    if (mGridLeftVisible && isFirstGridColumn(i, columnSize)) {
+                    if (mGridLeftVisible && (isFirstGridColumn(i, columnSize)
+                            || isLastGridRow(i, adapterChildrenCount, columnSize))) {
                         Rect rect = new Rect(
                                 childView.getLeft() - mBmp.getWidth()
                                 , childView.getTop()
@@ -487,7 +488,8 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                         c.drawBitmap(mBmp, myX, childView.getTop(), mPaint);
                     }
 
-                    if (mGridLeftVisible && isFirstGridColumn(i, columnSize)) {
+                    if (mGridLeftVisible && (isFirstGridColumn(i, columnSize)
+                            || isLastGridRow(i, adapterChildrenCount, columnSize))) {
                         c.drawBitmap(mBmp, childView.getLeft() - mBmp.getWidth(), childView.getTop(), mPaint);
                     }
 
@@ -612,7 +614,8 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                     mPaint.setStrokeWidth(mThickness);
                     int tempL = childView.getLeft() - mThickness / 2;
                     if (mGridVerticalSpacing != 0) {
-                        if (isFirstGridRow(layoutPosition, columnSize)) {
+                        if (isFirstGridRow(layoutPosition, columnSize)
+                                || isLastGridRow(layoutPosition, adapterChildrenCount, columnSize)) {
                             c.drawLine(tempL, myT - mGridVerticalSpacing / 2, tempL, childView.getBottom() + mThickness, mPaint);
                         } else {
                             c.drawLine(tempL, myT - mGridVerticalSpacing / 2, tempL, myB + mGridVerticalSpacing / 2, mPaint);
@@ -628,7 +631,10 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                     mPaint.setStrokeWidth(mThickness);
                     int tempR = childView.getRight() + mThickness / 2;
                     if (mGridVerticalSpacing != 0) {
-                        if (isFirstGridRow(layoutPosition, columnSize)) {
+                        if (isLastSecondGridRowNotDivided(layoutPosition, adapterChildrenCount, columnSize)) {
+                            c.drawLine(tempR, myT - mGridVerticalSpacing / 2
+                                    , tempR, childView.getBottom() + (mGridVerticalSpacing != 0 ? mGridVerticalSpacing : mThickness), mPaint);
+                        } else if (isFirstGridRow(layoutPosition, columnSize)) {
                             c.drawLine(tempR, myT - mGridVerticalSpacing / 2
                                     , tempR, childView.getBottom() + mThickness, mPaint);
                         } else {
@@ -740,7 +746,8 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                     c.drawPath(path, mPaint);
                 }
 
-                if (mGridLeftVisible && isFirstGridColumn(layoutPosition, columnSize)) {
+                if (mGridLeftVisible && (isFirstGridColumn(layoutPosition, columnSize)
+                        || isLastGridRow(layoutPosition, adapterChildrenCount, columnSize))) {
 
                     mPaint.setStrokeWidth(mThickness);
 
@@ -754,16 +761,29 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
 
                 }
 
-                if (mGridRightVisible && isLastGridColumn(layoutPosition, adapterChildrenCount, columnSize)) {
+                if (mGridRightVisible) {
+                    if (isLastSecondGridRowNotDivided(layoutPosition, adapterChildrenCount, columnSize)) {
+                        mPaint.setStrokeWidth(mThickness);
+                        int tempT = childView.getTop() - mThickness / 2;
+                        int tempB = childView.getBottom() + (mGridVerticalSpacing != 0 ? mGridVerticalSpacing : mThickness) / 2;
+                        int tempR = childView.getRight() + mThickness / 2;
+                        Path path = new Path();
+                        path.moveTo(tempR, tempT);
+                        path.lineTo(tempR, tempB);
+                        c.drawPath(path, mPaint);
 
-                    mPaint.setStrokeWidth(mThickness);
-                    int tempT = childView.getTop() - mThickness / 2;
-                    int tempB = childView.getBottom() + mThickness / 2;
-                    int tempR = childView.getRight() + mThickness / 2;
-                    Path path = new Path();
-                    path.moveTo(tempR, tempT);
-                    path.lineTo(tempR, tempB);
-                    c.drawPath(path, mPaint);
+                    } else if (isLastGridColumn(layoutPosition, adapterChildrenCount, columnSize)) {
+
+                        mPaint.setStrokeWidth(mThickness);
+                        int tempT = childView.getTop() - mThickness / 2;
+                        int tempB = childView.getBottom() + mThickness / 2;
+                        int tempR = childView.getRight() + mThickness / 2;
+                        Path path = new Path();
+                        path.moveTo(tempR, tempT);
+                        path.lineTo(tempR, tempB);
+                        c.drawPath(path, mPaint);
+                    }
+
                 }
 
             }
@@ -926,6 +946,23 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
         if (temp == 0 && position >= itemSize - columnSize) {
             return true;
         } else if (position >= itemSize / columnSize * columnSize) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * check if is the last second row of the grid when the itemSize cannot be divided by columnSize
+     *
+     * @param position
+     * @param itemSize
+     * @param columnSize
+     * @return
+     */
+    private boolean isLastSecondGridRowNotDivided(int position, int itemSize, int columnSize) {
+        int temp = itemSize % columnSize;
+        if (temp != 0 && itemSize - 1 - temp == position) {
+            Log.e("position", position + "");
             return true;
         }
         return false;
