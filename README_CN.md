@@ -8,14 +8,14 @@ StickyHeadItemDecoration(smooth mode)依然有一个bug,我会尽快修复它。
 
 #### gradle
 ```code
-compile 'com.arjinmc.android:recyclerviewdecoration:2.3.1'
+compile 'com.arjinmc.android:recyclerviewdecoration:2.3.2'
 ```
 #### maven
 ```code
 <dependency>
   <groupId>com.arjinmc.android</groupId>
   <artifactId>recyclerviewdecoration</artifactId>
-  <version>2.3.1</version>
+  <version>2.3.2</version>
   <type>pom</type>
 </dependency>
 ```
