@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.ComposePathEffect;
 import android.graphics.DashPathEffect;
 import android.graphics.NinePatch;
 import android.graphics.Paint;
@@ -147,7 +146,7 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
         if (parent.getChildCount() == 0) return;
         mPaint.setColor(mColor);
         if (mMode == RVItemDecorationConst.MODE_HORIZONTAL) {
-            drawHorinzontal(c, parent);
+            drawHorizontal(c, parent);
         } else if (mMode == RVItemDecorationConst.MODE_VERTICAL) {
             drawVertical(c, parent);
         } else if (mMode == RVItemDecorationConst.MODE_GRID) {
@@ -205,9 +204,13 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
             int itemSize = parent.getAdapter().getItemCount();
 
             if (mDrawableRid != 0) {
-                setGridOffsets(outRect, viewPosition, columnSize, itemSize, 0);
+                if (hasNinePatch) {
+                    setGridOffsets(outRect, viewPosition, columnSize, itemSize, 0);
+                } else {
+                    setGridOffsets(outRect, viewPosition, columnSize, itemSize, 1);
+                }
             } else {
-                setGridOffsets(outRect, viewPosition, columnSize, itemSize, 1);
+                setGridOffsets(outRect, viewPosition, columnSize, itemSize, -1);
             }
         }
 
@@ -235,7 +238,7 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
      * @param c
      * @param parent
      */
-    private void drawHorinzontal(Canvas c, RecyclerView parent) {
+    private void drawHorizontal(Canvas c, RecyclerView parent) {
         int childrenCount = parent.getChildCount();
         if (mDrawableRid != 0) {
 
@@ -397,123 +400,384 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
         int itemSize = parent.getAdapter().getItemCount();
 
         if (mDrawableRid != 0) {
-            if (hasNinePatch) {
-                for (int i = 0; i < childrenCount; i++) {
-                    View childView = parent.getChildAt(i);
 
-                    //horizontal
-                    if (mGridBottomVisible && isLastGridRow(i, itemSize, columnSize)) {
-                        Rect rect = new Rect(0
-                                , childView.getBottom()
-                                , childView.getRight() + mBmp.getHeight()
-                                , childView.getBottom() + mBmp.getHeight());
-                        mNinePatch.draw(c, rect);
+            for (int i = 0; i < childrenCount; i++) {
+                View childView = parent.getChildAt(i);
+                int myT = childView.getTop();
+                int myB = childView.getBottom();
+                int myL = childView.getLeft();
+                int myR = childView.getRight();
+                int viewPosition = parent.getChildLayoutPosition(childView);
+
+                //when columnSize/spanCount is One
+                if (columnSize == 1) {
+                    if (isFirstGridRow(viewPosition, columnSize)) {
+
+                        if (mGridLeftVisible) {
+                            mPaint.setStrokeWidth(mThickness);
+                            if (hasNinePatch) {
+                                Rect rect = new Rect(myL - mThickness
+                                        , myT
+                                        , myL
+                                        , myB);
+                                mNinePatch.draw(c, rect);
+                            } else {
+                                c.drawBitmap(mBmp, myL - mThickness / 2, myT, mPaint);
+                            }
+                        }
+                        if (mGridTopVisible) {
+                            mPaint.setStrokeWidth(mThickness);
+                            if (hasNinePatch) {
+                                Rect rect = new Rect(myL - mThickness
+                                        , myT - mThickness
+                                        , myR + mThickness
+                                        , myT);
+                                mNinePatch.draw(c, rect);
+                            } else {
+                                c.drawBitmap(mBmp, myL - mThickness, myT - mThickness / 2, mPaint);
+                            }
+                        }
+                        if (mGridRightVisible) {
+                            mPaint.setStrokeWidth(mThickness);
+                            if (hasNinePatch) {
+                                Rect rect = new Rect(myR
+                                        , myT
+                                        , myR + mThickness
+                                        , myB);
+                                mNinePatch.draw(c, rect);
+                            } else {
+                                c.drawBitmap(mBmp, myR + mThickness / 2, myT, mPaint);
+                            }
+                        }
+
+                        //not first row
+                    } else {
+
+                        if (mGridLeftVisible) {
+                            mPaint.setStrokeWidth(mThickness);
+                            if (hasNinePatch) {
+                                Rect rect = new Rect(myL - mThickness
+                                        , myT - mThickness
+                                        , myL
+                                        , myB);
+                                mNinePatch.draw(c, rect);
+                            } else {
+                                c.drawBitmap(mBmp
+                                        , myL - mThickness / 2
+                                        , myT - (mGridVerticalSpacing == 0 ? mThickness : mGridVerticalSpacing)
+                                        , mPaint);
+                            }
+                        }
+
+                        if (mGridRightVisible) {
+                            mPaint.setStrokeWidth(mThickness);
+                            if (hasNinePatch) {
+                                Rect rect = new Rect(myR
+                                        , myT - mThickness
+                                        , myR + mThickness
+                                        , myB);
+                                mNinePatch.draw(c, rect);
+                            } else {
+                                c.drawBitmap(mBmp, myR + mThickness / 2, myT, mPaint);
+                            }
+                        }
+
                     }
 
-                    if (mGridTopVisible && isFirstGridRow(i, columnSize)) {
-                        Rect rect = new Rect(0
-                                , 0
-                                , childView.getRight() + mBmp.getWidth()
-                                , childView.getBottom() + mBmp.getHeight());
-                        mNinePatch.draw(c, rect);
-                    } else if (!isLastGridRow(i, itemSize, columnSize)) {
-                        Rect rect = new Rect(
-                                childView.getLeft()
-                                , childView.getBottom()
-                                , childView.getRight()
-                                , childView.getBottom() + mBmp.getHeight());
-                        mNinePatch.draw(c, rect);
-
+                    if (isLastGridRow(viewPosition, itemSize, columnSize)) {
+                        if (mGridBottomVisible) {
+                            mPaint.setStrokeWidth(mThickness);
+                            if (hasNinePatch) {
+                                Rect rect = new Rect(myL - mThickness
+                                        , myB
+                                        , myR + mThickness
+                                        , myB + mThickness);
+                                mNinePatch.draw(c, rect);
+                            } else {
+                                c.drawBitmap(mBmp, myL - mThickness, myB + mThickness / 2, mPaint);
+                            }
+                        }
+                    } else {
+                        mPaint.setStrokeWidth(mThickness);
+                        if (mGridVerticalSpacing != 0) {
+                            mPaint.setStrokeWidth(mGridVerticalSpacing);
+                        }
+                        if (hasNinePatch) {
+                            Rect rect = new Rect(myL
+                                    , myB
+                                    , myR + mThickness
+                                    , myB + mThickness);
+                            mNinePatch.draw(c, rect);
+                        } else {
+                            c.drawBitmap(mBmp
+                                    , myL
+                                    , myB + (mGridVerticalSpacing == 0 ? mThickness : mGridVerticalSpacing) / 2
+                                    , mPaint);
+                        }
                     }
 
-                    //vertical
-                    if (isLastGridRow(i, itemSize, columnSize)
-                            && !isLastGridColumn(i, childrenCount, columnSize)) {
-                        Rect rect = new Rect(
-                                childView.getRight()
-                                , childView.getTop()
-                                , childView.getRight() + mBmp.getWidth()
-                                , childView.getBottom());
-                        mNinePatch.draw(c, rect);
-                    } else if (!isLastGridColumn(i, childrenCount, columnSize)) {
-                        Rect rect = new Rect(
-                                childView.getRight()
-                                , childView.getTop()
-                                , childView.getRight() + mBmp.getWidth()
-                                , childView.getBottom() + mBmp.getHeight());
-                        mNinePatch.draw(c, rect);
+                    //when columnSize/spanCount is Not One
+                } else {
+                    if (isFirstGridColumn(viewPosition, columnSize) && isFirstGridRow(viewPosition, columnSize)) {
+
+                        if (mGridLeftVisible) {
+                            mPaint.setStrokeWidth(mThickness);
+                            if (hasNinePatch) {
+                                Rect rect = new Rect(myL - mThickness
+                                        , myT - mThickness
+                                        , myL
+                                        , myB);
+                                mNinePatch.draw(c, rect);
+                            } else {
+                                c.drawBitmap(mBmp, myL - mThickness / 2, myT - mThickness, mPaint);
+                            }
+                        }
+
+                        if (mGridTopVisible) {
+                            mPaint.setStrokeWidth(mThickness);
+                            if (hasNinePatch) {
+                                Rect rect = new Rect(myL
+                                        , myT - mThickness
+                                        , myR
+                                        , myT);
+                                mNinePatch.draw(c, rect);
+                            } else {
+                                c.drawBitmap(mBmp, myL, myT - mThickness / 2, mPaint);
+                            }
+                        }
+
+                        if (itemSize == 1) {
+                            if (mGridRightVisible) {
+                                mPaint.setStrokeWidth(mThickness);
+                                if (hasNinePatch) {
+                                    Rect rect = new Rect(myR
+                                            , myT - mThickness
+                                            , myR + mThickness
+                                            , myB);
+                                    mNinePatch.draw(c, rect);
+                                } else {
+                                    c.drawBitmap(mBmp, myR + mThickness / 2, myT - mThickness, mPaint);
+                                }
+                            }
+                        } else {
+                            mPaint.setStrokeWidth(mThickness);
+                            if (mGridHorizontalSpacing != 0) {
+                                mPaint.setStrokeWidth(mGridHorizontalSpacing);
+                            }
+                            if (hasNinePatch) {
+                                Rect rect = new Rect(myR
+                                        , myT - mThickness
+                                        , myR + mThickness
+                                        , myB);
+                                mNinePatch.draw(c, rect);
+                            } else {
+                                c.drawBitmap(mBmp
+                                        , myR + (mGridHorizontalSpacing == 0 ? mThickness : mGridHorizontalSpacing) / 2
+                                        , myT - mThickness
+                                        , mPaint);
+                            }
+                        }
+
+                    } else if (isFirstGridRow(viewPosition, columnSize)) {
+
+                        if (mGridTopVisible) {
+                            mPaint.setStrokeWidth(mThickness);
+                            if (hasNinePatch) {
+                                Rect rect = new Rect(myL
+                                        , myT - mThickness
+                                        , myR
+                                        , myT);
+                                mNinePatch.draw(c, rect);
+                            } else {
+                                c.drawBitmap(mBmp, myL, myT - mThickness / 2, mPaint);
+                            }
+                        }
+
+                        if (isLastGridColumn(viewPosition, itemSize, columnSize)) {
+                            mPaint.setStrokeWidth(mThickness);
+                            if (mGridRightVisible) {
+                                int alterY = 0;
+                                if (isLastSecondGridRowNotDivided(viewPosition, itemSize, columnSize)) {
+                                    alterY = (mGridVerticalSpacing == 0 ? mThickness : mGridVerticalSpacing);
+                                }
+                                if (hasNinePatch) {
+                                    Rect rect = new Rect(myR
+                                            , myT - mThickness
+                                            , myR + mThickness
+                                            , myB + alterY);
+                                    mNinePatch.draw(c, rect);
+                                } else {
+                                    c.drawBitmap(mBmp, myR + mThickness / 2, myT - mThickness, mPaint);
+                                }
+                            }
+                        } else {
+                            if (mGridHorizontalSpacing != 0) {
+                                mPaint.setStrokeWidth(mGridHorizontalSpacing);
+                            }
+                            if (hasNinePatch) {
+                                Rect rect = new Rect(myR
+                                        , myT - mThickness
+                                        , myR + mThickness
+                                        , myB);
+                                mNinePatch.draw(c, rect);
+                            } else {
+                                c.drawBitmap(mBmp
+                                        , myR + (mGridHorizontalSpacing == 0 ? mThickness : mGridHorizontalSpacing) / 2
+                                        , myT - mThickness
+                                        , mPaint);
+                            }
+                        }
+
+                    } else if (isFirstGridColumn(viewPosition, columnSize)) {
+
+                        if (mGridLeftVisible) {
+                            mPaint.setStrokeWidth(mThickness);
+                            if (hasNinePatch) {
+                                Rect rect = new Rect(myL - mThickness
+                                        , myT
+                                        , myL
+                                        , myB);
+                                mNinePatch.draw(c, rect);
+                            } else {
+                                c.drawBitmap(mBmp, myL - mThickness / 2, myT, mPaint);
+                            }
+                        }
+
+                        mPaint.setStrokeWidth(mThickness);
+                        if (mGridHorizontalSpacing != 0) {
+                            mPaint.setStrokeWidth(mGridHorizontalSpacing);
+                        }
+                        if (hasNinePatch) {
+                            Rect rect = new Rect(myR
+                                    , myT
+                                    , myR + mThickness
+                                    , myB);
+                            mNinePatch.draw(c, rect);
+                        } else {
+                            c.drawBitmap(mBmp
+                                    , myR + (mGridHorizontalSpacing == 0 ? mThickness : mGridHorizontalSpacing) / 2
+                                    , myT
+                                    , mPaint);
+                        }
+                    } else {
+
+                        mPaint.setStrokeWidth(mThickness);
+                        if (isLastGridColumn(viewPosition, itemSize, columnSize)) {
+                            if (mGridRightVisible) {
+                                int alterY = 0;
+                                if (isLastSecondGridRowNotDivided(viewPosition, itemSize, columnSize)) {
+                                    alterY = (mGridVerticalSpacing == 0 ? mThickness : mGridVerticalSpacing);
+                                }
+                                if (hasNinePatch) {
+                                    Rect rect = new Rect(myR
+                                            , myT - mThickness
+                                            , myR + mThickness
+                                            , myB + alterY);
+                                    mNinePatch.draw(c, rect);
+                                } else {
+                                    c.drawBitmap(mBmp
+                                            , myR + mThickness / 2
+                                            , myT - (mGridVerticalSpacing == 0 ? mThickness : mGridVerticalSpacing)
+                                            , mPaint);
+                                }
+                            }
+                        } else {
+                            if (mGridHorizontalSpacing != 0) {
+                                mPaint.setStrokeWidth(mGridHorizontalSpacing);
+                            }
+                            if (hasNinePatch) {
+                                Rect rect = new Rect(myR
+                                        , myT
+                                        , myR + mThickness
+                                        , myB);
+                                mNinePatch.draw(c, rect);
+                            } else {
+                                c.drawBitmap(mBmp
+                                        , myR + (mGridHorizontalSpacing == 0 ? mThickness : mGridHorizontalSpacing) / 2
+                                        , myT
+                                        , mPaint);
+                            }
+                        }
                     }
 
-                    if (mGridLeftVisible && (isFirstGridColumn(i, columnSize)
-                            || isLastGridRow(i, itemSize, columnSize))) {
-                        Rect rect = new Rect(
-                                childView.getLeft() - mBmp.getWidth()
-                                , childView.getTop()
-                                , childView.getRight() + mBmp.getWidth()
-                                , childView.getBottom() + mBmp.getHeight());
-                        mNinePatch.draw(c, rect);
+                    //bottom line
+                    if (isLastGridRow(viewPosition, itemSize, columnSize)) {
+                        if (mGridBottomVisible) {
+                            mPaint.setStrokeWidth(mThickness);
+                            if (itemSize == 1) {
+                                if (hasNinePatch) {
+                                    Rect rect = new Rect(myL - mThickness
+                                            , myB
+                                            , myR + mThickness
+                                            , myB + mThickness);
+                                    mNinePatch.draw(c, rect);
+                                } else {
+                                    c.drawBitmap(mBmp
+                                            , myL - mThickness
+                                            , myB + mThickness / 2
+                                            , mPaint);
+                                }
+                            } else if (isLastGridColumn(viewPosition, itemSize, columnSize)) {
+                                if (hasNinePatch) {
+                                    Rect rect = new Rect(myL - mThickness
+                                            , myB
+                                            , myR + mThickness
+                                            , myB + mThickness);
+                                    mNinePatch.draw(c, rect);
+                                } else {
+                                    c.drawBitmap(mBmp
+                                            , myL - (mGridHorizontalSpacing == 0 ? mThickness : mGridHorizontalSpacing)
+                                            , myB + mThickness / 2
+                                            , mPaint);
+                                }
+                            } else {
+                                if (hasNinePatch) {
+                                    Rect rect = new Rect(myL - mThickness
+                                            , myB
+                                            , myR + (mGridHorizontalSpacing == 0 ? mThickness : mGridHorizontalSpacing)
+                                            , myB + mThickness);
+                                    mNinePatch.draw(c, rect);
+                                } else {
+                                    c.drawBitmap(mBmp
+                                            , myL - (mGridHorizontalSpacing == 0 ? mThickness : mGridHorizontalSpacing)
+                                            , myB + mThickness / 2, mPaint);
+                                }
+                            }
+
+                        }
+                    } else {
+                        mPaint.setStrokeWidth(mThickness);
+                        if (mGridVerticalSpacing != 0) {
+                            mPaint.setStrokeWidth(mGridVerticalSpacing);
+                        }
+                        if (hasNinePatch) {
+                            Rect rect = new Rect(myL - mThickness
+                                    , myB
+                                    , myR
+                                    , myB + (mGridVerticalSpacing == 0 ? mThickness : mGridVerticalSpacing));
+                            mNinePatch.draw(c, rect);
+                        } else {
+                            c.drawBitmap(mBmp
+                                    , myL - (mGridHorizontalSpacing == 0 ? mThickness : mGridHorizontalSpacing)
+                                    , myB + (mGridVerticalSpacing == 0 ? mThickness : mGridVerticalSpacing) / 2
+                                    , mPaint);
+                        }
                     }
-
-                    if (mGridRightVisible && isLastGridColumn(i, childrenCount, columnSize)) {
-                        Rect rect = new Rect(
-                                childView.getRight()
-                                , childView.getTop() - mBmp.getHeight()
-                                , childView.getRight() + mBmp.getWidth()
-                                , childView.getBottom() + mBmp.getHeight());
-                        mNinePatch.draw(c, rect);
-                    }
-
-
                 }
-            } else {
 
-                for (int i = 0; i < childrenCount; i++) {
-                    View childView = parent.getChildAt(i);
-                    int myX = childView.getRight();
-                    int myY = childView.getBottom();
-
-                    //horizontal
-                    if (mGridBottomVisible && isLastGridRow(i, itemSize, columnSize)) {
-                        c.drawBitmap(mBmp, childView.getLeft(), myY, mPaint);
-                    } else if (!isLastGridRow(i, itemSize, columnSize)) {
-                        c.drawBitmap(mBmp, childView.getLeft(), myY, mPaint);
-                    }
-
-                    if (mGridTopVisible && isFirstGridRow(i, columnSize)) {
-                        c.drawBitmap(mBmp, childView.getLeft(), childView.getTop() - mBmp.getHeight(), mPaint);
-                    }
-
-                    //vertical
-                    if (!isLastGridColumn(i, childrenCount, columnSize)) {
-                        c.drawBitmap(mBmp, myX, childView.getTop(), mPaint);
-                    }
-
-                    if (mGridLeftVisible && (isFirstGridColumn(i, columnSize)
-                            || isLastGridRow(i, itemSize, columnSize))) {
-                        c.drawBitmap(mBmp, childView.getLeft() - mBmp.getWidth(), childView.getTop(), mPaint);
-                    }
-
-                    if (mGridRightVisible && isLastGridColumn(i, childrenCount, columnSize)) {
-                        c.drawBitmap(mBmp, childView.getRight(), childView.getTop(), mPaint);
-                    }
-
-                }
             }
 
         } else {
-            if(mDashGap!=0 && mDashWidth!=0) {
+            if (mDashGap != 0 && mDashWidth != 0) {
                 PathEffect effects = new DashPathEffect(new float[]{0, 0, mDashWidth, mThickness}, mDashGap);
                 mPaint.setPathEffect(effects);
             }
             for (int i = 0; i < childrenCount; i++) {
                 View childView = parent.getChildAt(i);
-                int myT, myB, myL, myR;
-
-                myT = childView.getTop();
-                myB = childView.getBottom();
-                myL = childView.getLeft();
-                myR = childView.getRight();
-
+                int myT = childView.getTop();
+                int myB = childView.getBottom();
+                int myL = childView.getLeft();
+                int myR = childView.getRight();
                 int viewPosition = parent.getChildLayoutPosition(childView);
 
                 //when columnSize/spanCount is One
@@ -786,7 +1050,7 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
      * @param viewPosition
      * @param columnSize
      * @param itemSize
-     * @param tag          0 for drawable
+     * @param tag          0 for ninepatch,1 for drawable bitmap
      */
     public void setGridOffsets(Rect outRect, int viewPosition, int columnSize
             , int itemSize, int tag) {
@@ -795,6 +1059,9 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
         int y;
         int borderThickness = mThickness;
         if (tag == 0) {
+            x = y = mThickness;
+            mGridVerticalSpacing = mGridHorizontalSpacing = 0;
+        } else if (tag == 1) {
             x = mBmp.getWidth();
             y = mBmp.getHeight();
         } else {
