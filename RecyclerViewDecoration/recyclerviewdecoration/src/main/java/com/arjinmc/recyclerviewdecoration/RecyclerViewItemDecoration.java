@@ -1167,16 +1167,28 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
         }
 
         public Builder thickness(int thickness) {
+            if (thickness % 2 != 0) {
+                thickness += 1;
+            }
+            if (thickness <= 2) {
+                thickness = 2;
+            }
             params.thickness = thickness;
             return this;
         }
 
         public Builder dashWidth(int dashWidth) {
+            if (dashWidth < 0) {
+                dashWidth = 0;
+            }
             params.dashWidth = dashWidth;
             return this;
         }
 
         public Builder dashGap(int dashGap) {
+            if (dashGap < 0) {
+                dashGap = 0;
+            }
             params.dashGap = dashGap;
             return this;
         }
@@ -1192,11 +1204,17 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
         }
 
         public Builder paddingStart(int padding) {
+            if (padding < 0) {
+                padding = 0;
+            }
             params.paddingStart = padding;
             return this;
         }
 
         public Builder paddingEnd(int padding) {
+            if (padding < 0) {
+                padding = 0;
+            }
             params.paddingEnd = padding;
             return this;
         }
@@ -1222,11 +1240,17 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
         }
 
         public Builder gridHorizontalSpacing(int spacing) {
+            if (spacing < 0) {
+                spacing = 0;
+            }
             params.gridHorizontalSpacing = spacing;
             return this;
         }
 
         public Builder gridVerticalSpacing(int spacing) {
+            if (spacing < 0) {
+                spacing = 0;
+            }
             params.gridVerticalSpacing = spacing;
             return this;
         }
