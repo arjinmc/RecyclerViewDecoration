@@ -8,19 +8,22 @@ StickyHeadItemDecoration(smooth mode)依然有一个bug,我会尽快修复它。
 
 #### gradle
 ```code
-compile 'com.arjinmc.android:recyclerviewdecoration:2.3.2'
+compile 'com.arjinmc.android:recyclerviewdecoration:2.3.3'
 ```
 #### maven
 ```code
 <dependency>
   <groupId>com.arjinmc.android</groupId>
   <artifactId>recyclerviewdecoration</artifactId>
-  <version>2.3.2</version>
+  <version>2.3.3</version>
   <type>pom</type>
 </dependency>
 ```
 
 # 更新日志
+
+<b>2017/12/20th</b>
+* 更新算法，不包括StickyHeadItemDecoration。
 
 <b>2017/10/25th</b>
 * 加入固定头部样式，可以自动获取group作为header，你只需要告诉它你的分组的viewtype类型。

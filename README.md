@@ -10,19 +10,22 @@ There still has a bug with StickyHeadItemDecoration(smooth mode),I will fix it a
 
 #### gradle
 ```code
-compile 'com.arjinmc.android:recyclerviewdecoration:2.3.2'
+compile 'com.arjinmc.android:recyclerviewdecoration:2.3.3'
 ```
 #### maven
 ```code
 <dependency>
   <groupId>com.arjinmc.android</groupId>
   <artifactId>recyclerviewdecoration</artifactId>
-  <version>2.3.2</version>
+  <version>2.3.3</version>
   <type>pom</type>
 </dependency>
 ```
 
 # Update News
+<b>2017/12/20th</b>
+* Upgrate algorithm,not including StickyHeadItemDecoration.
+
 <b>2017/10/25th</b>
 * add sticky head style that it can auto get your group view if you tell it the viewtype of group series.
 

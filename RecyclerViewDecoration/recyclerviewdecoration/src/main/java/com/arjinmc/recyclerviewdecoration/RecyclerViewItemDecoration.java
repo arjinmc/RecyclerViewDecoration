@@ -283,14 +283,10 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                 View childView = parent.getChildAt(0);
                 int myY = childView.getTop() - mThickness / 2;
 
-                if (isPureLine) {
-                    c.drawLine(mPaddingStart, myY, parent.getWidth() - mPaddingEnd, myY, mPaint);
-                } else {
-                    Path path = new Path();
-                    path.moveTo(mPaddingStart, myY);
-                    path.lineTo(parent.getWidth() - mPaddingEnd, myY);
-                    c.drawPath(path, mPaint);
-                }
+                Path path = new Path();
+                path.moveTo(mPaddingStart, myY);
+                path.lineTo(parent.getWidth() - mPaddingEnd, myY);
+                c.drawPath(path, mPaint);
             }
 
             for (int i = 0; i < childrenCount; i++) {
@@ -299,14 +295,10 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                 View childView = parent.getChildAt(i);
                 int myY = childView.getBottom() + mThickness / 2;
 
-                if (isPureLine) {
-                    c.drawLine(mPaddingStart, myY, parent.getWidth() - mPaddingEnd, myY, mPaint);
-                } else {
-                    Path path = new Path();
-                    path.moveTo(mPaddingStart, myY);
-                    path.lineTo(parent.getWidth() - mPaddingEnd, myY);
-                    c.drawPath(path, mPaint);
-                }
+                Path path = new Path();
+                path.moveTo(mPaddingStart, myY);
+                path.lineTo(parent.getWidth() - mPaddingEnd, myY);
+                c.drawPath(path, mPaint);
 
             }
 
@@ -359,14 +351,10 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
             if (mFirstLineVisible) {
                 View childView = parent.getChildAt(0);
                 int myX = childView.getLeft() - mThickness / 2;
-                if (isPureLine) {
-                    c.drawLine(myX, mPaddingStart, myX, parent.getHeight() - mPaddingEnd, mPaint);
-                } else {
-                    Path path = new Path();
-                    path.moveTo(myX, mPaddingStart);
-                    path.lineTo(myX, parent.getHeight() - mPaddingEnd);
-                    c.drawPath(path, mPaint);
-                }
+                Path path = new Path();
+                path.moveTo(myX, mPaddingStart);
+                path.lineTo(myX, parent.getHeight() - mPaddingEnd);
+                c.drawPath(path, mPaint);
             }
 
             for (int i = 0; i < childrenCount; i++) {
@@ -374,14 +362,10 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                     break;
                 View childView = parent.getChildAt(i);
                 int myX = childView.getRight() + mThickness / 2;
-                if (isPureLine) {
-                    c.drawLine(myX, mPaddingStart, myX, parent.getHeight() - mPaddingEnd, mPaint);
-                } else {
-                    Path path = new Path();
-                    path.moveTo(myX, mPaddingStart);
-                    path.lineTo(myX, parent.getHeight() - mPaddingEnd);
-                    c.drawPath(path, mPaint);
-                }
+                Path path = new Path();
+                path.moveTo(myX, mPaddingStart);
+                path.lineTo(myX, parent.getHeight() - mPaddingEnd);
+                c.drawPath(path, mPaint);
 
             }
         }
@@ -724,7 +708,7 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
             }
 
         } else {
-            if (mDashGap != 0 && mDashWidth != 0) {
+            if (!isPureLine()) {
                 PathEffect effects = new DashPathEffect(new float[]{0, 0, mDashWidth, mThickness}, mDashGap);
                 mPaint.setPathEffect(effects);
             }
