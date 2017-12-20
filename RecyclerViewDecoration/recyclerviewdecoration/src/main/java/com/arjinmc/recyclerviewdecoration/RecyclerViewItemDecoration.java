@@ -647,10 +647,14 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                             mPaint.setStrokeWidth(mThickness);
                             if (mGridRightVisible) {
 
+                                int alterY = 0;
+                                if (isLastSecondGridRowNotDivided(viewPosition, itemSize, columnSize)) {
+                                    alterY = (mGridVerticalSpacing == 0 ? mThickness : mGridVerticalSpacing);
+                                }
                                 c.drawLine(myR + mThickness / 2
                                         , myT - mThickness
                                         , myR + mThickness / 2
-                                        , myB
+                                        , myB + alterY
                                         , mPaint);
                             }
                         } else {
@@ -693,10 +697,15 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                         if (isLastGridColumn(viewPosition, itemSize, columnSize)) {
 
                             if (mGridRightVisible) {
+
+                                int alterY = 0;
+                                if (isLastSecondGridRowNotDivided(viewPosition, itemSize, columnSize)) {
+                                    alterY = (mGridVerticalSpacing == 0 ? mThickness : mGridVerticalSpacing);
+                                }
                                 c.drawLine(myR + mThickness / 2
                                         , myT - (mGridVerticalSpacing == 0 ? mThickness : mGridVerticalSpacing)
                                         , myR + mThickness / 2
-                                        , myB
+                                        , myB + alterY
                                         , mPaint);
                             }
                         } else {
@@ -1075,6 +1084,22 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
         if (temp == 0 && position >= itemSize - columnSize) {
             return true;
         } else if (position >= itemSize / columnSize * columnSize) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * check if is the last second row of the grid when the itemSize cannot be divided by columnSize
+     *
+     * @param position
+     * @param itemSize
+     * @param columnSize
+     * @return
+     */
+    private boolean isLastSecondGridRowNotDivided(int position, int itemSize, int columnSize) {
+        int temp = itemSize % columnSize;
+        if (temp != 0 && itemSize - 1 - temp == position) {
             return true;
         }
         return false;
