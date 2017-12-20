@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ComposePathEffect;
 import android.graphics.DashPathEffect;
 import android.graphics.NinePatch;
 import android.graphics.Paint;
@@ -498,17 +499,20 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
 
                 }
             }
-        } else if (mDashWidth == 0 && mDashGap == 0) {
 
+        } else {
+            if(mDashGap!=0 && mDashWidth!=0) {
+                PathEffect effects = new DashPathEffect(new float[]{0, 0, mDashWidth, mThickness}, mDashGap);
+                mPaint.setPathEffect(effects);
+            }
             for (int i = 0; i < childrenCount; i++) {
-
                 View childView = parent.getChildAt(i);
-                int myL, myT, myR, myB;
+                int myT, myB, myL, myR;
 
-                myR = childView.getRight();
-                myL = childView.getLeft();
-                myB = childView.getBottom();
                 myT = childView.getTop();
+                myB = childView.getBottom();
+                myL = childView.getLeft();
+                myR = childView.getRight();
 
                 int viewPosition = parent.getChildLayoutPosition(childView);
 
@@ -518,29 +522,24 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
 
                         if (mGridLeftVisible) {
                             mPaint.setStrokeWidth(mThickness);
-                            c.drawLine(myL - mThickness / 2
-                                    , myT
-                                    , myL - mThickness / 2
-                                    , myB
-                                    , mPaint);
+                            Path path = new Path();
+                            path.moveTo(myL - mThickness / 2, myT);
+                            path.lineTo(myL - mThickness / 2, myB);
+                            c.drawPath(path, mPaint);
                         }
                         if (mGridTopVisible) {
                             mPaint.setStrokeWidth(mThickness);
-                            c.drawLine(myL - mThickness
-                                    , myT - mThickness / 2
-                                    , myR + mThickness
-                                    , myT - mThickness / 2
-                                    , mPaint);
+                            Path path = new Path();
+                            path.moveTo(myL - mThickness, myT - mThickness / 2);
+                            path.lineTo(myR + mThickness, myT - mThickness / 2);
+                            c.drawPath(path, mPaint);
                         }
                         if (mGridRightVisible) {
-
                             mPaint.setStrokeWidth(mThickness);
-                            c.drawLine(myR + mThickness / 2
-                                    , myT
-                                    , myR + mThickness / 2
-                                    , myB
-                                    , mPaint);
-
+                            Path path = new Path();
+                            path.moveTo(myR + mThickness / 2, myT);
+                            path.lineTo(myR + mThickness / 2, myB);
+                            c.drawPath(path, mPaint);
                         }
 
                         //not first row
@@ -548,20 +547,22 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
 
                         if (mGridLeftVisible) {
                             mPaint.setStrokeWidth(mThickness);
-                            c.drawLine(myL - mThickness / 2
-                                    , myT - (mGridVerticalSpacing == 0 ? mThickness : mGridVerticalSpacing)
-                                    , myL - mThickness / 2
-                                    , myB
-                                    , mPaint);
+                            Path path = new Path();
+                            path.moveTo(myL - mThickness / 2
+                                    , myT - (mGridVerticalSpacing == 0 ? mThickness : mGridVerticalSpacing));
+                            path.lineTo(myL - mThickness / 2
+                                    , myB);
+                            c.drawPath(path, mPaint);
                         }
 
                         if (mGridRightVisible) {
+                            Path path = new Path();
                             mPaint.setStrokeWidth(mThickness);
-                            c.drawLine(myR + mThickness / 2
-                                    , myT
-                                    , myR + mThickness / 2
-                                    , myB
-                                    , mPaint);
+                            path.moveTo(myR + mThickness / 2
+                                    , myT);
+                            path.lineTo(myR + mThickness / 2
+                                    , myB);
+                            c.drawPath(path, mPaint);
                         }
 
                     }
@@ -569,22 +570,24 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                     if (isLastGridRow(viewPosition, itemSize, columnSize)) {
                         if (mGridBottomVisible) {
                             mPaint.setStrokeWidth(mThickness);
-                            c.drawLine(myL - mThickness
-                                    , myB + mThickness / 2
-                                    , myR + mThickness
-                                    , myB + mThickness / 2
-                                    , mPaint);
+                            Path path = new Path();
+                            path.moveTo(myL - mThickness
+                                    , myB + mThickness / 2);
+                            path.lineTo(myR + mThickness
+                                    , myB + mThickness / 2);
+                            c.drawPath(path, mPaint);
                         }
                     } else {
                         mPaint.setStrokeWidth(mThickness);
                         if (mGridVerticalSpacing != 0) {
                             mPaint.setStrokeWidth(mGridVerticalSpacing);
                         }
-                        c.drawLine(myL
-                                , myB + (mGridVerticalSpacing == 0 ? mThickness : mGridVerticalSpacing) / 2
-                                , myR + mThickness
-                                , myB + (mGridVerticalSpacing == 0 ? mThickness : mGridVerticalSpacing) / 2
-                                , mPaint);
+                        Path path = new Path();
+                        path.moveTo(myL
+                                , myB + (mGridVerticalSpacing == 0 ? mThickness : mGridVerticalSpacing) / 2);
+                        path.lineTo(myR + mThickness
+                                , myB + (mGridVerticalSpacing == 0 ? mThickness : mGridVerticalSpacing) / 2);
+                        c.drawPath(path, mPaint);
                     }
 
                     //when columnSize/spanCount is Not One
@@ -593,53 +596,58 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
 
                         if (mGridLeftVisible) {
                             mPaint.setStrokeWidth(mThickness);
-                            c.drawLine(myL - mThickness / 2
-                                    , myT - mThickness
-                                    , myL - mThickness / 2
-                                    , myB
-                                    , mPaint);
+                            Path path = new Path();
+                            path.moveTo(myL - mThickness / 2
+                                    , myT - mThickness);
+                            path.lineTo(myL - mThickness / 2
+                                    , myB);
+                            c.drawPath(path, mPaint);
                         }
 
                         if (mGridTopVisible) {
                             mPaint.setStrokeWidth(mThickness);
-                            c.drawLine(myL
-                                    , myT - mThickness / 2
-                                    , myR
-                                    , myT - mThickness / 2
-                                    , mPaint);
+                            Path path = new Path();
+                            path.moveTo(myL
+                                    , myT - mThickness / 2);
+                            path.lineTo(myR
+                                    , myT - mThickness / 2);
+                            c.drawPath(path, mPaint);
 
                         }
 
                         if (itemSize == 1) {
                             if (mGridRightVisible) {
                                 mPaint.setStrokeWidth(mThickness);
-                                c.drawLine(myR + mThickness / 2
-                                        , myT - mThickness
-                                        , myR + mThickness / 2
-                                        , myB
-                                        , mPaint);
+                                Path path = new Path();
+                                path.moveTo(myR + mThickness / 2
+                                        , myT - mThickness);
+                                path.lineTo(myR + mThickness / 2
+                                        , myB);
+                                c.drawPath(path, mPaint);
                             }
                         } else {
                             mPaint.setStrokeWidth(mThickness);
                             if (mGridHorizontalSpacing != 0) {
                                 mPaint.setStrokeWidth(mGridHorizontalSpacing);
                             }
-                            c.drawLine(myR + (mGridHorizontalSpacing == 0 ? mThickness : mGridHorizontalSpacing) / 2
-                                    , myT - mThickness
-                                    , myR + (mGridHorizontalSpacing == 0 ? mThickness : mGridHorizontalSpacing) / 2
-                                    , myB
-                                    , mPaint);
+                            Path path = new Path();
+                            path.moveTo(myR + (mGridHorizontalSpacing == 0 ? mThickness : mGridHorizontalSpacing) / 2
+                                    , myT - mThickness);
+                            path.lineTo(myR + (mGridHorizontalSpacing == 0 ? mThickness : mGridHorizontalSpacing) / 2
+                                    , myB);
+                            c.drawPath(path, mPaint);
                         }
 
                     } else if (isFirstGridRow(viewPosition, columnSize)) {
 
                         if (mGridTopVisible) {
                             mPaint.setStrokeWidth(mThickness);
-                            c.drawLine(myL
-                                    , myT - mThickness / 2
-                                    , myR
-                                    , myT - mThickness / 2
-                                    , mPaint);
+                            Path path = new Path();
+                            path.moveTo(myL
+                                    , myT - mThickness / 2);
+                            path.lineTo(myR
+                                    , myT - mThickness / 2);
+                            c.drawPath(path, mPaint);
 
                         }
 
@@ -651,44 +659,47 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                                 if (isLastSecondGridRowNotDivided(viewPosition, itemSize, columnSize)) {
                                     alterY = (mGridVerticalSpacing == 0 ? mThickness : mGridVerticalSpacing);
                                 }
-                                c.drawLine(myR + mThickness / 2
-                                        , myT - mThickness
-                                        , myR + mThickness / 2
-                                        , myB + alterY
-                                        , mPaint);
+                                Path path = new Path();
+                                path.moveTo(myR + mThickness / 2
+                                        , myT - mThickness);
+                                path.lineTo(myR + mThickness / 2
+                                        , myB + alterY);
+                                c.drawPath(path, mPaint);
                             }
                         } else {
                             if (mGridHorizontalSpacing != 0) {
                                 mPaint.setStrokeWidth(mGridHorizontalSpacing);
                             }
-                            c.drawLine(myR + (mGridHorizontalSpacing == 0 ? mThickness : mGridHorizontalSpacing) / 2
-                                    , myT - mThickness
-                                    , myR + (mGridHorizontalSpacing == 0 ? mThickness : mGridHorizontalSpacing) / 2
-                                    , myB
-                                    , mPaint);
+                            Path path = new Path();
+                            path.moveTo(myR + (mGridHorizontalSpacing == 0 ? mThickness : mGridHorizontalSpacing) / 2
+                                    , myT - mThickness);
+                            path.lineTo(myR + (mGridHorizontalSpacing == 0 ? mThickness : mGridHorizontalSpacing) / 2
+                                    , myB);
+                            c.drawPath(path, mPaint);
                         }
 
                     } else if (isFirstGridColumn(viewPosition, columnSize)) {
 
                         if (mGridLeftVisible) {
                             mPaint.setStrokeWidth(mThickness);
-                            c.drawLine(myL - mThickness / 2
-                                    , myT
-                                    , myL - mThickness / 2
-                                    , myB
-                                    , mPaint);
+                            Path path = new Path();
+                            path.moveTo(myL - mThickness / 2
+                                    , myT);
+                            path.lineTo(myL - mThickness / 2
+                                    , myB);
+                            c.drawPath(path, mPaint);
                         }
 
                         mPaint.setStrokeWidth(mThickness);
                         if (mGridHorizontalSpacing != 0) {
                             mPaint.setStrokeWidth(mGridHorizontalSpacing);
                         }
-                        c.drawLine(myR + (mGridHorizontalSpacing == 0 ? mThickness : mGridHorizontalSpacing) / 2
-                                , myT
-                                , myR + (mGridHorizontalSpacing == 0 ? mThickness : mGridHorizontalSpacing) / 2
-                                , myB
-                                , mPaint);
-
+                        Path path = new Path();
+                        path.moveTo(myR + (mGridHorizontalSpacing == 0 ? mThickness : mGridHorizontalSpacing) / 2
+                                , myT);
+                        path.lineTo(myR + (mGridHorizontalSpacing == 0 ? mThickness : mGridHorizontalSpacing) / 2
+                                , myB);
+                        c.drawPath(path, mPaint);
 
                     } else {
 
@@ -702,21 +713,23 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                                 if (isLastSecondGridRowNotDivided(viewPosition, itemSize, columnSize)) {
                                     alterY = (mGridVerticalSpacing == 0 ? mThickness : mGridVerticalSpacing);
                                 }
-                                c.drawLine(myR + mThickness / 2
-                                        , myT - (mGridVerticalSpacing == 0 ? mThickness : mGridVerticalSpacing)
-                                        , myR + mThickness / 2
-                                        , myB + alterY
-                                        , mPaint);
+                                Path path = new Path();
+                                path.moveTo(myR + mThickness / 2
+                                        , myT - (mGridVerticalSpacing == 0 ? mThickness : mGridVerticalSpacing));
+                                path.lineTo(myR + mThickness / 2
+                                        , myB + alterY);
+                                c.drawPath(path, mPaint);
                             }
                         } else {
                             if (mGridHorizontalSpacing != 0) {
                                 mPaint.setStrokeWidth(mGridHorizontalSpacing);
                             }
-                            c.drawLine(myR + (mGridHorizontalSpacing == 0 ? mThickness : mGridHorizontalSpacing) / 2
-                                    , myT
-                                    , myR + (mGridHorizontalSpacing == 0 ? mThickness : mGridHorizontalSpacing) / 2
-                                    , myB
-                                    , mPaint);
+                            Path path = new Path();
+                            path.moveTo(myR + (mGridHorizontalSpacing == 0 ? mThickness : mGridHorizontalSpacing) / 2
+                                    , myT);
+                            path.lineTo(myR + (mGridHorizontalSpacing == 0 ? mThickness : mGridHorizontalSpacing) / 2
+                                    , myB);
+                            c.drawPath(path, mPaint);
                         }
                     }
 
@@ -725,23 +738,26 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                         if (mGridBottomVisible) {
                             mPaint.setStrokeWidth(mThickness);
                             if (itemSize == 1) {
-                                c.drawLine(myL - mThickness
-                                        , myB + mThickness / 2
-                                        , myR + mThickness
-                                        , myB + mThickness / 2
-                                        , mPaint);
+                                Path path = new Path();
+                                path.moveTo(myL - mThickness
+                                        , myB + mThickness / 2);
+                                path.lineTo(myR + mThickness
+                                        , myB + mThickness / 2);
+                                c.drawPath(path, mPaint);
                             } else if (isLastGridColumn(viewPosition, itemSize, columnSize)) {
-                                c.drawLine(myL - (mGridHorizontalSpacing == 0 ? mThickness : mGridHorizontalSpacing)
-                                        , myB + mThickness / 2
-                                        , myR + mThickness
-                                        , myB + mThickness / 2
-                                        , mPaint);
+                                Path path = new Path();
+                                path.moveTo(myL - (mGridHorizontalSpacing == 0 ? mThickness : mGridHorizontalSpacing)
+                                        , myB + mThickness / 2);
+                                path.lineTo(myR + mThickness
+                                        , myB + mThickness / 2);
+                                c.drawPath(path, mPaint);
                             } else {
-                                c.drawLine(myL - (mGridHorizontalSpacing == 0 ? mThickness : mGridHorizontalSpacing)
-                                        , myB + mThickness / 2
-                                        , myR + (mGridHorizontalSpacing == 0 ? mThickness : mGridHorizontalSpacing)
-                                        , myB + mThickness / 2
-                                        , mPaint);
+                                Path path = new Path();
+                                path.moveTo(myL - (mGridHorizontalSpacing == 0 ? mThickness : mGridHorizontalSpacing)
+                                        , myB + mThickness / 2);
+                                path.lineTo(myR + (mGridHorizontalSpacing == 0 ? mThickness : mGridHorizontalSpacing)
+                                        , myB + mThickness / 2);
+                                c.drawPath(path, mPaint);
                             }
 
                         }
@@ -750,153 +766,13 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                         if (mGridVerticalSpacing != 0) {
                             mPaint.setStrokeWidth(mGridVerticalSpacing);
                         }
-                        c.drawLine(myL - (mGridHorizontalSpacing == 0 ? mThickness : mGridHorizontalSpacing)
-                                , myB + (mGridVerticalSpacing == 0 ? mThickness : mGridVerticalSpacing) / 2
-                                , myR
-                                , myB + (mGridVerticalSpacing == 0 ? mThickness : mGridVerticalSpacing) / 2
-                                , mPaint);
-                    }
-                }
-
-            }
-
-        } else {
-            PathEffect effects = new DashPathEffect(new float[]{0, 0, mDashWidth, mThickness}, mDashGap);
-            mPaint.setPathEffect(effects);
-            for (int i = 0; i < childrenCount; i++) {
-                View childView = parent.getChildAt(i);
-                int myT, myB, myL, myR;
-
-                if (mGridHorizontalSpacing != 0) {
-                    myR = childView.getRight() + mGridHorizontalSpacing / 2;
-                    myL = childView.getLeft() - mGridHorizontalSpacing / 2;
-                } else {
-                    myR = childView.getRight() + mThickness / 2;
-                    myL = childView.getLeft() - mThickness / 2;
-                }
-
-                if (mGridVerticalSpacing != 0) {
-                    myB = childView.getBottom() + mGridVerticalSpacing / 2;
-                    myT = childView.getTop() - mGridVerticalSpacing / 2;
-
-                } else {
-                    myB = childView.getBottom() + mThickness / 2;
-                    myT = childView.getTop() - mThickness / 2;
-                }
-
-                int layoutPosition = parent.getChildLayoutPosition(childView);
-
-                if (!isLastGridRow(layoutPosition, itemSize, columnSize)) {
-                    if (mGridVerticalSpacing != 0)
-                        mPaint.setStrokeWidth(mGridVerticalSpacing);
-                    else
-                        mPaint.setStrokeWidth(mThickness);
-                    Path path = new Path();
-                    path.moveTo(mThickness, myB);
-                    path.lineTo(childView.getRight(), myB);
-                    c.drawPath(path, mPaint);
-                }
-
-                if (!isFirstGridColumn(layoutPosition, columnSize)) {
-
-                    if (mGridHorizontalSpacing != 0)
-                        mPaint.setStrokeWidth(mGridHorizontalSpacing);
-                    else
-                        mPaint.setStrokeWidth(mThickness);
-
-                    if (isLastGridRow(layoutPosition, itemSize, columnSize)) {
                         Path path = new Path();
-                        path.moveTo(myL, myT);
-                        if (mGridVerticalSpacing != 0) {
-                            path.lineTo(myL, myB - mGridVerticalSpacing / 2);
-                        } else {
-                            path.lineTo(myL, myB - mThickness / 2);
-                        }
-                        c.drawPath(path, mPaint);
-                    } else {
-                        Path path = new Path();
-                        path.moveTo(myL, myT);
-                        path.lineTo(myL, myB);
+                        path.moveTo(myL - (mGridHorizontalSpacing == 0 ? mThickness : mGridHorizontalSpacing)
+                                , myB + (mGridVerticalSpacing == 0 ? mThickness : mGridVerticalSpacing) / 2);
+                        path.lineTo(myR
+                                , myB + (mGridVerticalSpacing == 0 ? mThickness : mGridVerticalSpacing) / 2);
                         c.drawPath(path, mPaint);
                     }
-
-                }
-
-//                if (adapterChildrenCount > columnSize && isLastItem(layoutPosition, adapterChildrenCount)
-//                        && !isLastGridColumn(layoutPosition, adapterChildrenCount, columnSize)) {
-//
-//                    if (mGridHorizontalSpacing != 0)
-//                        mPaint.setStrokeWidth(mGridHorizontalSpacing);
-//                    else
-//                        mPaint.setStrokeWidth(mThickness);
-//                    Path path = new Path();
-//                    path.moveTo(myR, myT);
-//                    path.lineTo(myR, myB);
-//                    c.drawPath(path, mPaint);
-//                }
-
-                if (mGridTopVisible && isFirstGridRow(layoutPosition, columnSize)) {
-
-                    mPaint.setStrokeWidth(mThickness);
-
-                    int tempT = childView.getTop() - mThickness / 2;
-                    Path path = new Path();
-                    path.moveTo(childView.getLeft(), tempT);
-                    path.lineTo(childView.getRight(), tempT);
-                    c.drawPath(path, mPaint);
-                }
-
-
-                if (mGridBottomVisible && isLastGridRow(layoutPosition, itemSize, columnSize)) {
-
-                    mPaint.setStrokeWidth(mThickness);
-
-                    int tempB = childView.getBottom() + mThickness / 2;
-                    Path path = new Path();
-                    path.moveTo(mThickness, tempB);
-                    path.lineTo(childView.getRight(), tempB);
-                    c.drawPath(path, mPaint);
-                }
-
-                if (mGridLeftVisible && (isFirstGridColumn(layoutPosition, columnSize)
-                        || isLastGridRow(layoutPosition, itemSize, columnSize))) {
-
-                    mPaint.setStrokeWidth(mThickness);
-
-                    int tempT = childView.getTop() - mThickness / 2;
-                    int tempB = childView.getBottom() + mThickness / 2;
-                    int tempL = childView.getLeft() - mThickness / 2;
-                    Path path = new Path();
-                    path.moveTo(tempL, tempT);
-                    path.lineTo(tempL, tempB);
-                    c.drawPath(path, mPaint);
-
-                }
-
-                if (mGridRightVisible) {
-//                    if (isLastSecondGridRowNotDivided(layoutPosition, adapterChildrenCount, columnSize)) {
-//                        mPaint.setStrokeWidth(mThickness);
-//                        int tempT = childView.getTop() - mThickness / 2;
-//                        int tempB = childView.getBottom() + (mGridVerticalSpacing != 0 ? mGridVerticalSpacing : mThickness) / 2;
-//                        int tempR = childView.getRight() + mThickness / 2;
-//                        Path path = new Path();
-//                        path.moveTo(tempR, tempT);
-//                        path.lineTo(tempR, tempB);
-//                        c.drawPath(path, mPaint);
-//
-//                    } else
-                    if (isLastGridColumn(layoutPosition, itemSize, columnSize)) {
-
-                        mPaint.setStrokeWidth(mThickness);
-                        int tempT = childView.getTop() - mThickness / 2;
-                        int tempB = childView.getBottom() + mThickness / 2;
-                        int tempR = childView.getRight() + mThickness / 2;
-                        Path path = new Path();
-                        path.moveTo(tempR, tempT);
-                        path.lineTo(tempR, tempB);
-                        c.drawPath(path, mPaint);
-                    }
-
                 }
 
             }
@@ -1272,8 +1148,8 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
         public boolean gridRightVisible;
         public boolean gridTopVisible;
         public boolean gridBottomVisible;
-        public int gridHorizontalSpacing;
-        public int gridVerticalSpacing;
+        public int gridHorizontalSpacing = 0;
+        public int gridVerticalSpacing = 0;
     }
 
 }
