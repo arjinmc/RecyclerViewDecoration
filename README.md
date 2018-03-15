@@ -5,24 +5,24 @@ a common tool class for decoration of RecyclerView,support ninepatch image.
 
 You can import this lib with gradle or maven because it exists on JCenter.
 
-### Attention Please
-There still has a bug with StickyHeadItemDecoration(smooth mode),I will fix it as soon as possible.Emmm,I'm busy recently.
-
 #### gradle
 ```code
-compile 'com.arjinmc.android:recyclerviewdecoration:2.3.3'
+compile 'com.arjinmc.android:recyclerviewdecoration:2.4'
 ```
 #### maven
 ```code
 <dependency>
   <groupId>com.arjinmc.android</groupId>
   <artifactId>recyclerviewdecoration</artifactId>
-  <version>2.3.3</version>
+  <version>2.4</version>
   <type>pom</type>
 </dependency>
 ```
 
 # Update News
+<b>2018/3/15th</b>
+* remove StickyHeadItemDecoration.
+
 <b>2017/12/20th</b>
 * Upgrate algorithm,not including StickyHeadItemDecoration.
 
@@ -154,18 +154,8 @@ rvData.addItemDecoration(new RecyclerViewSpaceItemDecoration.Builder(this)
         .create());
 ```
 
-## StickyHeadItemDecoration
-
-```java
-mCurrentItemDecoration = new RecyclerViewStickyHeadItemDecoration.Builder()
-//                .groupViewType(0) //tell it your viewtype of group
-                .isSmooth(true)  //if need to smooth scroll sticky head,default is false;
-                .create();
-mRecyclerView.addItemDecoration(mCurrentItemDecoration);
-```
-
 ## sample images
-![image](https://github.com/arjinmc/RecyclerViewDecoration/blob/master/images/sample_sticky_head.gif)  
+
 ![image](https://github.com/arjinmc/RecyclerViewDecoration/blob/master/images/device-2015-12-02-111504.png)  
 ![image](https://github.com/arjinmc/RecyclerViewDecoration/blob/master/images/device-2015-11-30-155050.png)
 ![image](https://github.com/arjinmc/RecyclerViewDecoration/blob/master/images/device-2015-11-30-154937.png)

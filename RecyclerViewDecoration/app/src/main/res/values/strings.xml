@@ -4,6 +4,5 @@
     <string-array name="style_list">
         <item>Common Style</item>
         <item>Spacing Style</item>
-        <item>Sticky Head Style</item>
     </string-array>
 </resources>
