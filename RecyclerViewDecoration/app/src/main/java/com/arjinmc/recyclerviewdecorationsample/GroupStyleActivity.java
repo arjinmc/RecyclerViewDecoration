@@ -10,8 +10,8 @@ import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.arjinmc.expandrecyclerview.adapter.RecyclerViewAdapter;
-import com.arjinmc.expandrecyclerview.adapter.RecyclerViewSingleTypeProcessor;
+import com.arjinmc.expandrecyclerview.adapter.RecyclerViewGroupAdapter;
+import com.arjinmc.expandrecyclerview.adapter.RecyclerViewGroupTypeProcessor;
 import com.arjinmc.expandrecyclerview.adapter.RecyclerViewViewHolder;
 import com.arjinmc.expandrecyclerview.style.RecyclerViewStyleHelper;
 import com.arjinmc.recyclerviewdecoration.RecyclerViewItemDecoration;
@@ -22,11 +22,11 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * Created by Eminem Lo on 2017/9/7.
+ * group style
+ * Created by Eminem Lo on 2018/4/4.
  * email: arjinmc@hotmail.com
  */
-
-public class CommonStyleActivity extends AppCompatActivity {
+public class GroupStyleActivity extends AppCompatActivity {
 
     private final int TITLE_COUNT = 100;
     private RecyclerView mRecyclerView;
@@ -36,9 +36,9 @@ public class CommonStyleActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_common_style);
-        getSupportActionBar().setSubtitle("Common Style");
+        setContentView(R.layout.activity_group);
 
+        getSupportActionBar().setSubtitle("Group Style");
         mRecyclerView = findViewById(R.id.rv_data);
 
         List<Car> carList = new ArrayList<>();
@@ -49,10 +49,18 @@ public class CommonStyleActivity extends AppCompatActivity {
             car.setType("type" + i * 2);
             carList.add(car);
         }
-        mRecyclerView.setAdapter(new RecyclerViewAdapter(this, carList, R.layout.item_rv_data
-                , new RecyclerViewSingleTypeProcessor<Car>() {
+        mRecyclerView.setAdapter(new RecyclerViewGroupAdapter<Car>(this, carList
+                , new int[]{R.layout.item_rv_group, R.layout.item_rv_data}, new RecyclerViewGroupTypeProcessor<Car>() {
             @Override
-            public void onBindViewHolder(RecyclerViewViewHolder holder, int position, Car car) {
+            public void onBindGroupViewHolder(RecyclerViewViewHolder holder, int groupPosition, Car car) {
+
+                TextView tvBrand = holder.getView(R.id.tv_group);
+                tvBrand.setText(car.getBrand());
+            }
+
+            @Override
+            public void onBindItemViewHolder(RecyclerViewViewHolder holder, int groupPosition, int itemPosition, Car car) {
+
                 TextView tvBrand = holder.getView(R.id.tv_brand);
                 TextView tvType = holder.getView(R.id.tv_type);
                 TextView tvUUID = holder.getView(R.id.tv_uuid);
@@ -60,6 +68,17 @@ public class CommonStyleActivity extends AppCompatActivity {
                 tvType.setText(car.getType());
                 tvUUID.setText(car.getUuid());
             }
+
+            @Override
+            public int getItemViewType(int position) {
+                //mark as group type
+                if (position % 5 == 0) {
+                    return 0;
+                }
+                //mark as item type
+                return 1;
+            }
+
         }));
 
         mRgMode = findViewById(R.id.rg_mode);
@@ -100,6 +119,7 @@ public class CommonStyleActivity extends AppCompatActivity {
 //                .drawableID(R.drawable.diver_color_no)
                 .paddingStart(20)
                 .paddingEnd(10)
+                .ignoreTypes(new int[]{0})
                 .firstLineVisible(true)
                 .lastLineVisible(true)
                 .create();
@@ -147,5 +167,4 @@ public class CommonStyleActivity extends AppCompatActivity {
                 .create();
         mRecyclerView.addItemDecoration(mCurrentItemDecoration);
     }
-
 }

@@ -40,6 +40,11 @@ public class RecyclerViewSpaceItemDecoration {
             return this;
         }
 
+        public Builder ignoreTypes(int[] ignoreTypes){
+            param.ignoreTypes = ignoreTypes;
+            return this;
+        }
+
         public RecyclerViewItemDecoration create() {
 
             return new RecyclerViewItemDecoration.Builder(context)
@@ -47,6 +52,7 @@ public class RecyclerViewSpaceItemDecoration {
                     .gridHorizontalSpacing(param.marginHorizontal)
                     .gridVerticalSpacing(param.marginVertical)
                     .color(Color.TRANSPARENT)
+                    .ignoreTypes(param.ignoreTypes)
                     .create();
         }
 
@@ -57,6 +63,7 @@ public class RecyclerViewSpaceItemDecoration {
         public int margin;
         public int marginHorizontal;
         public int marginVertical;
+        public int[] ignoreTypes;
 
     }
 }

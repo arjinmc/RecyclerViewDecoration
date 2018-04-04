@@ -67,7 +67,7 @@ public class SpacingStyleActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
                 switch (checkedId) {
                     case R.id.rb_horizontal:
-                        setHorzizonalMode();
+                        setHorizontalMode();
                         break;
                     case R.id.rb_vertical:
                         setVerticalMode();
@@ -81,16 +81,17 @@ public class SpacingStyleActivity extends AppCompatActivity {
             }
         });
 
-        setHorzizonalMode();
+        setHorizontalMode();
 
     }
 
-    private void setHorzizonalMode() {
+    private void setHorizontalMode() {
         if (mCurrentItemDecoration != null)
             mRecyclerView.removeItemDecoration(mCurrentItemDecoration);
         RecyclerViewStyleHelper.toLinearLayout(mRecyclerView, LinearLayout.VERTICAL);
         mCurrentItemDecoration = new RecyclerViewSpaceItemDecoration.Builder(this)
                 .margin(10)
+                .ignoreTypes(new int[]{0})
                 .create();
         mRecyclerView.addItemDecoration(mCurrentItemDecoration);
     }

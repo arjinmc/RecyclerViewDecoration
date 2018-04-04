@@ -20,6 +20,9 @@ compile 'com.arjinmc.android:recyclerviewdecoration:2.4'
 ```
 
 # Update News
+<b>2018/4/4th</b>
+* add a new attribute "ignoreType" to filter the viewTypes(int array) which are no need to draw ItemDecoration, meanwhile if the first child of ReyclerView is the ignore viewType,the "firstLineVisible" attributes won't work, the lastest child of ReyclerView with "lastLineVisible" attributes as well.
+
 <b>2018/3/15th</b>
 * remove StickyHeadItemDecoration.
 
@@ -82,6 +85,7 @@ rvData.addItemDecoration(new RecyclerViewItemDecoration.Builder(context)
         .paddingEnd(10)
         .firstLineVisible(true)
         .lastLineVisible(true)
+        .ignoreTypes(int[])
         .create());
 
 ```
@@ -102,6 +106,7 @@ rvData.addItemDecoration(new RecyclerViewItemDecoration.Builder(this)
        .paddingEnd(10)
        .firstLineVisible(true)
        .lastLineVisible(true)
+       .ignoreTypes(int[])
        .create());
 ```
 
@@ -151,6 +156,7 @@ rvData.addItemDecoration(new RecyclerViewSpaceItemDecoration.Builder(this)
 //      .margin(10)
         .marginHorizontal(10)
         .marginVertical(20)
+        .ignoreTypes(int[])
         .create());
 ```
 

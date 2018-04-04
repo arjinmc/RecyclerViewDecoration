@@ -93,7 +93,7 @@ public class IgnoreStyleActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
                 switch (checkedId) {
                     case R.id.rb_horizontal:
-                        setHorzizonalMode();
+                        setHorizontalMode();
                         break;
                     case R.id.rb_vertical:
                         setVerticalMode();
@@ -104,11 +104,11 @@ public class IgnoreStyleActivity extends AppCompatActivity {
             }
         });
 
-        setHorzizonalMode();
+        setHorizontalMode();
     }
 
 
-    private void setHorzizonalMode() {
+    private void setHorizontalMode() {
         mRecyclerView.removeItemDecoration(mCurrentItemDecoration);
         RecyclerViewStyleHelper.toLinearLayout(mRecyclerView, LinearLayout.VERTICAL);
         mCurrentItemDecoration = new RecyclerViewItemDecoration.Builder(this)
