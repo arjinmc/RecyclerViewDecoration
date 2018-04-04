@@ -224,6 +224,8 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                     }
                 }
 
+            } else {
+                outRect.set(0, 0, 0, 0);
             }
         } else if (mMode == RVItemDecorationConst.MODE_GRID) {
             int columnSize = ((GridLayoutManager) parent.getLayoutManager()).getSpanCount();
