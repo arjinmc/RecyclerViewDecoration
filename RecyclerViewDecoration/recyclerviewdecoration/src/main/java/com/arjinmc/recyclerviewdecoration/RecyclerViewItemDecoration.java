@@ -335,8 +335,6 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                     break;
                 View childView = parent.getChildAt(i);
 
-                parent.getChildLayoutPosition(childView);
-
                 if (!isIgnoreType(parent.getAdapter().getItemViewType(
                         parent.getChildLayoutPosition(childView)))) {
                     int myY = childView.getBottom() + mThickness / 2;
