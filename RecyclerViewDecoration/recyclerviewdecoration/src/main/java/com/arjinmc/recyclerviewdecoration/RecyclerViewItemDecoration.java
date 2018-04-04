@@ -72,8 +72,8 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
     public int mGridVerticalSpacing;
 
     /***
-     * ignore the item types whitch won't be drew item decoration
-     * only for mode horizonal and vertical
+     * ignore the item types which won't be drew item decoration
+     * only for mode horizontal and vertical
      */
     private ArrayMap<Integer, Integer> mIgnoreTypes;
 
