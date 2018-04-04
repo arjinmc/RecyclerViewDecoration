@@ -56,9 +56,6 @@ public class MainActivity extends AppCompatActivity {
                             case 2:
                                 jumpTo(IgnoreStyleActivity.class);
                                 break;
-                            case 3:
-                                jumpTo(GroupStyleActivity.class);
-                                break;
                             default:
                                 break;
                         }

@@ -18,7 +18,6 @@
         <activity android:name=".CommonStyleActivity" />
         <activity android:name=".SpacingStyleActivity" />
         <activity android:name=".IgnoreStyleActivity" />
-        <activity android:name=".GroupStyleActivity"/>
     </application>
 
 </manifest>

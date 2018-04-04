@@ -12,7 +12,7 @@ compile 'com.arjinmc.android:recyclerviewdecoration:2.4'
 <dependency>
   <groupId>com.arjinmc.android</groupId>
   <artifactId>recyclerviewdecoration</artifactId>
-  <version>2.4</version>
+  <version>2.5</version>
   <type>pom</type>
 </dependency>
 ```
