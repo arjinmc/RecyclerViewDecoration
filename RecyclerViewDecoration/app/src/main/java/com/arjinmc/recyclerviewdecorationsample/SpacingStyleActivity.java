@@ -1,6 +1,5 @@
 package com.arjinmc.recyclerviewdecorationsample;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
@@ -14,7 +13,6 @@ import com.arjinmc.expandrecyclerview.adapter.RecyclerViewAdapter;
 import com.arjinmc.expandrecyclerview.adapter.RecyclerViewSingleTypeProcessor;
 import com.arjinmc.expandrecyclerview.adapter.RecyclerViewViewHolder;
 import com.arjinmc.expandrecyclerview.style.RecyclerViewStyleHelper;
-import com.arjinmc.recyclerviewdecoration.RecyclerViewItemDecoration;
 import com.arjinmc.recyclerviewdecoration.RecyclerViewSpaceItemDecoration;
 import com.arjinmc.recyclerviewdecorationsample.model.Car;
 
@@ -40,7 +38,7 @@ public class SpacingStyleActivity extends AppCompatActivity {
         setContentView(R.layout.activity_common_style);
         getSupportActionBar().setSubtitle("Spacing Style");
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.rv_data);
+        mRecyclerView = findViewById(R.id.rv_data);
 
         List<Car> carList = new ArrayList<>();
         for (int i = 0; i < TITLE_COUNT; i++) {
@@ -63,7 +61,7 @@ public class SpacingStyleActivity extends AppCompatActivity {
             }
         }));
 
-        mRgMode = (RadioGroup) findViewById(R.id.rg_mode);
+        mRgMode = findViewById(R.id.rg_mode);
         mRgMode.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
@@ -76,6 +74,8 @@ public class SpacingStyleActivity extends AppCompatActivity {
                         break;
                     case R.id.rb_grid:
                         setGridMode();
+                        break;
+                    default:
                         break;
                 }
             }

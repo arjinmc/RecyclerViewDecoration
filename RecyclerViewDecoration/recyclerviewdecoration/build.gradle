@@ -2,13 +2,12 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 23
-        versionCode 8
-        versionName '2.4'
+        versionCode 9
+        versionName '2.4.1'
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 

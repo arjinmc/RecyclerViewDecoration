@@ -28,10 +28,6 @@
                 style="@style/radiobutton"
                 android:text="vertical" />
 
-            <RadioButton
-                android:id="@+id/rb_grid"
-                style="@style/radiobutton"
-                android:text="grid" />
         </RadioGroup>
     </LinearLayout>
 
@@ -39,7 +35,5 @@
         android:id="@+id/rv_data"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
         android:layout_below="@id/ll_control" />
-
 </RelativeLayout>

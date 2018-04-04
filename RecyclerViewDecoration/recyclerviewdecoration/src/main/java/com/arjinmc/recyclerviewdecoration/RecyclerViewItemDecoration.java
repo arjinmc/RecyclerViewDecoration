@@ -13,6 +13,7 @@ import android.graphics.PathEffect;
 import android.graphics.Rect;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
+import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -69,6 +70,13 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
      */
     public int mGridHorizontalSpacing;
     public int mGridVerticalSpacing;
+
+    /***
+     * ignore the item types whitch won't be drew item decoration
+     * only for mode horizonal and vertical
+     */
+    private ArrayMap<Integer, Integer> mIgnoreTypes;
+
     /**
      * direction mode for decoration
      */
@@ -114,6 +122,13 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
         this.mGridBottomVisible = params.gridBottomVisible;
         this.mGridHorizontalSpacing = params.gridHorizontalSpacing;
         this.mGridVerticalSpacing = params.gridVerticalSpacing;
+        if (params.ignoreTypes != null && params.ignoreTypes.length != 0) {
+            this.mIgnoreTypes = new ArrayMap<>();
+            int ignoreTypeSize = params.ignoreTypes.length;
+            for (int i = 0; i < ignoreTypeSize; i++) {
+                this.mIgnoreTypes.put(params.ignoreTypes[i], params.ignoreTypes[i]);
+            }
+        }
 
     }
 
@@ -143,7 +158,9 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
     @Override
     public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
 
-        if (parent.getChildCount() == 0) return;
+        if (parent.getAdapter() == null || parent.getChildCount() == 0) {
+            return;
+        }
         mPaint.setColor(mColor);
         if (mMode == RVItemDecorationConst.MODE_HORIZONTAL) {
             drawHorizontal(c, parent);
@@ -165,40 +182,49 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
 
         if (mMode == RVItemDecorationConst.MODE_HORIZONTAL) {
 
-            if (!(!mLastLineVisible &&
-                    viewPosition == parent.getAdapter().getItemCount() - 1)) {
-                if (mDrawableRid != 0) {
-                    outRect.set(0, 0, 0, mCurrentThickness);
-                } else {
-                    outRect.set(0, 0, 0, mThickness);
-                }
-            }
+            if (!isIgnoreType(parent.getAdapter().getItemViewType(viewPosition))) {
+                if (!(!mLastLineVisible &&
+                        viewPosition == parent.getAdapter().getItemCount() - 1)) {
 
-            if (mFirstLineVisible && viewPosition == 0) {
-                if (mDrawableRid != 0) {
-                    outRect.set(0, mCurrentThickness, 0, mCurrentThickness);
-                } else {
-                    outRect.set(0, mThickness, 0, mThickness);
+                    if (mDrawableRid != 0) {
+                        outRect.set(0, 0, 0, mCurrentThickness);
+                    } else {
+                        outRect.set(0, 0, 0, mThickness);
+                    }
+
                 }
+
+                if (mFirstLineVisible && viewPosition == 0) {
+                    if (mDrawableRid != 0) {
+                        outRect.set(0, mCurrentThickness, 0, mCurrentThickness);
+                    } else {
+                        outRect.set(0, mThickness, 0, mThickness);
+                    }
+                }
+            } else {
+                outRect.set(0, 0, 0, 0);
             }
 
         } else if (mMode == RVItemDecorationConst.MODE_VERTICAL) {
-            if (!(!mLastLineVisible &&
-                    viewPosition == parent.getAdapter().getItemCount() - 1)) {
-                if (mDrawableRid != 0) {
-                    outRect.set(0, 0, mCurrentThickness, 0);
-                } else {
-                    outRect.set(0, 0, mThickness, 0);
-                }
-            }
-            if (mFirstLineVisible && viewPosition == 0) {
-                if (mDrawableRid != 0) {
-                    outRect.set(mCurrentThickness, 0, mCurrentThickness, 0);
-                } else {
-                    outRect.set(mThickness, 0, mThickness, 0);
-                }
-            }
+            if (!isIgnoreType(parent.getAdapter().getItemViewType(viewPosition))) {
+                if (!(!mLastLineVisible &&
+                        viewPosition == parent.getAdapter().getItemCount() - 1)) {
+                    if (mDrawableRid != 0) {
+                        outRect.set(0, 0, mCurrentThickness, 0);
+                    } else {
+                        outRect.set(0, 0, mThickness, 0);
+                    }
 
+                }
+                if (mFirstLineVisible && viewPosition == 0) {
+                    if (mDrawableRid != 0) {
+                        outRect.set(mCurrentThickness, 0, mCurrentThickness, 0);
+                    } else {
+                        outRect.set(mThickness, 0, mThickness, 0);
+                    }
+                }
+
+            }
         } else if (mMode == RVItemDecorationConst.MODE_GRID) {
             int columnSize = ((GridLayoutManager) parent.getLayoutManager()).getSpanCount();
             int itemSize = parent.getAdapter().getItemCount();
@@ -239,6 +265,7 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
      * @param parent
      */
     private void drawHorizontal(Canvas c, RecyclerView parent) {
+
         int childrenCount = parent.getChildCount();
         if (mDrawableRid != 0) {
 
@@ -246,27 +273,36 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                 View childView = parent.getChildAt(0);
                 int myY = childView.getTop();
 
-                if (hasNinePatch) {
-                    Rect rect = new Rect(mPaddingStart, myY - mCurrentThickness
-                            , parent.getWidth() - mPaddingEnd, myY);
-                    mNinePatch.draw(c, rect);
-                } else {
-                    c.drawBitmap(mBmp, mPaddingStart, myY - mCurrentThickness, mPaint);
+                if (!isIgnoreType(parent.getAdapter().getItemViewType(
+                        parent.getChildLayoutPosition(childView)))) {
+                    if (hasNinePatch) {
+                        Rect rect = new Rect(mPaddingStart, myY - mCurrentThickness
+                                , parent.getWidth() - mPaddingEnd, myY);
+                        mNinePatch.draw(c, rect);
+                    } else {
+                        c.drawBitmap(mBmp, mPaddingStart, myY - mCurrentThickness, mPaint);
+                    }
                 }
             }
+
 
             for (int i = 0; i < childrenCount; i++) {
                 if (!mLastLineVisible && i == childrenCount - 1)
                     break;
                 View childView = parent.getChildAt(i);
-                int myY = childView.getBottom();
 
-                if (hasNinePatch) {
-                    Rect rect = new Rect(mPaddingStart, myY
-                            , parent.getWidth() - mPaddingEnd, myY + mCurrentThickness);
-                    mNinePatch.draw(c, rect);
-                } else {
-                    c.drawBitmap(mBmp, mPaddingStart, myY, mPaint);
+                if (!isIgnoreType(parent.getAdapter().getItemViewType(
+                        parent.getChildLayoutPosition(childView)))) {
+
+                    int myY = childView.getBottom();
+
+                    if (hasNinePatch) {
+                        Rect rect = new Rect(mPaddingStart, myY
+                                , parent.getWidth() - mPaddingEnd, myY + mCurrentThickness);
+                        mNinePatch.draw(c, rect);
+                    } else {
+                        c.drawBitmap(mBmp, mPaddingStart, myY, mPaint);
+                    }
                 }
 
             }
@@ -280,25 +316,36 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
             }
 
             if (mFirstLineVisible) {
-                View childView = parent.getChildAt(0);
-                int myY = childView.getTop() - mThickness / 2;
 
-                Path path = new Path();
-                path.moveTo(mPaddingStart, myY);
-                path.lineTo(parent.getWidth() - mPaddingEnd, myY);
-                c.drawPath(path, mPaint);
+                View childView = parent.getChildAt(0);
+
+                if (!isIgnoreType(parent.getAdapter().getItemViewType(
+                        parent.getChildLayoutPosition(childView)))) {
+                    int myY = childView.getTop() - mThickness / 2;
+
+                    Path path = new Path();
+                    path.moveTo(mPaddingStart, myY);
+                    path.lineTo(parent.getWidth() - mPaddingEnd, myY);
+                    c.drawPath(path, mPaint);
+                }
             }
 
             for (int i = 0; i < childrenCount; i++) {
                 if (!mLastLineVisible && i == childrenCount - 1)
                     break;
                 View childView = parent.getChildAt(i);
-                int myY = childView.getBottom() + mThickness / 2;
 
-                Path path = new Path();
-                path.moveTo(mPaddingStart, myY);
-                path.lineTo(parent.getWidth() - mPaddingEnd, myY);
-                c.drawPath(path, mPaint);
+                parent.getChildLayoutPosition(childView);
+
+                if (!isIgnoreType(parent.getAdapter().getItemViewType(
+                        parent.getChildLayoutPosition(childView)))) {
+                    int myY = childView.getBottom() + mThickness / 2;
+
+                    Path path = new Path();
+                    path.moveTo(mPaddingStart, myY);
+                    path.lineTo(parent.getWidth() - mPaddingEnd, myY);
+                    c.drawPath(path, mPaint);
+                }
 
             }
 
@@ -317,26 +364,35 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
 
             if (mFirstLineVisible) {
                 View childView = parent.getChildAt(0);
-                int myX = childView.getLeft();
-                if (hasNinePatch) {
-                    Rect rect = new Rect(myX - mCurrentThickness, mPaddingStart
-                            , myX, parent.getHeight() - mPaddingEnd);
-                    mNinePatch.draw(c, rect);
-                } else {
-                    c.drawBitmap(mBmp, myX - mCurrentThickness, mPaddingStart, mPaint);
+
+                if (!isIgnoreType(parent.getAdapter().getItemViewType(
+                        parent.getChildLayoutPosition(childView)))) {
+                    int myX = childView.getLeft();
+                    if (hasNinePatch) {
+                        Rect rect = new Rect(myX - mCurrentThickness, mPaddingStart
+                                , myX, parent.getHeight() - mPaddingEnd);
+                        mNinePatch.draw(c, rect);
+                    } else {
+                        c.drawBitmap(mBmp, myX - mCurrentThickness, mPaddingStart, mPaint);
+                    }
                 }
             }
             for (int i = 0; i < childrenCount; i++) {
                 if (!mLastLineVisible && i == childrenCount - 1)
                     break;
                 View childView = parent.getChildAt(i);
-                int myX = childView.getRight();
-                if (hasNinePatch) {
-                    Rect rect = new Rect(myX, mPaddingStart, myX + mCurrentThickness
-                            , parent.getHeight() - mPaddingEnd);
-                    mNinePatch.draw(c, rect);
-                } else {
-                    c.drawBitmap(mBmp, myX, mPaddingStart, mPaint);
+
+                if (!isIgnoreType(parent.getAdapter().getItemViewType(
+                        parent.getChildLayoutPosition(childView)))) {
+
+                    int myX = childView.getRight();
+                    if (hasNinePatch) {
+                        Rect rect = new Rect(myX, mPaddingStart, myX + mCurrentThickness
+                                , parent.getHeight() - mPaddingEnd);
+                        mNinePatch.draw(c, rect);
+                    } else {
+                        c.drawBitmap(mBmp, myX, mPaddingStart, mPaint);
+                    }
                 }
             }
 
@@ -350,22 +406,30 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
 
             if (mFirstLineVisible) {
                 View childView = parent.getChildAt(0);
-                int myX = childView.getLeft() - mThickness / 2;
-                Path path = new Path();
-                path.moveTo(myX, mPaddingStart);
-                path.lineTo(myX, parent.getHeight() - mPaddingEnd);
-                c.drawPath(path, mPaint);
+                if (!isIgnoreType(parent.getAdapter().getItemViewType(
+                        parent.getChildLayoutPosition(childView)))) {
+                    int myX = childView.getLeft() - mThickness / 2;
+                    Path path = new Path();
+                    path.moveTo(myX, mPaddingStart);
+                    path.lineTo(myX, parent.getHeight() - mPaddingEnd);
+                    c.drawPath(path, mPaint);
+                }
             }
 
             for (int i = 0; i < childrenCount; i++) {
                 if (!mLastLineVisible && i == childrenCount - 1)
                     break;
                 View childView = parent.getChildAt(i);
-                int myX = childView.getRight() + mThickness / 2;
-                Path path = new Path();
-                path.moveTo(myX, mPaddingStart);
-                path.lineTo(myX, parent.getHeight() - mPaddingEnd);
-                c.drawPath(path, mPaint);
+
+                if (!isIgnoreType(parent.getAdapter().getItemViewType(
+                        parent.getChildLayoutPosition(childView)))) {
+
+                    int myX = childView.getRight() + mThickness / 2;
+                    Path path = new Path();
+                    path.moveTo(myX, mPaddingStart);
+                    path.lineTo(myX, parent.getHeight() - mPaddingEnd);
+                    c.drawPath(path, mPaint);
+                }
 
             }
         }
@@ -1215,6 +1279,24 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
 
     }
 
+    /**
+     * check current item is ignore type
+     *
+     * @return
+     */
+    private boolean isIgnoreType(int viewType) {
+
+        if (mIgnoreTypes == null || mIgnoreTypes.isEmpty()) {
+            return false;
+        }
+
+        if (mIgnoreTypes.containsKey(viewType)) {
+            return true;
+        }
+
+        return false;
+    }
+
     public static class Builder {
 
         private Param params;
@@ -1339,6 +1421,11 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
             return this;
         }
 
+        public Builder ignoreTypes(int[] ignoreTypes) {
+            params.ignoreTypes = ignoreTypes;
+            return this;
+        }
+
     }
 
     private static class Param {
@@ -1358,6 +1445,7 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
         public boolean gridBottomVisible;
         public int gridHorizontalSpacing = 0;
         public int gridVerticalSpacing = 0;
+        public int[] ignoreTypes;
     }
 
 }
