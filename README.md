@@ -7,7 +7,7 @@ You can import this lib with gradle or maven because it exists on JCenter.
 
 #### gradle
 ```code
-compile 'com.arjinmc.android:recyclerviewdecoration:2.4'
+compile 'com.arjinmc.android:recyclerviewdecoration:2.5'
 ```
 #### maven
 ```code
