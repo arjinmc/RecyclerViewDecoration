@@ -19,8 +19,10 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
-    compile project(':recyclerviewdecoration')
-    compile 'com.arjinmc.android:expandrecyclerview:1.2'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:' + rootProject.ext.supportLibVersion
+    implementation 'com.android.support:recyclerview-v7:' + rootProject.ext.supportLibVersion
+    testImplementation 'junit:junit:4.12'
+    implementation project(':recyclerviewdecoration')
+    implementation 'com.arjinmc.android:expandrecyclerview:1.2'
 }
