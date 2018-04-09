@@ -178,7 +178,7 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
             compatibleWithLayoutManager(parent);
             hasGetParentLayoutMode = true;
         }
-        int viewPosition = parent.getChildLayoutPosition(view);
+        int viewPosition = parent.getLayoutManager().getPosition(view);
 
         if (mMode == RVItemDecorationConst.MODE_HORIZONTAL) {
 
@@ -276,7 +276,7 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                 int myY = childView.getTop();
 
                 if (!isIgnoreType(parent.getAdapter().getItemViewType(
-                        parent.getChildLayoutPosition(childView)))) {
+                        parent.getLayoutManager().getPosition(childView)))) {
                     if (hasNinePatch) {
                         Rect rect = new Rect(mPaddingStart, myY - mCurrentThickness
                                 , parent.getWidth() - mPaddingEnd, myY);
@@ -294,7 +294,7 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                 View childView = parent.getChildAt(i);
 
                 if (!isIgnoreType(parent.getAdapter().getItemViewType(
-                        parent.getChildLayoutPosition(childView)))) {
+                        parent.getLayoutManager().getPosition(childView)))) {
 
                     int myY = childView.getBottom();
 
@@ -322,7 +322,7 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                 View childView = parent.getChildAt(0);
 
                 if (!isIgnoreType(parent.getAdapter().getItemViewType(
-                        parent.getChildLayoutPosition(childView)))) {
+                        parent.getLayoutManager().getPosition(childView)))) {
                     int myY = childView.getTop() - mThickness / 2;
 
                     Path path = new Path();
@@ -338,7 +338,7 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                 View childView = parent.getChildAt(i);
 
                 if (!isIgnoreType(parent.getAdapter().getItemViewType(
-                        parent.getChildLayoutPosition(childView)))) {
+                        parent.getLayoutManager().getPosition(childView)))) {
                     int myY = childView.getBottom() + mThickness / 2;
 
                     Path path = new Path();
@@ -366,7 +366,7 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                 View childView = parent.getChildAt(0);
 
                 if (!isIgnoreType(parent.getAdapter().getItemViewType(
-                        parent.getChildLayoutPosition(childView)))) {
+                        parent.getLayoutManager().getPosition(childView)))) {
                     int myX = childView.getLeft();
                     if (hasNinePatch) {
                         Rect rect = new Rect(myX - mCurrentThickness, mPaddingStart
@@ -383,7 +383,7 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                 View childView = parent.getChildAt(i);
 
                 if (!isIgnoreType(parent.getAdapter().getItemViewType(
-                        parent.getChildLayoutPosition(childView)))) {
+                        parent.getLayoutManager().getPosition(childView)))) {
 
                     int myX = childView.getRight();
                     if (hasNinePatch) {
@@ -407,7 +407,7 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
             if (mFirstLineVisible) {
                 View childView = parent.getChildAt(0);
                 if (!isIgnoreType(parent.getAdapter().getItemViewType(
-                        parent.getChildLayoutPosition(childView)))) {
+                        parent.getLayoutManager().getPosition(childView)))) {
                     int myX = childView.getLeft() - mThickness / 2;
                     Path path = new Path();
                     path.moveTo(myX, mPaddingStart);
@@ -422,7 +422,7 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                 View childView = parent.getChildAt(i);
 
                 if (!isIgnoreType(parent.getAdapter().getItemViewType(
-                        parent.getChildLayoutPosition(childView)))) {
+                        parent.getLayoutManager().getPosition(childView)))) {
 
                     int myX = childView.getRight() + mThickness / 2;
                     Path path = new Path();
@@ -457,7 +457,7 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                 int myB = childView.getBottom();
                 int myL = childView.getLeft();
                 int myR = childView.getRight();
-                int viewPosition = parent.getChildLayoutPosition(childView);
+                int viewPosition = parent.getLayoutManager().getPosition(childView);
 
                 //when columnSize/spanCount is One
                 if (columnSize == 1) {
@@ -782,7 +782,7 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                 int myB = childView.getBottom();
                 int myL = childView.getLeft();
                 int myR = childView.getRight();
-                int viewPosition = parent.getChildLayoutPosition(childView);
+                int viewPosition = parent.getLayoutManager().getPosition(childView);
 
                 //when columnSize/spanCount is One
                 if (columnSize == 1) {

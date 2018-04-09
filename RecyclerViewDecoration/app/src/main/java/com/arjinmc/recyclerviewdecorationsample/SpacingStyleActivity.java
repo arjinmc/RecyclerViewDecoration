@@ -91,7 +91,6 @@ public class SpacingStyleActivity extends AppCompatActivity {
         RecyclerViewStyleHelper.toLinearLayout(mRecyclerView, LinearLayout.VERTICAL);
         mCurrentItemDecoration = new RecyclerViewSpaceItemDecoration.Builder(this)
                 .margin(10)
-                .ignoreTypes(new int[]{0})
                 .create();
         mRecyclerView.addItemDecoration(mCurrentItemDecoration);
     }

@@ -3,16 +3,19 @@
 
 你可以直接导入这个库，因为它已经在JCenter.
 
+更多扩展用法将会在[ExpandReyclerView](https://github.com/arjinmc/ExpandRecyclerView)这个库中体现，<strong>此库也会合并到ExpandRecyclerView库中</strong>。  
+如果你不想使用ExpandReyclerView库的内容，别担心，依然可以继续用这个库。
+
 #### gradle
 ```code
-compile 'com.arjinmc.android:recyclerviewdecoration:2.5'
+compile 'com.arjinmc.android:recyclerviewdecoration:2.5.1'
 ```
 #### maven
 ```code
 <dependency>
   <groupId>com.arjinmc.android</groupId>
   <artifactId>recyclerviewdecoration</artifactId>
-  <version>2.5</version>
+  <version>2.5.1</version>
   <type>pom</type>
 </dependency>
 ```
