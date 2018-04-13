@@ -5,7 +5,7 @@ a common tool class for decoration of RecyclerView,support ninepatch image.
 
 You can import this lib with gradle or maven because it exists on JCenter.
 
-More expandable useful methods will be shown in [ExpandReyclerView](https://github.com/arjinmc/ExpandRecyclerView) lib. <strong>This lib will be combine into ExpandRecyclerView lib</strong>.   
+More expandable useful methods will be shown in [ExpandRecyclerView](https://github.com/arjinmc/ExpandRecyclerView) lib. <strong>This lib will be combine into ExpandRecyclerView lib</strong>.   
 If you don't want to use ExpandRecyclerView lib, no worry, you can still use this lib.
 
 #### gradle

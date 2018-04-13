@@ -716,7 +716,7 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                                 if (hasNinePatch) {
                                     Rect rect = new Rect(myL - mThickness
                                             , myB
-                                            , myR + mThickness
+                                            , myR + (mGridRightVisible ? mThickness : 0)
                                             , myB + mThickness);
                                     mNinePatch.draw(c, rect);
                                 } else {
@@ -1009,7 +1009,7 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                                 Path path = new Path();
                                 path.moveTo(myL - mThickness
                                         , myB + mThickness / 2);
-                                path.lineTo(myR + mThickness
+                                path.lineTo(myR + (mGridRightVisible ? mThickness : 0)
                                         , myB + mThickness / 2);
                                 c.drawPath(path, mPaint);
                             } else if (isLastGridColumn(viewPosition, itemSize, columnSize)) {
