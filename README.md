@@ -10,14 +10,14 @@ If you don't want to use ExpandRecyclerView lib, no worry, you can still use thi
 
 #### gradle
 ```code
-compile 'com.arjinmc.android:recyclerviewdecoration:2.5.2'
+compile 'com.arjinmc.android:recyclerviewdecoration:2.5.3'
 ```
 #### maven
 ```code
 <dependency>
   <groupId>com.arjinmc.android</groupId>
   <artifactId>recyclerviewdecoration</artifactId>
-  <version>2.5.2</version>
+  <version>2.5.3</version>
   <type>pom</type>
 </dependency>
 ```
