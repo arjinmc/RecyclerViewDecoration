@@ -1112,71 +1112,69 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                 }
             }
         } else {
+
+            // A
             if (isFirstGridColumn(viewPosition, columnSize)
                     && isFirstGridRow(viewPosition, columnSize)) {
 
                 outRect.set((mGridLeftVisible ? borderThickness : 0)
                         , (mGridTopVisible ? borderThickness : 0)
-                        , (itemSize == 1 ? borderThickness : x)
-                        , (isLastGridRow(viewPosition, itemSize, columnSize) ? borderThickness : y));
+                        , (itemSize == 1 ? borderThickness : x / 2)
+                        , (isLastGridRow(viewPosition, itemSize, columnSize) ? borderThickness : y / 2));
+                // B
+            } else if (isFirstGridRow(viewPosition, columnSize)
+                    && isLastGridColumn(viewPosition, itemSize, columnSize)) {
 
-            } else if (isFirstGridRow(viewPosition, columnSize)) {
+                outRect.set(x / 2
+                        , (mGridTopVisible ? borderThickness : 0)
+                        , (mGridRightVisible ? borderThickness : 0)
+                        , (isLastGridRow(viewPosition, itemSize, columnSize) ? borderThickness : y / 2));
 
-                if (isLastGridColumn(viewPosition, itemSize, columnSize)) {
-                    outRect.set(0
-                            , (mGridTopVisible ? borderThickness : 0)
-                            , (mGridRightVisible ? borderThickness : 0)
-                            , (isLastGridRow(viewPosition, itemSize, columnSize) ? borderThickness : y));
-                } else {
-                    outRect.set(0
-                            , (mGridTopVisible ? borderThickness : 0)
-                            , x
-                            , (isLastGridRow(viewPosition, itemSize, columnSize) ? borderThickness : y));
-                }
-
-
+                // C
+            } else if (isLastGridColumn(viewPosition, itemSize, columnSize)
+                    && isLastGridRow(viewPosition, itemSize, columnSize)) {
+                outRect.set(x / 2
+                        , y / 2
+                        , (mGridRightVisible ? borderThickness : 0)
+                        , (mGridBottomVisible ? borderThickness : 0));
+                // D
+            } else if (isFirstGridColumn(viewPosition, columnSize)
+                    && isLastGridRow(viewPosition, itemSize, columnSize)) {
+                outRect.set((mGridLeftVisible ? borderThickness : 0)
+                        , y / 2
+                        , (isLastGridColumn(viewPosition, itemSize, columnSize) ? borderThickness : x / 2)
+                        , (mGridBottomVisible ? borderThickness : 0));
+                // E
             } else if (isFirstGridColumn(viewPosition, columnSize)) {
+                outRect.set((mGridLeftVisible ? borderThickness : 0)
+                        , y / 2
+                        , (isLastGridColumn(viewPosition, itemSize, columnSize) ? borderThickness : x / 2)
+                        , y / 2);
 
-                if (isLastGridRow(viewPosition, itemSize, columnSize)) {
-                    outRect.set((mGridLeftVisible ? borderThickness : 0)
-                            , 0
-                            , (isLastGridColumn(viewPosition, itemSize, columnSize) ? borderThickness : x)
-                            , (mGridBottomVisible ? borderThickness : 0));
-                } else {
-                    outRect.set((mGridLeftVisible ? borderThickness : 0)
-                            , 0
-                            , (isLastGridColumn(viewPosition, itemSize, columnSize) ? borderThickness : x)
-                            , y);
-                }
-
+                // F
+            } else if (isFirstGridRow(viewPosition, columnSize)) {
+                outRect.set(x / 2
+                        , mGridTopVisible ? borderThickness : 0
+                        , x / 2
+                        , isLastGridRow(viewPosition, itemSize, columnSize) ? borderThickness : y / 2);
+                // G
+            } else if (isLastGridColumn(viewPosition, itemSize, columnSize)) {
+                outRect.set(x / 2
+                        , y / 2
+                        , (mGridRightVisible ? borderThickness : 0)
+                        , y / 2);
+                // H
+            } else if (isLastGridRow(viewPosition, itemSize, columnSize)) {
+                outRect.set(x / 2
+                        , y / 2
+                        , x / 2
+                        , mGridBottomVisible ? borderThickness : 0);
+                // I
             } else {
-
-                if (isLastGridColumn(viewPosition, itemSize, columnSize)) {
-                    if (isLastGridRow(viewPosition, itemSize, columnSize)) {
-                        outRect.set(0
-                                , 0
-                                , (mGridRightVisible ? borderThickness : 0)
-                                , (mGridBottomVisible ? borderThickness : 0));
-                    } else {
-                        outRect.set(0
-                                , 0
-                                , (mGridRightVisible ? borderThickness : 0)
-                                , y);
-                    }
-                } else {
-                    if (isLastGridRow(viewPosition, itemSize, columnSize)) {
-                        outRect.set(0
-                                , 0
-                                , x
-                                , (mGridBottomVisible ? borderThickness : 0));
-                    } else {
-                        outRect.set(0
-                                , 0
-                                , x
-                                , y);
-                    }
-
-                }
+                outRect.set(x / 2
+                        , y / 2
+                        , x / 2
+                        , y / 2);
             }
         }
     }
@@ -1409,6 +1407,9 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
             if (spacing < 0) {
                 spacing = 0;
             }
+            if (spacing % 2 != 0) {
+                spacing += 1;
+            }
             params.gridHorizontalSpacing = spacing;
             return this;
         }
@@ -1416,6 +1417,9 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
         public Builder gridVerticalSpacing(int spacing) {
             if (spacing < 0) {
                 spacing = 0;
+            }
+            if (spacing % 2 != 0) {
+                spacing += 1;
             }
             params.gridVerticalSpacing = spacing;
             return this;
