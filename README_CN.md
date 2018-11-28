@@ -173,7 +173,7 @@ rvData.addItemDecoration(new RecyclerViewSpaceItemDecoration.Builder(this)
 //默认分组viewtpe是0，你可以修改成自己的。支持任意RecyclerView Adapter。
 rvList.addItemDecoration(new RecyclerViewStickyHeadItemDecoration.Builder().groupViewType(0).create());
 ```
-RecyclerViewStickyHeadItemDecoration参考自[https://github.com/chenpengfei88/StickyItemDecoration][https://github.com/chenpengfei88/StickyItemDecoration]
+RecyclerViewStickyHeadItemDecoration参考自[https://github.com/chenpengfei88/StickyItemDecoration](https://github.com/chenpengfei88/StickyItemDecoration)
 
 ## 效果图
 ![image](https://github.com/arjinmc/RecyclerViewDecoration/blob/master/images/device-2015-12-02-111504.png)  
