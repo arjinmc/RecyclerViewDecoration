@@ -8,19 +8,22 @@
 
 #### gradle
 ```code
-compile 'com.arjinmc.android:recyclerviewdecoration:2.5.3'
+compile 'com.arjinmc.android:recyclerviewdecoration:2.6'
 ```
 #### maven
 ```code
 <dependency>
   <groupId>com.arjinmc.android</groupId>
   <artifactId>recyclerviewdecoration</artifactId>
-  <version>2.5.3</version>
+  <version>2.6</version>
   <type>pom</type>
 </dependency>
 ```
 
 # 更新日志
+
+<b>2018/11/27th</b>
+加入RecyclerViewStickyHeadItemDecoration, 自动将分组viewtype改成sticky head模式。
 
 <b>2018/4/4th</b>
 * 给LinearLayoutManager布局模式加入新属性“ignoreType”来过滤不需要画分割线的viewtype类型（int数组)，同时，如果是RecyclerView的第一个child是属于忽略的viewtype类型，那么firstLineVisible属性会不起作用，同样，如果ReycyclerView的最后一个child是属于忽略的viewtype类型，那么lastLineVisible属性也不会起作用。
@@ -163,6 +166,12 @@ rvData.addItemDecoration(new RecyclerViewSpaceItemDecoration.Builder(this)
         .marginVertical(20)
         .ignoreTypes(int[])
         .create());
+```
+
+## RecyclerViewStickyHeadItemDecoration
+```code
+//默认分组viewtpe是0，你可以修改成自己的。支持任意RecyclerView Adapter。
+rvList.addItemDecoration(new RecyclerViewStickyHeadItemDecoration.Builder().groupViewType(0).create());
 ```
 
 ## 效果图

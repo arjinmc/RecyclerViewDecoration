@@ -10,19 +10,22 @@ If you don't want to use ExpandRecyclerView lib, no worry, you can still use thi
 
 #### gradle
 ```code
-compile 'com.arjinmc.android:recyclerviewdecoration:2.5.3'
+compile 'com.arjinmc.android:recyclerviewdecoration:2.6'
 ```
 #### maven
 ```code
 <dependency>
   <groupId>com.arjinmc.android</groupId>
   <artifactId>recyclerviewdecoration</artifactId>
-  <version>2.5.3</version>
+  <version>2.6</version>
   <type>pom</type>
 </dependency>
 ```
 
 # Update News
+<b>2018/11/27th</b>
+add RecyclerViewStickyHeadItemDecoration, auto make group view type to sticky head mode.
+
 <b>2018/4/4th</b>
 * add a new attribute "ignoreType" to filter the viewTypes(int array) which are no need to draw ItemDecoration, meanwhile if the first child of ReyclerView is the ignore viewType,the "firstLineVisible" attributes won't work, the lastest child of ReyclerView with "lastLineVisible" attributes as well.
 
@@ -161,6 +164,12 @@ rvData.addItemDecoration(new RecyclerViewSpaceItemDecoration.Builder(this)
         .marginVertical(20)
         .ignoreTypes(int[])
         .create());
+```
+
+## RecyclerViewStickyHeadItemDecoration
+```code
+//Default group view type is zero, you can change it. Support any RecyclerView Adapter.
+rvList.addItemDecoration(new RecyclerViewStickyHeadItemDecoration.Builder().groupViewType(0).create());
 ```
 
 ## sample images
