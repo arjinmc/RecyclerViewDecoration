@@ -171,6 +171,7 @@ rvData.addItemDecoration(new RecyclerViewSpaceItemDecoration.Builder(this)
 //Default group view type is zero, you can change it. Support any RecyclerView Adapter.
 rvList.addItemDecoration(new RecyclerViewStickyHeadItemDecoration.Builder().groupViewType(0).create());
 ```
+RecyclerViewStickyHeadItemDecoration reference to [https://github.com/chenpengfei88/StickyItemDecoration][https://github.com/chenpengfei88/StickyItemDecoration]
 
 ## sample images
 
