@@ -10,19 +10,22 @@ If you don't want to use ExpandRecyclerView lib, no worry, you can still use thi
 
 #### gradle
 ```code
-compile 'com.arjinmc.android:recyclerviewdecoration:2.6'
+compile 'com.arjinmc.android:recyclerviewdecoration:3.0'
 ```
 #### maven
 ```code
 <dependency>
   <groupId>com.arjinmc.android</groupId>
   <artifactId>recyclerviewdecoration</artifactId>
-  <version>2.6</version>
+  <version>3.0</version>
   <type>pom</type>
 </dependency>
 ```
 
 # Update News
+<b>2019/07/02nd</b>
+change to androidx libs。
+
 <b>2018/11/27th</b>
 add RecyclerViewStickyHeadItemDecoration, auto make group view type to sticky head mode.
 

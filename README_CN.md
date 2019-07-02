@@ -8,19 +8,22 @@
 
 #### gradle
 ```code
-compile 'com.arjinmc.android:recyclerviewdecoration:2.6'
+compile 'com.arjinmc.android:recyclerviewdecoration:3.0'
 ```
 #### maven
 ```code
 <dependency>
   <groupId>com.arjinmc.android</groupId>
   <artifactId>recyclerviewdecoration</artifactId>
-  <version>2.6</version>
+  <version>3.0</version>
   <type>pom</type>
 </dependency>
 ```
 
 # 更新日志
+
+<b>2019/07/02nd</b>
+转成androidx libs。
 
 <b>2018/11/27th</b>
 加入RecyclerViewStickyHeadItemDecoration, 自动将分组viewtype改成sticky head模式。
