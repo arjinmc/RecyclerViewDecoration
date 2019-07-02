@@ -2,13 +2,14 @@ package com.arjinmc.recyclerviewdecorationsample;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+
+import androidx.annotation.IdRes;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.arjinmc.expandrecyclerview.adapter.RecyclerViewAdapter;
 import com.arjinmc.expandrecyclerview.adapter.RecyclerViewSingleTypeProcessor;
@@ -87,8 +88,9 @@ public class CommonStyleActivity extends AppCompatActivity {
     }
 
     private void setHorizontalMode() {
-        if (mCurrentItemDecoration != null)
+        if (mCurrentItemDecoration != null) {
             mRecyclerView.removeItemDecoration(mCurrentItemDecoration);
+        }
         RecyclerViewStyleHelper.toLinearLayout(mRecyclerView, LinearLayout.VERTICAL);
         mCurrentItemDecoration = new RecyclerViewItemDecoration.Builder(this)
                 .color(Color.RED)
@@ -107,8 +109,9 @@ public class CommonStyleActivity extends AppCompatActivity {
     }
 
     private void setVerticalMode() {
-        if (mCurrentItemDecoration != null)
+        if (mCurrentItemDecoration != null) {
             mRecyclerView.removeItemDecoration(mCurrentItemDecoration);
+        }
         RecyclerViewStyleHelper.toLinearLayout(mRecyclerView, LinearLayout.HORIZONTAL);
         mCurrentItemDecoration = new RecyclerViewItemDecoration.Builder(this)
                 .color(Color.RED)
@@ -127,8 +130,9 @@ public class CommonStyleActivity extends AppCompatActivity {
     }
 
     private void setGridMode() {
-        if (mCurrentItemDecoration != null)
+        if (mCurrentItemDecoration != null) {
             mRecyclerView.removeItemDecoration(mCurrentItemDecoration);
+        }
         RecyclerViewStyleHelper.toGridView(mRecyclerView, 4);
         mCurrentItemDecoration = new RecyclerViewItemDecoration.Builder(this)
 //                .color(Color.RED)

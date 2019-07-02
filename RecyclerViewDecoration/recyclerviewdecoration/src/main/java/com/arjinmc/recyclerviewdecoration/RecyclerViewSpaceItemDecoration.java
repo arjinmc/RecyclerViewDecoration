@@ -40,7 +40,7 @@ public class RecyclerViewSpaceItemDecoration {
             return this;
         }
 
-        public Builder ignoreTypes(int[] ignoreTypes){
+        public Builder ignoreTypes(int[] ignoreTypes) {
             param.ignoreTypes = ignoreTypes;
             return this;
         }

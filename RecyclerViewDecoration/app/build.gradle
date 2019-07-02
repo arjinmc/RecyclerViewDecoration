@@ -5,10 +5,10 @@ android {
 
     defaultConfig {
         applicationId "com.arjinmc.recyclerviewdecoration"
-        minSdkVersion 14
-        targetSdkVersion 26
-        versionCode 6
-        versionName "2.4"
+        minSdkVersion 15
+        targetSdkVersion 28
+        versionCode 7
+        versionName "3.0"
     }
     buildTypes {
         release {
@@ -20,9 +20,13 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:appcompat-v7:' + rootProject.ext.supportLibVersion
-    implementation 'com.android.support:recyclerview-v7:' + rootProject.ext.supportLibVersion
-    testImplementation 'junit:junit:4.12'
-    implementation project(':recyclerviewdecoration')
-    implementation 'com.arjinmc.android:expandrecyclerview:1.2'
+
+    testImplementation 'junit:junit:' + rootProject.ext.junitVersion
+    androidTestImplementation 'androidx.test:runner:' + rootProject.ext.runnerVersion
+    androidTestImplementation 'androidx.test.espresso:espresso-core:' + rootProject.ext.espressoVersion
+
+    implementation 'androidx.appcompat:appcompat:' + rootProject.ext.supportLibVersion
+    implementation 'androidx.recyclerview:recyclerview:' + rootProject.ext.recyclerviewLibVersion
+//    implementation project(':recyclerviewdecoration')
+    implementation 'com.arjinmc.android:expandrecyclerview:2.0'
 }

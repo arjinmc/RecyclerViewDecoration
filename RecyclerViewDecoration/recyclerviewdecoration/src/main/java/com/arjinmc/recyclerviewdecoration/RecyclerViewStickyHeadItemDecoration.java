@@ -2,11 +2,12 @@ package com.arjinmc.recyclerviewdecoration;
 
 import android.graphics.Canvas;
 import android.graphics.Rect;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -133,7 +134,7 @@ public class RecyclerViewStickyHeadItemDecoration extends RecyclerView.ItemDecor
         if (mParent == null) {
             if (parent.getLayoutManager() instanceof LinearLayoutManager) {
                 if (((LinearLayoutManager) parent.getLayoutManager()).getOrientation()
-                        != LinearLayoutManager.VERTICAL) {
+                        != RecyclerView.VERTICAL) {
                     throw new IllegalArgumentException("Only support LinearLayoutManager.VERTICAL");
                 }
             }

@@ -4,10 +4,10 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
     defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 26
-        versionCode 13
-        versionName '2.6'
+        minSdkVersion 15
+        targetSdkVersion 28
+        versionCode 14
+        versionName '3.0'
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -22,6 +22,6 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:' + rootProject.ext.supportLibVersion
-    implementation 'com.android.support:recyclerview-v7:' + rootProject.ext.supportLibVersion
+    implementation 'androidx.appcompat:appcompat:' + rootProject.ext.supportLibVersion
+    implementation 'androidx.recyclerview:recyclerview:' + rootProject.ext.recyclerviewLibVersion
 }
