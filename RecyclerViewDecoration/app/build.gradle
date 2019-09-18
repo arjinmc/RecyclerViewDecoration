@@ -6,7 +6,7 @@ android {
     defaultConfig {
         applicationId "com.arjinmc.recyclerviewdecoration"
         minSdkVersion 15
-        targetSdkVersion 28
+        targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 7
         versionName "3.0"
     }
