@@ -12,7 +12,6 @@ import android.graphics.Path;
 import android.graphics.PathEffect;
 import android.graphics.Rect;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
@@ -143,10 +142,12 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                 mNinePatch = new NinePatch(mBmp, mBmp.getNinePatchChunk(), null);
             }
 
-            if (mMode == RVItemDecorationConst.MODE_HORIZONTAL)
+            if (mMode == RVItemDecorationConst.MODE_HORIZONTAL) {
                 mCurrentThickness = mThickness == 0 ? mBmp.getHeight() : mThickness;
-            if (mMode == RVItemDecorationConst.MODE_VERTICAL)
+            }
+            if (mMode == RVItemDecorationConst.MODE_VERTICAL) {
                 mCurrentThickness = mThickness == 0 ? mBmp.getWidth() : mThickness;
+            }
         }
 
         mPaint = new Paint();
@@ -270,6 +271,14 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
     private void drawHorizontal(Canvas c, RecyclerView parent) {
 
         int childrenCount = parent.getChildCount();
+
+        if (parent.getClipToPadding()) {
+            int top = parent.getPaddingTop();
+            int bottom = parent.getHeight() - parent.getPaddingBottom();
+            c.clipRect(parent.getPaddingLeft(), top,
+                    parent.getWidth() - parent.getPaddingRight(), bottom);
+        }
+
         if (mDrawableRid != 0) {
 
             if (mFirstLineVisible) {
@@ -278,20 +287,22 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
 
                 if (!isIgnoreType(parent.getAdapter().getItemViewType(
                         parent.getLayoutManager().getPosition(childView)))) {
+
                     if (hasNinePatch) {
-                        Rect rect = new Rect(mPaddingStart, myY - mCurrentThickness
-                                , parent.getWidth() - mPaddingEnd, myY);
+                        Rect rect = new Rect(mPaddingStart + parent.getPaddingLeft(), myY - mCurrentThickness
+                                , parent.getWidth() - parent.getPaddingRight() - mPaddingEnd, myY);
                         mNinePatch.draw(c, rect);
                     } else {
-                        c.drawBitmap(mBmp, mPaddingStart, myY - mCurrentThickness, mPaint);
+                        c.drawBitmap(mBmp, mPaddingStart + parent.getPaddingLeft(), myY - mCurrentThickness, mPaint);
                     }
                 }
             }
 
 
             for (int i = 0; i < childrenCount; i++) {
-                if (!mLastLineVisible && i == childrenCount - 1)
+                if (!mLastLineVisible && i == childrenCount - 1) {
                     break;
+                }
                 View childView = parent.getChildAt(i);
 
                 if (!isIgnoreType(parent.getAdapter().getItemViewType(
@@ -300,11 +311,11 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                     int myY = childView.getBottom();
 
                     if (hasNinePatch) {
-                        Rect rect = new Rect(mPaddingStart, myY
-                                , parent.getWidth() - mPaddingEnd, myY + mCurrentThickness);
+                        Rect rect = new Rect(mPaddingStart + parent.getPaddingLeft(), myY
+                                , parent.getWidth() - parent.getPaddingRight() - mPaddingEnd, myY + mCurrentThickness);
                         mNinePatch.draw(c, rect);
                     } else {
-                        c.drawBitmap(mBmp, mPaddingStart, myY, mPaint);
+                        c.drawBitmap(mBmp, mPaddingStart + parent.getPaddingLeft(), myY, mPaint);
                     }
                 }
 
@@ -324,28 +335,31 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
 
                 if (!isIgnoreType(parent.getAdapter().getItemViewType(
                         parent.getLayoutManager().getPosition(childView)))) {
+
                     int myY = childView.getTop() - mThickness / 2;
 
                     Path path = new Path();
-                    path.moveTo(mPaddingStart, myY);
-                    path.lineTo(parent.getWidth() - mPaddingEnd, myY);
+                    path.moveTo(mPaddingStart + parent.getPaddingLeft(), myY);
+                    path.lineTo(parent.getWidth() - mPaddingEnd - parent.getPaddingRight(), myY);
                     c.drawPath(path, mPaint);
                 }
             }
 
             for (int i = 0; i < childrenCount; i++) {
-                if (!mLastLineVisible && i == childrenCount - 1)
+                if (!mLastLineVisible && i == childrenCount - 1) {
                     break;
+                }
                 View childView = parent.getChildAt(i);
 
                 if (!isIgnoreType(parent.getAdapter().getItemViewType(
                         parent.getLayoutManager().getPosition(childView)))) {
-                    int myY = childView.getBottom() + mThickness / 2;
 
+                    int myY = childView.getBottom() + mThickness / 2;
                     Path path = new Path();
-                    path.moveTo(mPaddingStart, myY);
-                    path.lineTo(parent.getWidth() - mPaddingEnd, myY);
+                    path.moveTo(mPaddingStart + parent.getPaddingLeft(), myY);
+                    path.lineTo(parent.getWidth() - mPaddingEnd - parent.getPaddingRight(), myY);
                     c.drawPath(path, mPaint);
+
                 }
 
             }
@@ -361,6 +375,14 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
      */
     private void drawVertical(Canvas c, RecyclerView parent) {
         int childrenCount = parent.getChildCount();
+
+        if (parent.getClipToPadding()) {
+            int left = parent.getPaddingLeft();
+            int right = parent.getWidth() - parent.getPaddingRight();
+            c.clipRect(left, parent.getPaddingTop(), right,
+                    parent.getHeight() - parent.getPaddingBottom());
+        }
+
         if (mDrawableRid != 0) {
 
             if (mFirstLineVisible) {
@@ -370,17 +392,18 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                         parent.getLayoutManager().getPosition(childView)))) {
                     int myX = childView.getLeft();
                     if (hasNinePatch) {
-                        Rect rect = new Rect(myX - mCurrentThickness, mPaddingStart
-                                , myX, parent.getHeight() - mPaddingEnd);
+                        Rect rect = new Rect(myX - mCurrentThickness, mPaddingStart + parent.getPaddingLeft()
+                                , myX, parent.getHeight() - mPaddingEnd - parent.getPaddingRight());
                         mNinePatch.draw(c, rect);
                     } else {
-                        c.drawBitmap(mBmp, myX - mCurrentThickness, mPaddingStart, mPaint);
+                        c.drawBitmap(mBmp, myX - mCurrentThickness, mPaddingStart + parent.getPaddingLeft(), mPaint);
                     }
                 }
             }
             for (int i = 0; i < childrenCount; i++) {
-                if (!mLastLineVisible && i == childrenCount - 1)
+                if (!mLastLineVisible && i == childrenCount - 1) {
                     break;
+                }
                 View childView = parent.getChildAt(i);
 
                 if (!isIgnoreType(parent.getAdapter().getItemViewType(
@@ -388,11 +411,11 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
 
                     int myX = childView.getRight();
                     if (hasNinePatch) {
-                        Rect rect = new Rect(myX, mPaddingStart, myX + mCurrentThickness
-                                , parent.getHeight() - mPaddingEnd);
+                        Rect rect = new Rect(myX, mPaddingStart + parent.getPaddingLeft(), myX + mCurrentThickness
+                                , parent.getHeight() - mPaddingEnd - parent.getPaddingRight());
                         mNinePatch.draw(c, rect);
                     } else {
-                        c.drawBitmap(mBmp, myX, mPaddingStart, mPaint);
+                        c.drawBitmap(mBmp, myX, mPaddingStart + parent.getPaddingLeft(), mPaint);
                     }
                 }
             }
@@ -411,15 +434,16 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
                         parent.getLayoutManager().getPosition(childView)))) {
                     int myX = childView.getLeft() - mThickness / 2;
                     Path path = new Path();
-                    path.moveTo(myX, mPaddingStart);
-                    path.lineTo(myX, parent.getHeight() - mPaddingEnd);
+                    path.moveTo(myX, mPaddingStart + parent.getPaddingLeft());
+                    path.lineTo(myX, parent.getHeight() - mPaddingEnd - parent.getPaddingRight());
                     c.drawPath(path, mPaint);
                 }
             }
 
             for (int i = 0; i < childrenCount; i++) {
-                if (!mLastLineVisible && i == childrenCount - 1)
+                if (!mLastLineVisible && i == childrenCount - 1) {
                     break;
+                }
                 View childView = parent.getChildAt(i);
 
                 if (!isIgnoreType(parent.getAdapter().getItemViewType(
@@ -427,8 +451,8 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
 
                     int myX = childView.getRight() + mThickness / 2;
                     Path path = new Path();
-                    path.moveTo(myX, mPaddingStart);
-                    path.lineTo(myX, parent.getHeight() - mPaddingEnd);
+                    path.moveTo(myX, mPaddingStart + parent.getPaddingLeft());
+                    path.lineTo(myX, parent.getHeight() - mPaddingEnd - parent.getPaddingRight());
                     c.drawPath(path, mPaint);
                 }
 
@@ -1072,15 +1096,17 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
             mGridVerticalSpacing = mGridHorizontalSpacing = 0;
         } else {
 
-            if (mGridHorizontalSpacing != 0)
+            if (mGridHorizontalSpacing != 0) {
                 x = mGridHorizontalSpacing;
-            else
+            } else {
                 x = mThickness;
+            }
 
-            if (mGridVerticalSpacing != 0)
+            if (mGridVerticalSpacing != 0) {
                 y = mGridVerticalSpacing;
-            else
+            } else {
                 y = mThickness;
+            }
 
         }
 
@@ -1263,7 +1289,7 @@ public class RecyclerViewItemDecoration extends RecyclerView.ItemDecoration {
             if (parent.getLayoutManager() instanceof GridLayoutManager) {
                 mMode = RVItemDecorationConst.MODE_GRID;
             } else if (parent.getLayoutManager() instanceof LinearLayoutManager) {
-                if (((LinearLayoutManager) parent.getLayoutManager()).getOrientation() == LinearLayout.HORIZONTAL) {
+                if (((LinearLayoutManager) parent.getLayoutManager()).getOrientation() == RecyclerView.HORIZONTAL) {
                     mMode = RVItemDecorationConst.MODE_VERTICAL;
                 } else {
                     mMode = RVItemDecorationConst.MODE_HORIZONTAL;
