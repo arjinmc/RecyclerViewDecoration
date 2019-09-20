@@ -2,6 +2,7 @@
 a common tool class for decoration of RecyclerView,support ninepatch image.
 
 [中文版](README_CN.md)
+
 [Release Note](NEWS.md)
 
 You can import this lib with gradle or maven because it exists on JCenter.

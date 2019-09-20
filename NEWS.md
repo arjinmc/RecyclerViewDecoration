@@ -1,6 +1,6 @@
 # Update News
 
-<b>2019/9/30</b>
+<b>2019/9/20</b>
 Fix fit RecyclerView padding for LinearLayoutManger.
 
 <b>2019/07/2nd</b>
