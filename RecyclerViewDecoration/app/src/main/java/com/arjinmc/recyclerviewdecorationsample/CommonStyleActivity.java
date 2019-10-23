@@ -15,7 +15,8 @@ import com.arjinmc.expandrecyclerview.adapter.RecyclerViewAdapter;
 import com.arjinmc.expandrecyclerview.adapter.RecyclerViewSingleTypeProcessor;
 import com.arjinmc.expandrecyclerview.adapter.RecyclerViewViewHolder;
 import com.arjinmc.expandrecyclerview.style.RecyclerViewStyleHelper;
-import com.arjinmc.recyclerviewdecoration.RecyclerViewItemDecoration;
+import com.arjinmc.recyclerviewdecoration.RecyclerViewGridItemDecoration;
+import com.arjinmc.recyclerviewdecoration.RecyclerViewLinearItemDecoration;
 import com.arjinmc.recyclerviewdecorationsample.model.Car;
 
 import java.util.ArrayList;
@@ -92,7 +93,7 @@ public class CommonStyleActivity extends AppCompatActivity {
             mRecyclerView.removeItemDecoration(mCurrentItemDecoration);
         }
         RecyclerViewStyleHelper.toLinearLayout(mRecyclerView, LinearLayout.VERTICAL);
-        mCurrentItemDecoration = new RecyclerViewItemDecoration.Builder(this)
+        mCurrentItemDecoration = new RecyclerViewLinearItemDecoration.Builder(this)
                 .color(Color.RED)
 //                .color("#ff0000")
 //                .dashWidth(8)
@@ -113,7 +114,7 @@ public class CommonStyleActivity extends AppCompatActivity {
             mRecyclerView.removeItemDecoration(mCurrentItemDecoration);
         }
         RecyclerViewStyleHelper.toLinearLayout(mRecyclerView, LinearLayout.HORIZONTAL);
-        mCurrentItemDecoration = new RecyclerViewItemDecoration.Builder(this)
+        mCurrentItemDecoration = new RecyclerViewLinearItemDecoration.Builder(this)
                 .color(Color.RED)
                 .color("#ff0000")
 //                .dashWidth(8)
@@ -134,20 +135,12 @@ public class CommonStyleActivity extends AppCompatActivity {
             mRecyclerView.removeItemDecoration(mCurrentItemDecoration);
         }
         RecyclerViewStyleHelper.toGridView(mRecyclerView, 4);
-        mCurrentItemDecoration = new RecyclerViewItemDecoration.Builder(this)
+        mCurrentItemDecoration = new RecyclerViewGridItemDecoration.Builder(this)
 //                .color(Color.RED)
-                .color("#b0ff0000")
-//                .dashWidth(8)
-//                .dashGap(2)
-                .thickness(6)
-//                .drawableID(R.drawable.diver_color_no)
-//                .drawableID(R.drawable.diver_color)
-                .gridBottomVisible(true)
-                .gridTopVisible(true)
-                .gridLeftVisible(true)
-                .gridRightVisible(true)
-                .gridHorizontalSpacing(20)
-                .gridVerticalSpacing(10)
+                .color("#ff0000")
+                .verticalSpacing(10)
+                .horizontalSpacing(10)
+                .borderVisible(true)
                 .create();
         mRecyclerView.addItemDecoration(mCurrentItemDecoration);
     }

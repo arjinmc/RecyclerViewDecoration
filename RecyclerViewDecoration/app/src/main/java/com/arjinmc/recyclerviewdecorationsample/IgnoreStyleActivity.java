@@ -15,7 +15,7 @@ import com.arjinmc.expandrecyclerview.adapter.RecyclerViewAdapter;
 import com.arjinmc.expandrecyclerview.adapter.RecyclerViewMultipleTypeProcessor;
 import com.arjinmc.expandrecyclerview.adapter.RecyclerViewViewHolder;
 import com.arjinmc.expandrecyclerview.style.RecyclerViewStyleHelper;
-import com.arjinmc.recyclerviewdecoration.RecyclerViewItemDecoration;
+import com.arjinmc.recyclerviewdecoration.RecyclerViewLinearItemDecoration;
 import com.arjinmc.recyclerviewdecorationsample.model.Car;
 
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ public class IgnoreStyleActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RadioGroup mRgMode;
 
-    RecyclerViewItemDecoration mCurrentItemDecoration;
+    RecyclerView.ItemDecoration mCurrentItemDecoration;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -112,7 +112,7 @@ public class IgnoreStyleActivity extends AppCompatActivity {
     private void setHorizontalMode() {
         mRecyclerView.removeItemDecoration(mCurrentItemDecoration);
         RecyclerViewStyleHelper.toLinearLayout(mRecyclerView, LinearLayout.VERTICAL);
-        mCurrentItemDecoration = new RecyclerViewItemDecoration.Builder(this)
+        mCurrentItemDecoration = new RecyclerViewLinearItemDecoration.Builder(this)
 //                .color(Color.RED)
                 .color("#ff0000")
                 .dashWidth(8)
@@ -131,7 +131,7 @@ public class IgnoreStyleActivity extends AppCompatActivity {
     private void setVerticalMode() {
         mRecyclerView.removeItemDecoration(mCurrentItemDecoration);
         RecyclerViewStyleHelper.toLinearLayout(mRecyclerView, LinearLayout.HORIZONTAL);
-        mCurrentItemDecoration = new RecyclerViewItemDecoration.Builder(this)
+        mCurrentItemDecoration = new RecyclerViewLinearItemDecoration.Builder(this)
                 .color(Color.RED)
 //                .color("#ff0000")
 //                .dashWidth(8)

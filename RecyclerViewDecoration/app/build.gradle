@@ -7,8 +7,8 @@ android {
         applicationId "com.arjinmc.recyclerviewdecoration"
         minSdkVersion 15
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 7
-        versionName "3.0"
+        versionCode 8
+        versionName "4.0"
     }
     buildTypes {
         release {
@@ -28,5 +28,5 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:' + rootProject.ext.supportLibVersion
     implementation 'androidx.recyclerview:recyclerview:' + rootProject.ext.recyclerviewLibVersion
 //    implementation project(':recyclerviewdecoration')
-    implementation 'com.arjinmc.android:expandrecyclerview:2.0'
+    implementation 'com.arjinmc.android:expandrecyclerview:3.0'
 }

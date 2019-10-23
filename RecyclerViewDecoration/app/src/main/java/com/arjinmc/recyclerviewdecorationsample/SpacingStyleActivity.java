@@ -14,7 +14,8 @@ import com.arjinmc.expandrecyclerview.adapter.RecyclerViewAdapter;
 import com.arjinmc.expandrecyclerview.adapter.RecyclerViewSingleTypeProcessor;
 import com.arjinmc.expandrecyclerview.adapter.RecyclerViewViewHolder;
 import com.arjinmc.expandrecyclerview.style.RecyclerViewStyleHelper;
-import com.arjinmc.recyclerviewdecoration.RecyclerViewSpaceItemDecoration;
+import com.arjinmc.recyclerviewdecoration.RecyclerViewGridSpaceItemDecoration;
+import com.arjinmc.recyclerviewdecoration.RecyclerViewLinearSpaceItemDecoration;
 import com.arjinmc.recyclerviewdecorationsample.model.Car;
 
 import java.util.ArrayList;
@@ -91,7 +92,7 @@ public class SpacingStyleActivity extends AppCompatActivity {
             mRecyclerView.removeItemDecoration(mCurrentItemDecoration);
         }
         RecyclerViewStyleHelper.toLinearLayout(mRecyclerView, LinearLayout.VERTICAL);
-        mCurrentItemDecoration = new RecyclerViewSpaceItemDecoration.Builder(this)
+        mCurrentItemDecoration = new RecyclerViewLinearSpaceItemDecoration.Builder(this)
                 .margin(10)
                 .create();
         mRecyclerView.addItemDecoration(mCurrentItemDecoration);
@@ -102,7 +103,7 @@ public class SpacingStyleActivity extends AppCompatActivity {
             mRecyclerView.removeItemDecoration(mCurrentItemDecoration);
         }
         RecyclerViewStyleHelper.toLinearLayout(mRecyclerView, LinearLayout.HORIZONTAL);
-        mCurrentItemDecoration = new RecyclerViewSpaceItemDecoration.Builder(this)
+        mCurrentItemDecoration = new RecyclerViewLinearSpaceItemDecoration.Builder(this)
                 .margin(20)
                 .create();
         mRecyclerView.addItemDecoration(mCurrentItemDecoration);
@@ -113,7 +114,7 @@ public class SpacingStyleActivity extends AppCompatActivity {
             mRecyclerView.removeItemDecoration(mCurrentItemDecoration);
         }
         RecyclerViewStyleHelper.toGridView(mRecyclerView, 4);
-        mCurrentItemDecoration = new RecyclerViewSpaceItemDecoration.Builder(this)
+        mCurrentItemDecoration = new RecyclerViewGridSpaceItemDecoration.Builder(this)
                 //if horizontal and vertical spacing is the same size,just use margin(int size)
 //                .margin(10)
                 .marginHorizontal(10)

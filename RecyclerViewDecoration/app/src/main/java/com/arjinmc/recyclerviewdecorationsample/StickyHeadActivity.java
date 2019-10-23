@@ -19,7 +19,7 @@ import com.arjinmc.expandrecyclerview.adapter.RecyclerViewAdapter;
 import com.arjinmc.expandrecyclerview.adapter.RecyclerViewMultipleTypeProcessor;
 import com.arjinmc.expandrecyclerview.adapter.RecyclerViewViewHolder;
 import com.arjinmc.expandrecyclerview.style.RecyclerViewStyleHelper;
-import com.arjinmc.recyclerviewdecoration.RecyclerViewItemDecoration;
+import com.arjinmc.recyclerviewdecoration.RecyclerViewLinearItemDecoration;
 import com.arjinmc.recyclerviewdecoration.RecyclerViewStickyHeadItemDecoration;
 import com.arjinmc.recyclerviewdecorationsample.model.Car;
 
@@ -55,7 +55,7 @@ public class StickyHeadActivity extends AppCompatActivity {
 
         RecyclerView rvList = findViewById(R.id.rv_list);
         RecyclerViewStyleHelper.toLinearLayout(rvList, LinearLayout.VERTICAL);
-        rvList.addItemDecoration(new RecyclerViewItemDecoration.Builder(this)
+        rvList.addItemDecoration(new RecyclerViewLinearItemDecoration.Builder(this)
                 .color(Color.GRAY)
                 .thickness(3)
                 .create());

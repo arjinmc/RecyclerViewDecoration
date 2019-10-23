@@ -14,7 +14,7 @@ import com.arjinmc.expandrecyclerview.adapter.RecyclerViewAdapter;
 import com.arjinmc.expandrecyclerview.adapter.RecyclerViewSingleTypeProcessor;
 import com.arjinmc.expandrecyclerview.adapter.RecyclerViewViewHolder;
 import com.arjinmc.expandrecyclerview.style.RecyclerViewStyleHelper;
-import com.arjinmc.recyclerviewdecoration.RecyclerViewItemDecoration;
+import com.arjinmc.recyclerviewdecoration.RecyclerViewLinearItemDecoration;
 
 import java.util.Arrays;
 
@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         RecyclerViewStyleHelper.toLinearLayout(mRvData, LinearLayout.VERTICAL);
         //add itemdecoration
         mRvData.addItemDecoration(
-                new RecyclerViewItemDecoration.Builder(this).color(Color.GRAY).thickness(1).create());
+                new RecyclerViewLinearItemDecoration.Builder(this).color(Color.GRAY).thickness(1).create());
         mRvData.setAdapter(new RecyclerViewAdapter<>(this, Arrays.asList(mStyleStrs)
                 , R.layout.item_main_list, new RecyclerViewSingleTypeProcessor<String>() {
             @Override
