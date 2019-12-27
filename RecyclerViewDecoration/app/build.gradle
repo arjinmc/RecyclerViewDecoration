@@ -28,5 +28,5 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:' + rootProject.ext.supportLibVersion
     implementation 'androidx.recyclerview:recyclerview:' + rootProject.ext.recyclerviewLibVersion
 //    implementation project(':recyclerviewdecoration')
-    implementation 'com.arjinmc.android:expandrecyclerview:3.0'
+    implementation 'com.arjinmc.android:expandrecyclerview:3.1'
 }

@@ -59,7 +59,7 @@ public class RecyclerViewStickyHeadItemDecoration extends RecyclerView.ItemDecor
     public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
         super.onDrawOver(c, parent, state);
 
-        if (mParent.getAdapter() == null || mParent.getAdapter().getItemCount() == 0
+        if (parent ==null || parent.getAdapter() == null || parent.getAdapter().getItemCount() == 0
                 || parent.getLayoutManager() == null) {
             return;
         }
@@ -73,10 +73,10 @@ public class RecyclerViewStickyHeadItemDecoration extends RecyclerView.ItemDecor
             for (int i = 0; i < itemCount; i++) {
                 View view = parent.getChildAt(i);
 
-                if (isGroupViewType(mParent.getChildAdapterPosition(view))) {
+                if (isGroupViewType(parent.getChildAdapterPosition(view))) {
                     findStickView = true;
                     if (mCurrentStickyViewHolder == null) {
-                        mCurrentStickyViewHolder = mParent.getAdapter().onCreateViewHolder(mParent, mGroupViewType);
+                        mCurrentStickyViewHolder = parent.getAdapter().onCreateViewHolder(parent, mGroupViewType);
                         mStickyView = mCurrentStickyViewHolder.itemView;
                     }
                     if (view.getTop() <= 0) {
@@ -112,7 +112,7 @@ public class RecyclerViewStickyHeadItemDecoration extends RecyclerView.ItemDecor
 
             if (!findStickView) {
                 mStickyViewMarginTop = 0;
-                if (layoutManager.findFirstVisibleItemPosition() + parent.getChildCount() == mParent.getAdapter().getItemCount()
+                if (layoutManager.findFirstVisibleItemPosition() + parent.getChildCount() == parent.getAdapter().getItemCount()
                         && mStickyPositionList.size() > 0) {
                     bindDataForStickyView(mStickyPositionList.get(mStickyPositionList.size() - 1));
                 }

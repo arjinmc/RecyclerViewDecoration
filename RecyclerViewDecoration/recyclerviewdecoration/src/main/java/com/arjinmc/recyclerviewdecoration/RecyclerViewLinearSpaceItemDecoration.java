@@ -32,6 +32,11 @@ public class RecyclerViewLinearSpaceItemDecoration extends RecyclerView.ItemDeco
             return this;
         }
 
+        public Builder ignoreTypes(int[] ignoreTypes) {
+            param.ignoreTypes = ignoreTypes;
+            return this;
+        }
+
         public RecyclerViewLinearItemDecoration create() {
 
             return new RecyclerViewLinearItemDecoration.Builder(context)
