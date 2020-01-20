@@ -1,4 +1,7 @@
 # Update News
+<b>v4.1 2019/12/27</b>
+1. Fix RecyclerViewStickyHeadItemDecoration bug. 
+2. Add ignoreTypes for RecyclerViewLinearSpaceItemDecoration.Builder.
 
 <b>v4.0 2019/10/23</b>
 * RecyclerViewItemDecoration changes to RecyclerViewLinearItemDecoration and RecyclerViewGridItemDecoration (not support color with alpha).  

@@ -1,4 +1,7 @@
 # 更新日志
+<b>v4.1 2019/12/27</b>
+1. 修复 RecyclerViewStickyHeadItemDecoration bug. 
+2. RecyclerViewLinearSpaceItemDecoration.Builder 加入 ignoreTypes.
 
 <b>v4.0 2019/10/23</b>
 * RecyclerViewItemDecoration 变成 RecyclerViewLinearItemDecoration 和 RecyclerViewGridItemDecoration (不支持带透明通道的颜色值).  
