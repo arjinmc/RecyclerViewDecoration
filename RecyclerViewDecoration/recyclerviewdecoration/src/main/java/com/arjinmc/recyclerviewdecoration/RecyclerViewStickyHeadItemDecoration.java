@@ -302,7 +302,9 @@ public class RecyclerViewStickyHeadItemDecoration extends RecyclerView.ItemDecor
         if (mParent == null || mParent.getAdapter() == null) {
             return false;
         }
-        if (mParent.getAdapter().getItemViewType(position) == mGroupViewType) {
+        if (mParent.getAdapter().getItemCount() != 0
+                && mParent.getAdapter().getItemCount() > position
+                && mParent.getAdapter().getItemViewType(position) == mGroupViewType) {
 
             return true;
         }
