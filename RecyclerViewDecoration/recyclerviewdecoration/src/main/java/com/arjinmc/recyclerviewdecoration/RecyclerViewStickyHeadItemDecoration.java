@@ -59,7 +59,7 @@ public class RecyclerViewStickyHeadItemDecoration extends RecyclerView.ItemDecor
     public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
         super.onDrawOver(c, parent, state);
 
-        if (parent ==null || parent.getAdapter() == null || parent.getAdapter().getItemCount() == 0
+        if (parent == null || parent.getAdapter() == null || parent.getAdapter().getItemCount() == 0
                 || parent.getLayoutManager() == null) {
             return;
         }
@@ -299,7 +299,7 @@ public class RecyclerViewStickyHeadItemDecoration extends RecyclerView.ItemDecor
      * @return
      */
     private boolean isGroupViewType(int position) {
-        if (mParent == null || mParent.getAdapter() == null) {
+        if (mParent == null || mParent.getAdapter() == null || position < 0) {
             return false;
         }
         if (mParent.getAdapter().getItemCount() != 0
