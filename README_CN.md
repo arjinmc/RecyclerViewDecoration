@@ -14,14 +14,14 @@
 
 #### gradle
 ```code
-compile 'com.arjinmc.android:recyclerviewdecoration:4.1'
+compile 'com.arjinmc.android:recyclerviewdecoration:4.1.1'
 ```
 #### maven
 ```code
 <dependency>
   <groupId>com.arjinmc.android</groupId>
   <artifactId>recyclerviewdecoration</artifactId>
-  <version>4.1</version>
+  <version>4.1.1</version>
   <type>pom</type>
 </dependency>
 ```

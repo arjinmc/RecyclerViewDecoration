@@ -1,4 +1,7 @@
 # 更新日志
+<b>v4.1.1 2020/07/23</b>
+修复RecyclerView的适配器更新数据时，RecyclerViewStickyHeadItemDecoration没有刷新。
+
 <b>v4.1 2019/12/27</b>
 1. 修复 RecyclerViewStickyHeadItemDecoration bug. 
 2. RecyclerViewLinearSpaceItemDecoration.Builder 加入 ignoreTypes.

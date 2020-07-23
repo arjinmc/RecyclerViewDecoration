@@ -1,4 +1,7 @@
 # Update News
+<b>v4.1.1 2020/07/23</b>
+Fix RecyclerView Adapter hased notify data changed that RecyclerViewStickyHeadItemDecoration won't refresh.
+
 <b>v4.1 2019/12/27</b>
 1. Fix RecyclerViewStickyHeadItemDecoration bug. 
 2. Add ignoreTypes for RecyclerViewLinearSpaceItemDecoration.Builder.
