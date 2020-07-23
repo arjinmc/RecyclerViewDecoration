@@ -198,6 +198,8 @@ public class RecyclerViewStickyHeadItemDecoration extends RecyclerView.ItemDecor
         } else {
             mStickyPositionList.clear();
         }
+        mBindStickyViewPosition = -1;
+
         int itemCount = mParent.getAdapter().getItemCount();
         if (itemCount > 0) {
             for (int i = 0; i < itemCount; i++) {
