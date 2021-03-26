@@ -12,6 +12,20 @@
 
 ## 引用
 
+### JitPack
+```code 
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+}
+
+dependencies {
+     implementation 'com.github.arjinmc:RecyclerViewDecoration:4.1.1'
+}
+```
+
 #### gradle
 ```code
 compile 'com.arjinmc.android:recyclerviewdecoration:4.1.1'

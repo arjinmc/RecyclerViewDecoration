@@ -14,6 +14,20 @@ If you don't want to use ExpandRecyclerView lib, no worry, you can still use thi
 
 ## Import
 
+### JitPack
+```code 
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+}
+
+dependencies {
+     implementation 'com.github.arjinmc:RecyclerViewDecoration:4.1.1'
+}
+```
+
 #### gradle
 ```code
 compile 'com.arjinmc.android:recyclerviewdecoration:4.1.1'
